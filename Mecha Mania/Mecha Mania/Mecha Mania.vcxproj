@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="Mecha.h" />
     <ClInclude Include="Position.h" />
   </ItemGroup>
