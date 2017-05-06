@@ -7,6 +7,9 @@
 class Player
 {
 public:
+	Player();
+	~Player();
+
 	CMecha mecha;
 	std::vector<ECOMMANDS> moveList;
 private:
