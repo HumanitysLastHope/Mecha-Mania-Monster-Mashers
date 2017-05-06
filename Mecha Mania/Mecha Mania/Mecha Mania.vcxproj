@@ -159,6 +159,7 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GettingPlayerMovesStates.cpp" />
     <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Mecha.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Player.cpp" />
