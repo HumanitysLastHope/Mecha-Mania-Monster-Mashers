@@ -18,9 +18,15 @@
     <ClInclude Include="Mecha.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GettingPlayerMovesState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mecha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GettingPlayerMovesState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

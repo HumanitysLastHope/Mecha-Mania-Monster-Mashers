@@ -146,9 +146,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GettingPlayerMovesState.h" />
     <ClInclude Include="Mecha.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GettingPlayerMovesState.cpp" />
     <ClCompile Include="Mecha.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
