@@ -1,6 +1,6 @@
 #pragma once
-//#include "ENUM.h"
-//#include "Mecha.h"
+#include "Enums.h"
+#include "Mecha.h"
 //#include "Bullet.h"
 //#include "Mine.h"
 
@@ -10,12 +10,12 @@ public:
 	CTile();
 	~CTile();
 
-	//EENVIRONMENT GetEnviroment();
+	EENVIRONMENT GetEnviroment();
 	//CBullet* GetBullet();
-	//CMecha* GetMecha();
+	CMecha* GetMecha();
 	//CMine* GetMine();
 
 	//CMine* m_pMine;
-	//CMecha* m_pMecha;
-	//m_peEnvironment EENVIRONMENT;
+	CMecha* m_pMecha;
+	EENVIRONMENT m_peEnvironment;
 };
