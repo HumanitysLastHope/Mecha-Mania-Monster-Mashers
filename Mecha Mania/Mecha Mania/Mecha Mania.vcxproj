@@ -146,10 +146,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Mecha.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Position.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="Mecha.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
