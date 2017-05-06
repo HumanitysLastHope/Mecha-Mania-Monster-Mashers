@@ -1,15 +1,22 @@
 #pragma once
 #include "Position.h"
+#include "Enums.h"
 
 class CMecha
 {
 public:
 	CMecha();
 	~CMecha();
+	void Shoot();
+	bool Move(EDIRECTION _eDirection, int _iDistance);
+	void Push();
+	void PlaceMine();
 
 private:
 	int m_iHealth;
-	TPosition gridPosition;
-
+	TPosition m_GridPosition;
+	EDIRECTION m_eFacingDir;
+	// CMine m_PlacedMine;
+	// CBoard m_board;
 };
 
