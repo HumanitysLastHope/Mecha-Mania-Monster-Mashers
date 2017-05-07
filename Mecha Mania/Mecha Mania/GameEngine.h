@@ -21,7 +21,8 @@ public:
 	void ChangeState(IGameState* _state);
 	CBoard& LoadBoard(int _LevelNum);
 
-	std::vector<CPlayer> GetPlayerList();
+	std::vector<CPlayer>& GetPlayerList();
+
 
 private:
 	CBoard m_Level;

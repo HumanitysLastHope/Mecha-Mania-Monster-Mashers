@@ -141,7 +141,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 }
 
 
-std::vector<CPlayer> CGameEngine::GetPlayerList()
+std::vector<CPlayer>& CGameEngine::GetPlayerList()
 {
 	return m_PlayerList;
 }

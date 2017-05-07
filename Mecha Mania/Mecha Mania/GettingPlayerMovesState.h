@@ -7,10 +7,10 @@
 class CGettingPlayerMovesState : public IGameState
 {
 public:
-	
-private:
+	CGettingPlayerMovesState();
+	virtual ~CGettingPlayerMovesState() override;
 
-	void ProcessUserInput(CGameEngine _gameEngine);
+	void ProcessUserInput(CGameEngine* _pGameEngine);
 	
 
 	// Inherited via IGameState
@@ -18,9 +18,9 @@ private:
 
 	virtual void Cleanup() override;
 
-	virtual void Draw(CGameEngine * _gameEngine) override;
+	virtual void Draw(CGameEngine * _pGameEngine) override;
 
-	virtual void Step(CGameEngine * _gameEngine) override;
+	virtual void Step(CGameEngine * _pGameEngine) override;
 
 };
 
