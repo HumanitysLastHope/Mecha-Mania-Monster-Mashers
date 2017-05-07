@@ -7,6 +7,7 @@
 class CGettingPlayerMovesState : public IGameState
 {
 public:
+	
 private:
 
 	void ProcessUserInput(CGameEngine _gameEngine);
