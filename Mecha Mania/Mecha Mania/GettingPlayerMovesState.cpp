@@ -40,21 +40,21 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
 
 						if (iPlayerInput == 1)
 						{
-							playerList[i].m_MoveList[j] = MOVEONE;
+							playerList[i].GetMoveList()[j] = MOVEONE;
 						}
 						else if (iPlayerInput == 2)
 						{
-							playerList[i].m_MoveList[j] = MOVETWO;
+							playerList[i].GetMoveList()[j] = MOVETWO;
 
 						}
 						else if (iPlayerInput == 3)
 						{
-							playerList[i].m_MoveList[j] = MOVETHREE;
+							playerList[i].GetMoveList()[j] = MOVETHREE;
 
 						}
 						else if (iPlayerInput == 4)
 						{
-							playerList[i].m_MoveList[j] = MOVEBACK;
+							playerList[i].GetMoveList()[j] = MOVEBACK;
 
 						}
 						else
@@ -76,16 +76,16 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
 
 						if (iPlayerInput == 1)
 						{
-							playerList[i].m_MoveList[j] = ROTATECLOCKWISE;
+							playerList[i].GetMoveList()[j] = ROTATECLOCKWISE;
 						}
 						else if (iPlayerInput == 2)
 						{
-							playerList[i].m_MoveList[j] = ROTATEANTICLOCKWISE;
+							playerList[i].GetMoveList()[j] = ROTATEANTICLOCKWISE;
 
 						}
 						else if (iPlayerInput == 3)
 						{
-							playerList[i].m_MoveList[j] = FLIP;
+							playerList[i].GetMoveList()[j] = FLIP;
 
 						}
 						else
@@ -107,16 +107,16 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
 
 						if (iPlayerInput == 1)
 						{
-							playerList[i].m_MoveList[j] = SHOOT;
+							playerList[i].GetMoveList()[j] = SHOOT;
 						}
 						else if (iPlayerInput == 2)
 						{
-							playerList[i].m_MoveList[j] = PUSH;
+							playerList[i].GetMoveList()[j] = PUSH;
 
 						}
 						else if (iPlayerInput == 3)
 						{
-							playerList[i].m_MoveList[j] = PLACEMINE;
+							playerList[i].GetMoveList()[j] = PLACEMINE;
 
 						}
 						else
