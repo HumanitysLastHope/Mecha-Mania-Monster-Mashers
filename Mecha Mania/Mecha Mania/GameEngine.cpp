@@ -16,6 +16,7 @@ CGameEngine::~CGameEngine()
 
 void CGameEngine::Step()
 {
+	m_pCurGameState->Step(this);
 }
 
 void CGameEngine::Draw()
@@ -35,6 +36,8 @@ void CGameEngine::Draw()
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
+}
+	m_pCurGameState->Step(this);
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
