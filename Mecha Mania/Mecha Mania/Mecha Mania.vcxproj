@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Board.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameState.h" />
@@ -156,9 +157,10 @@
     <ClInclude Include="Position.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GettingPlayerMovesState.cpp" />
-    <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mecha.cpp" />
     <ClCompile Include="Tile.cpp" />

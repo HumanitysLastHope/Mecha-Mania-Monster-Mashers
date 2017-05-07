@@ -39,15 +39,15 @@
     <ClInclude Include="GettingPlayerMovesState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mecha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IGameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -60,6 +60,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GettingPlayerMovesState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
