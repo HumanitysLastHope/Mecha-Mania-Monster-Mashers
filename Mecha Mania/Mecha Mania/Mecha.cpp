@@ -104,6 +104,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	return true;
 }
 
+void CMecha::Rotate(EROTATION _eRotation)
+{
+}
+
 void CMecha::Push()
 {
 }

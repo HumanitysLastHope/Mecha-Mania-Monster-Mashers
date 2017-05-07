@@ -11,6 +11,7 @@ public:
 	~CMecha();
 	void Shoot();
 	bool Move(EDIRECTION _eDirection);
+	void Rotate(EROTATION _eRotation);
 	void Push();
 	void PlaceMine();
 
