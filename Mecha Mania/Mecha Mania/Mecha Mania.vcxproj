@@ -160,7 +160,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GettingPlayerMovesState.cpp" />
-    <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mecha.cpp" />
     <ClCompile Include="Tile.cpp" />
