@@ -151,7 +151,5 @@ void CGameEngine::Run()
 	CGameEngine gameEngine;
 
 	gameEngine.Draw();
-	gameEngine.Step();
-
 	_getch();
 }
