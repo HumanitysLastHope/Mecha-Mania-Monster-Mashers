@@ -1,6 +1,7 @@
 #include "GettingPlayerMovesState.h"
 #include "GameEngine.h"
 #include <conio.h>
+#include <iostream>
 
 //
 //GettingPlayerMovesStates::GettingPlayerMovesStates()
@@ -12,20 +13,35 @@
 //{
 //}
 
-void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
+CGettingPlayerMovesState::CGettingPlayerMovesState()
 {
-	std::vector<CPlayer> playerList = _gameEngine.GetPlayerList();
+}
+
+CGettingPlayerMovesState::~CGettingPlayerMovesState()
+{
+}
+
+void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
+{
+	std::vector<CPlayer> playerList = _pGameEngine->GetPlayerList();
 	CPlayer playerGetMove = playerList[0];
 	int iPlayerInput;
 	bool bValidMove = false;
 
-	for (int i = 0; i < _gameEngine.playerAliveCount; i++)
+	// TEMP =====================================================================
+	//playerList[0].moveList.push_back(MOVEBACK);
+	//std::cout << playerList[0].moveList[0] << " is a bag of dicks" << std::endl;
+	// TEMP =====================================================================
+
+	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
+			bValidMove = false;
+
 			while (bValidMove == false)
 			{
-				iPlayerInput = _getch();
+				iPlayerInput = _getch() - '0';
 
 				switch (iPlayerInput)
 				{
@@ -35,26 +51,33 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
 
 					while (bValidMove == false)
 					{
-						iPlayerInput = _getch();
+						iPlayerInput = _getch() - '0';
 						bValidMove = true;
 
 						if (iPlayerInput == 1)
 						{
-							playerList[i].moveList[j] = MOVEONE;
+							std::cout << "Player " << i << " has selected MOVEONE as their " << j << " move." << std::endl;
+							playerList[i].moveList.push_back(MOVEONE);
 						}
 						else if (iPlayerInput == 2)
 						{
-							playerList[i].moveList[j] = MOVETWO;
+							std::cout << "Player " << i << " has selected MOVETWO as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(MOVETWO);
 
 						}
 						else if (iPlayerInput == 3)
 						{
-							playerList[i].moveList[j] = MOVETHREE;
+							std::cout << "Player " << i << " has selected MOVETHREE as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(MOVETHREE);
 
 						}
 						else if (iPlayerInput == 4)
 						{
-							playerList[i].moveList[j] = MOVEBACK;
+							std::cout << "Player " << i << " has selected MOVEBACK as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(MOVEBACK);
 
 						}
 						else
@@ -71,21 +94,27 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
 
 					while (bValidMove == false)
 					{
-						iPlayerInput = _getch();
+						iPlayerInput = _getch() - '0';
 						bValidMove = true;
 
 						if (iPlayerInput == 1)
 						{
-							playerList[i].moveList[j] = ROTATECLOCKWISE;
+							std::cout << "Player " << i << " has selected ROTATECLOCKWISE as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(ROTATECLOCKWISE);
 						}
 						else if (iPlayerInput == 2)
 						{
-							playerList[i].moveList[j] = ROTATEANTICLOCKWISE;
+							std::cout << "Player " << i << " has selected ROTATEANTICLOCKWISE as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(ROTATEANTICLOCKWISE);
 
 						}
 						else if (iPlayerInput == 3)
 						{
-							playerList[i].moveList[j] = FLIP;
+							std::cout << "Player " << i << " has selected FLIP as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(FLIP);
 
 						}
 						else
@@ -102,21 +131,27 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine _gameEngine)
 
 					while (bValidMove == false)
 					{
-						iPlayerInput = _getch();
+						iPlayerInput = _getch() - '0';
 						bValidMove = true;
 
 						if (iPlayerInput == 1)
 						{
-							playerList[i].moveList[j] = SHOOT;
+							std::cout << "Player " << i << " has selected SHOOT as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(SHOOT);
 						}
 						else if (iPlayerInput == 2)
 						{
-							playerList[i].moveList[j] = PUSH;
+							std::cout << "Player " << i << " has selected PUSH as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(PUSH);
 
 						}
 						else if (iPlayerInput == 3)
 						{
-							playerList[i].moveList[j] = PLACEMINE;
+							std::cout << "Player " << i << " has selected PLACEMINE as their " << j << " move." << std::endl;
+
+							playerList[i].moveList.push_back(PLACEMINE);
 
 						}
 						else
@@ -152,10 +187,11 @@ void CGettingPlayerMovesState::Cleanup()
 {
 }
 
-void CGettingPlayerMovesState::Draw(CGameEngine * _gameEngine)
+void CGettingPlayerMovesState::Draw(CGameEngine * _pGameEngine)
 {
 }
 
-void CGettingPlayerMovesState::Step(CGameEngine * _gameEngine)
+void CGettingPlayerMovesState::Step(CGameEngine * _pGameEngine)
 {
+	ProcessUserInput(_pGameEngine);
 }
