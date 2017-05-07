@@ -28,9 +28,9 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 	int iPlayerInput;
 	bool bValidMove = false;
 
-	for (int i = 1; i < _pGameEngine->playerAliveCount + 1; i++)
+	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
 	{
-		for (int j = 1; j < 4; j++)
+		for (int j = 0; j < 3; j++)
 		{
 			bValidMove = false;
 

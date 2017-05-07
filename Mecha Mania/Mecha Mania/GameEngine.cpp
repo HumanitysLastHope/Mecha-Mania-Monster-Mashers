@@ -47,7 +47,7 @@ void CGameEngine::Draw()
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-	m_pCurGameState->Step(this);
+	//m_pCurGameState->Step(this);
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
@@ -150,6 +150,12 @@ void CGameEngine::Run()
 {
 	CGameEngine gameEngine;
 
-	gameEngine.Draw();
+	while (true)
+	{
+		gameEngine.Draw();
+		gameEngine.Step();
+	}
+	
 	_getch();
+
 }
