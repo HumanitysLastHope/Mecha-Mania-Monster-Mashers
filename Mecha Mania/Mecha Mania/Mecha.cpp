@@ -15,7 +15,7 @@ void CMecha::Shoot()
 {
 }
 
-bool CMecha::Move(EDIRECTION _eDirection, int _iDistance)
+bool CMecha::Move(EDIRECTION _eDirection)
 {
 	//switch (_eDirection)
 	//{
@@ -33,10 +33,6 @@ bool CMecha::Move(EDIRECTION _eDirection, int _iDistance)
 	//	}
 
 	//	m_GridPosition.m_iX--;
-	//	if (_iDistance > 1)
-	//	{
-	//		Move(_eDirection, _iDistance - 1);
-	//	}
 	//	break;
 
 	//case NORTH:
@@ -52,10 +48,6 @@ bool CMecha::Move(EDIRECTION _eDirection, int _iDistance)
 	//	}
 
 	//	m_GridPosition.m_iY--;
-	//	if (_iDistance > 1)
-	//	{
-	//		Move(_eDirection, _iDistance - 1);
-	//	}
 	//	break;
 
 	//case EAST:
@@ -71,10 +63,6 @@ bool CMecha::Move(EDIRECTION _eDirection, int _iDistance)
 	//	}
 
 	//	m_GridPosition.m_iX++;
-	//	if (_iDistance > 1)
-	//	{
-	//		Move(_eDirection, _iDistance - 1);
-	//	}
 	//	break;
 
 	//case SOUTH:
@@ -89,10 +77,6 @@ bool CMecha::Move(EDIRECTION _eDirection, int _iDistance)
 	//		}
 
 	//		m_GridPosition.m_iY++;
-	//		if (_iDistance > 1)
-	//		{
-	//			Move(_eDirection, _iDistance - 1);
-	//		}
 	//	}
 	//	break;
 
