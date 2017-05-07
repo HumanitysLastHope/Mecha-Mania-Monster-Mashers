@@ -149,7 +149,7 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameState.h" />
-    <ClInclude Include="GettingPlayerMovesStates.h" />
+    <ClInclude Include="GettingPlayerMovesState.h" />
     <ClInclude Include="Mecha.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />
@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GettingPlayerMovesStates.cpp" />
+    <ClCompile Include="GettingPlayerMovesState.cpp" />
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mecha.cpp" />
