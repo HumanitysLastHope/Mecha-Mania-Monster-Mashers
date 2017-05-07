@@ -7,6 +7,8 @@
 class CPlayer
 {
 public:
+	CPlayer();
+	~CPlayer();
 	CMecha mecha;
 	std::vector<ECOMMANDS> moveList;
 private:

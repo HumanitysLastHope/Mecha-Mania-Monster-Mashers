@@ -7,6 +7,7 @@ class CMecha
 {
 public:
 	CMecha();
+	CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard);
 	~CMecha();
 	void Shoot();
 	bool Move(EDIRECTION _eDirection);
@@ -15,7 +16,7 @@ public:
 
 private:
 	int m_iHealth;
-	TPosition m_GridPosition;
+	TPosition m_posGridPosition;
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
 	CBoard* m_pBoard;
