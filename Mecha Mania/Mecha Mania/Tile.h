@@ -10,11 +10,14 @@ public:
 	CTile();
 	~CTile();
 
-	EENVIRONMENT GetEnviroment();
+	EENVIRONMENT GetEnvironment();
+	void SetEnvironment(EENVIRONMENT _peEnvironment);
 	//CBullet* GetBullet();
 	CMecha* GetMecha();
+	void SetMecha(CMecha* _pMecha);
 	//CMine* GetMine();
 
+private:
 	//CMine* m_pMine;
 	CMecha* m_pMecha;
 	EENVIRONMENT m_peEnvironment;
