@@ -25,5 +25,6 @@ public:
 private:
 	CPlayer player1;
 	std::vector<CPlayer> playerList = { player1 };
+	IGameState* m_pCurGameState;
 };
 
