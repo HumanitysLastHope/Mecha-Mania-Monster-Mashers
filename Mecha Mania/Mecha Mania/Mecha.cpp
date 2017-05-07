@@ -1,6 +1,5 @@
 #include "Mecha.h"
-#include "Board.h"
-
+#include"Board.h"
 
 
 CMecha::CMecha()
@@ -13,7 +12,6 @@ CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoa
 	m_eFacingDir(_eFacingDir),
 	m_pBoard(_pBoard)
 {
-	m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(this);
 }
 
 
@@ -24,6 +22,7 @@ CMecha::~CMecha()
 void CMecha::SetGridPosition(TPosition _posGridPosition)
 {
 	m_posGridPosition = _posGridPosition;
+	m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(this);
 }
 
 TPosition CMecha::GetGridPosition() {

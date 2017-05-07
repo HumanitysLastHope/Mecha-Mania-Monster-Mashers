@@ -27,12 +27,12 @@ public:
 
 	static void Run();
 private:
-	CPlayer player1;
-	CPlayer player2;
-	CPlayer player3;
-	CPlayer player4;
-	CBoard _pLevel;
-	std::vector<CPlayer> playerList = { player1, player2, player3, player4 };
+	CBoard m_Level;
+	CPlayer m_Player1;
+	CPlayer m_Player2;
+	CPlayer m_Player3;
+	CPlayer m_Player4;
+	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
 	IGameState* m_pCurGameState;
 };
 
