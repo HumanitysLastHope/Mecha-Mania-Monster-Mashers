@@ -36,7 +36,6 @@ void CGameEngine::Draw()
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-}
 	m_pCurGameState->Step(this);
 }
 
