@@ -24,6 +24,7 @@ public:
 
 private:
 	CPlayer player1;
+	CBoard _pLevel;
 	std::vector<CPlayer> playerList = { player1 };
 	IGameState* m_pCurGameState;
 };
