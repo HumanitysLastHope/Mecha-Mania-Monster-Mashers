@@ -16,10 +16,12 @@ CGameEngine::~CGameEngine()
 
 void CGameEngine::Step()
 {
+	m_pCurGameState->Step(this);
 }
 
 void CGameEngine::Draw()
 {
+	m_pCurGameState->Step(this);
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
