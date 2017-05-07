@@ -1,8 +1,9 @@
 #include <vector>
+#include <conio.h>
+#include <iostream>
 #include "Player.h"
 #include "Board.h"
 #include "Tile.h"
-#include <iostream>
 
 #pragma once
 
@@ -23,6 +24,7 @@ public:
 
 	std::vector<CPlayer> GetPlayerList();
 
+	static void Run();
 private:
 	CPlayer player1;
 	CBoard _pLevel;
