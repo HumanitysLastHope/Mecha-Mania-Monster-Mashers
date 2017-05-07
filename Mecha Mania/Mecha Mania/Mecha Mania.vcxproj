@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="ExecutingCMDState.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GettingPlayerMovesState.h" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="ExecutingCMDState.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GettingPlayerMovesState.cpp" />
     <ClCompile Include="GameState.cpp" />
