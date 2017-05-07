@@ -11,12 +11,12 @@ CTile::~CTile()
 {
 }
 
-EENVIRONMENT* CTile::GetEnvironment()
+EENVIRONMENT CTile::GetEnvironment()
 {
 	return m_peEnvironment;
 }
 
-void  CTile::SetEnvironment(EENVIRONMENT* _peEnvironment)
+void  CTile::SetEnvironment(EENVIRONMENT _peEnvironment)
 {
 	m_peEnvironment = _peEnvironment;
 }

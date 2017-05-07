@@ -10,8 +10,8 @@ public:
 	CTile();
 	~CTile();
 
-	EENVIRONMENT* GetEnvironment();
-	void SetEnvironment(EENVIRONMENT* _peEnvironment);
+	EENVIRONMENT GetEnvironment();
+	void SetEnvironment(EENVIRONMENT _peEnvironment);
 	//CBullet* GetBullet();
 	CMecha* GetMecha();
 	void SetMecha(CMecha* _pMecha);
@@ -20,5 +20,5 @@ public:
 private:
 	//CMine* m_pMine;
 	CMecha* m_pMecha;
-	EENVIRONMENT* m_peEnvironment;
+	EENVIRONMENT m_peEnvironment;
 };
