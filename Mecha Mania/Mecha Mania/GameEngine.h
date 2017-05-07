@@ -22,15 +22,14 @@ public:
 	CBoard& LoadBoard(int _LevelNum);
 
 	std::vector<CPlayer>& GetPlayerList();
-
-
+	
 private:
 	CBoard m_Level;
 	CPlayer m_Player1;
 	CPlayer m_Player2;
 	CPlayer m_Player3;
 	CPlayer m_Player4;
-	std::vector<CPlayer> m_PlayerList = { m_Player1 };
+	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
 	IGameState* m_pCurGameState;
 };
 

@@ -12,7 +12,5 @@ int main()
 
 	gameEngine.Draw();
 	//gameEngine.Step();
-
-	_getch();
 	return 0;
 }
