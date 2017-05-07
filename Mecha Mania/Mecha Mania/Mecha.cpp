@@ -13,11 +13,29 @@ CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoa
 	m_eFacingDir(_eFacingDir),
 	m_pBoard(_pBoard)
 {
+	m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(this);
 }
 
 
 CMecha::~CMecha()
 {
+}
+
+void CMecha::SetGridPosition(TPosition _posGridPosition)
+{
+	m_posGridPosition = _posGridPosition;
+}
+
+TPosition CMecha::GetGridPosition() {
+	return m_posGridPosition;
+}
+
+void CMecha::SetMechaFacingDirect(EDIRECTION _eFacingDir) {
+	m_eFacingDir = _eFacingDir;
+}
+
+EDIRECTION CMecha::GetMechaFacingDirect() {
+	return m_eFacingDir;
 }
 
 void CMecha::Shoot()
@@ -41,6 +59,8 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			}
 		}
 
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+		m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).SetMecha(this);
 		m_posGridPosition.m_iX--;
 		break;
 
@@ -56,6 +76,8 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			}
 		}
 
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).SetMecha(this);
 		m_posGridPosition.m_iY--;
 		break;
 
@@ -71,6 +93,8 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			}
 		}
 
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+		m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).SetMecha(this);
 		m_posGridPosition.m_iX++;
 		break;
 
@@ -85,6 +109,8 @@ bool CMecha::Move(EDIRECTION _eDirection)
 				return false;
 			}
 
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetMecha(nullptr);
 			m_posGridPosition.m_iY++;
 		}
 		break;
@@ -94,6 +120,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	}
 
 	return true;
+}
+
+void CMecha::Rotate(EROTATION _eRotation)
+{
 }
 
 void CMecha::Push()

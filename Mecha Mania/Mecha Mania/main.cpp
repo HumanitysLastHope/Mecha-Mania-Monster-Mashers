@@ -1,3 +1,7 @@
+#include <iostream>
+#include <string>
+#include <conio.h>
+
 #include "GameEngine.h"
 #include "GettingPlayerMovesState.h"
 #include <conio.h>

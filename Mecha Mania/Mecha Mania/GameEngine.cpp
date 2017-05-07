@@ -21,6 +21,27 @@ void CGameEngine::Step()
 
 void CGameEngine::Draw()
 {
+	//draws the arena
+	for (int _iY = 0; _iY < 10; ++_iY)
+	{
+		for (int _iX = 0; _iX < 10; ++_iX)
+		{
+			//draw an empty tile
+			if (_pLevel.GetTile(_iX, _iY).GetEnvironment() == FLOOR && _pLevel.GetTile(0, 0).GetMecha() == NULL)
+			{
+				char _cEmptyTile = 176;
+				std::cout << " " << _cEmptyTile;
+			}
+			//draw mecha
+			if (_pLevel.GetTile(_iX, _iY).GetMecha() == player1.GetMecha())
+			{
+				char _cMechaImage = 16;
+				std::cout << " " << _cMechaImage;
+			}
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
 	m_pCurGameState->Step(this);
 }
 
@@ -42,19 +63,22 @@ void CGameEngine::ChangeState(IGameState* _pState)
 
 CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	if (_LevelNum = 1) {
-		//include code here to make the level 1 unique
+		//include code here load level 1 from txt file
 		return _pLevel;
 	}
 	if (_LevelNum = 2) {
-		//include code here to make the level 2 unique
+		//include code here load level 2 from txt file
+
 		return _pLevel;
 	}
 	if (_LevelNum = 3) {
-		//include code here to make the level 3 unique
+		//include code here load level 3 from txt file
+
 		return _pLevel;
 	}
 	else {
-		//include code here to make the level 4 unique
+		//include code here load level 4 from txt file
+
 		return _pLevel;
 	}
 }

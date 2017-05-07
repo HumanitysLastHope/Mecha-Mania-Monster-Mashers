@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Board.h"
 #include "Tile.h"
-//#include "GettingPlayerMovesState.h"
+#include <iostream>
 
 #pragma once
 
@@ -14,7 +14,7 @@ public:
 	CGameEngine();
 	~CGameEngine();
 
-	int playerAliveCount = 1;
+	int playerAliveCount = 4;
 
 	void Step();
 	void Draw();
@@ -26,6 +26,9 @@ public:
 
 private:
 	CPlayer player1;
+	CPlayer player2;
+	CPlayer player3;
+	CPlayer player4;
 	CBoard _pLevel;
 	std::vector<CPlayer> playerList = { player1 };
 	IGameState* m_pCurGameState;

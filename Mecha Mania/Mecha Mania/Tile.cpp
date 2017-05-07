@@ -4,6 +4,7 @@
 
 CTile::CTile()
 {
+	m_peEnvironment = FLOOR;
 }
 
 
