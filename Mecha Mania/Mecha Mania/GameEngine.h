@@ -24,12 +24,12 @@ public:
 	std::vector<CPlayer> GetPlayerList();
 
 private:
-	CPlayer player1;
-	CPlayer player2;
-	CPlayer player3;
-	CPlayer player4;
-	CBoard _pLevel;
-	std::vector<CPlayer> playerList = { player1 };
+	CBoard m_Level;
+	CPlayer m_Player1;
+	CPlayer m_Player2;
+	CPlayer m_Player3;
+	CPlayer m_Player4;
+	std::vector<CPlayer> m_PlayerList = { m_Player1 };
 	IGameState* m_pCurGameState;
 };
 
