@@ -24,9 +24,9 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	//	if (m_GridPosition.m_iX == 0)
 	//		return false;
 	//	// If there's a player in front move that player
-	//	if (m_board.GetTile(m_GridPosition.m_iX - 1, m_GridPosition.m_iY).m_pMecha != NULL)
+	//	if (m_pBoard.GetTile(m_GridPosition.m_iX - 1, m_GridPosition.m_iY).m_pMecha != NULL)
 	//	{
-	//		if (m_board.GetTile(m_GridPosition.m_iX - 1, m_GridPosition.m_iY).m_pMecha.Move(_eDirection, 1) == false)
+	//		if (m_pBoard.GetTile(m_GridPosition.m_iX - 1, m_GridPosition.m_iY).m_pMecha.Move(_eDirection, 1) == false)
 	//		{
 	//			return false;
 	//		}
@@ -39,9 +39,9 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	//	if (m_GridPosition.m_iY == 0)
 	//		return false;
 
-	//	if (m_board.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY - 1).m_pMecha != NULL)
+	//	if (m_pBoard.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY - 1).m_pMecha != NULL)
 	//	{
-	//		if (m_board.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY - 1).m_pMecha.Move(_eDirection, 1) == false)
+	//		if (m_pBoard.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY - 1).m_pMecha.Move(_eDirection, 1) == false)
 	//		{
 	//			return false;
 	//		}
@@ -54,9 +54,9 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	//	if (m_GridPosition.m_iX == 9)
 	//		return false;
 
-	//	if (m_board.GetTile(m_GridPosition.m_iX + 1, m_GridPosition.m_iY).m_pMecha != NULL)
+	//	if (m_pBoard.GetTile(m_GridPosition.m_iX + 1, m_GridPosition.m_iY).m_pMecha != NULL)
 	//	{
-	//		if (m_board.GetTile(m_GridPosition.m_iX + 1, m_GridPosition.m_iY).m_pMecha.Move(_eDirection, 1) == false)
+	//		if (m_pBoard.GetTile(m_GridPosition.m_iX + 1, m_GridPosition.m_iY).m_pMecha.Move(_eDirection, 1) == false)
 	//		{
 	//			return false;
 	//		}
@@ -69,9 +69,9 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	//	if (m_GridPosition.m_iY == 9)
 	//		return false;
 
-	//	if (m_board.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY + 1).m_pMecha != NULL)
+	//	if (m_pBoard.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY + 1).m_pMecha != NULL)
 	//	{
-	//		if (m_board.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY + 1).m_pMecha.Move(_eDirection, 1) == false)
+	//		if (m_pBoard.GetTile(m_GridPosition.m_iX, m_GridPosition.m_iY + 1).m_pMecha.Move(_eDirection, 1) == false)
 	//		{
 	//			return false;
 	//		}

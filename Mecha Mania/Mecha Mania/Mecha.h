@@ -1,8 +1,8 @@
 #pragma once
 #include "Position.h"
 #include "Enums.h"
-//#include "Board.h"
 
+class CBoard;
 class CMecha
 {
 public:
@@ -18,6 +18,6 @@ private:
 	TPosition m_GridPosition;
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
-	//CBoard m_board;
+	CBoard* m_pBoard;
 };
 
