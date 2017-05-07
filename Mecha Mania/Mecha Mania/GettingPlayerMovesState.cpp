@@ -52,27 +52,27 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 						if (iPlayerInput == 1)
 						{
 							std::cout << "Player " << i << " has selected MOVEONE as their " << j << " move." << std::endl;
-							playerList[i].GetMoveList().push_back(MOVEONE);
+							playerList[i].GetMoveList().push(MOVEONE);
 						}
 						else if (iPlayerInput == 2)
 						{
 							std::cout << "Player " << i << " has selected MOVETWO as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(MOVETWO);
+							playerList[i].GetMoveList().push(MOVETWO);
 
 						}
 						else if (iPlayerInput == 3)
 						{
 							std::cout << "Player " << i << " has selected MOVETHREE as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(MOVETHREE);
+							playerList[i].GetMoveList().push(MOVETHREE);
 
 						}
 						else if (iPlayerInput == 4)
 						{
 							std::cout << "Player " << i << " has selected MOVEBACK as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(MOVEBACK);
+							playerList[i].GetMoveList().push(MOVEBACK);
 
 						}
 						else
@@ -96,20 +96,20 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 						{
 							std::cout << "Player " << i << " has selected ROTATECLOCKWISE as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(ROTATECLOCKWISE);
+							playerList[i].GetMoveList().push(ROTATECLOCKWISE);
 						}
 						else if (iPlayerInput == 2)
 						{
 							std::cout << "Player " << i << " has selected ROTATEANTICLOCKWISE as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(ROTATEANTICLOCKWISE);
+							playerList[i].GetMoveList().push(ROTATEANTICLOCKWISE);
 
 						}
 						else if (iPlayerInput == 3)
 						{
 							std::cout << "Player " << i << " has selected FLIP as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(FLIP);
+							playerList[i].GetMoveList().push(FLIP);
 
 						}
 						else
@@ -133,20 +133,20 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 						{
 							std::cout << "Player " << i << " has selected SHOOT as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(SHOOT);
+							playerList[i].GetMoveList().push(SHOOT);
 						}
 						else if (iPlayerInput == 2)
 						{
 							std::cout << "Player " << i << " has selected PUSH as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(PUSH);
+							playerList[i].GetMoveList().push(PUSH);
 
 						}
 						else if (iPlayerInput == 3)
 						{
 							std::cout << "Player " << i << " has selected PLACEMINE as their " << j << " move." << std::endl;
 
-							playerList[i].GetMoveList().push_back(PLACEMINE);
+							playerList[i].GetMoveList().push(PLACEMINE);
 
 						}
 						else

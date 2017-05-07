@@ -24,7 +24,7 @@ CMecha* CPlayer::GetMecha()
 	return &m_Mecha;
 }
 
-std::vector<ECOMMANDS> CPlayer::GetMoveList()
+std::queue<ECOMMANDS> CPlayer::GetMoveList()
 {
 	return m_MoveList;
 }

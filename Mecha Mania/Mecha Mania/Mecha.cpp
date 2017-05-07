@@ -133,3 +133,8 @@ void CMecha::Push()
 void CMecha::PlaceMine()
 {
 }
+
+EDIRECTION CMecha::GetDirection()
+{
+	return m_eFacingDir;
+}

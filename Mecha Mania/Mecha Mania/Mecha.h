@@ -20,6 +20,7 @@ public:
 	void Rotate(EROTATION _eRotation);
 	void Push();
 	void PlaceMine();
+	EDIRECTION GetDirection();
 
 
 private:
