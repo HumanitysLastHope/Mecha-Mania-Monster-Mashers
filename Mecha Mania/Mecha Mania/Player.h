@@ -4,12 +4,9 @@
 
 #pragma once
 
-class Player
+class CPlayer
 {
 public:
-	Player();
-	~Player();
-
 	CMecha mecha;
 	std::vector<ECOMMANDS> moveList;
 private:
