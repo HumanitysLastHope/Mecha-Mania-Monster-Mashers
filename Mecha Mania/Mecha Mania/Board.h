@@ -10,6 +10,6 @@ public:
 	void SetTile(int _iX, int _iY, CTile _pTile);
 
 private:
-	CTile m_pMap [100][100];
+	CTile m_pMap [10][10];
 };
 
