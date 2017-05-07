@@ -22,15 +22,21 @@ void CGameEngine::Step()
 void CGameEngine::Draw()
 {
 	//draws the arena
-	for (int x = 0; x < 10; ++x)
+	for (int _iY = 0; _iY < 10; ++_iY)
 	{
-		for (int y = 0; y < 10; ++y)
+		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			//draw an empty tile
-			if (_pLevel.GetTile(0, 0).GetEnvironment() == FLOOR && _pLevel.GetTile(0, 0).GetMecha() == NULL)
+			if (_pLevel.GetTile(_iX, _iY).GetEnvironment() == FLOOR && _pLevel.GetTile(0, 0).GetMecha() == NULL)
 			{
-				char _ctemp = 176;
-				std::cout << " " << _ctemp;
+				char _cEmptyTile = 176;
+				std::cout << " " << _cEmptyTile;
+			}
+			//draw mecha
+			if (_pLevel.GetTile(_iX, _iY).GetMecha() != NULL)
+			{
+				char _cMechaImage = 16;
+				std::cout << " " << _cMechaImage;
 			}
 		}
 		std::cout << std::endl;
