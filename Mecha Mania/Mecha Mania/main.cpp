@@ -6,4 +6,6 @@ int main()
 
 	gameEngine.Draw();
 	gameEngine.Step();
+
+	return 0;
 }

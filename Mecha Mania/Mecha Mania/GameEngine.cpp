@@ -65,3 +65,9 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		return *_pLevel;
 	}
 }
+
+
+std::vector<CPlayer> CGameEngine::GetPlayerList()
+{
+	return playerList;
+}
