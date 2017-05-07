@@ -1,5 +1,7 @@
 #include <vector>
 #include "Player.h"
+#include "Board.h"
+#include "Tile.h"
 
 #pragma once
 
@@ -16,6 +18,7 @@ public:
 	void Step();
 	void Draw();
 	void ChangeState(IGameState* _state);
+	CBoard& LoadBoard(int _LevelNum);
 
 	CPlayer player1;
 	CPlayer player2;
