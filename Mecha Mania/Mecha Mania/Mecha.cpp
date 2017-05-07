@@ -21,6 +21,23 @@ CMecha::~CMecha()
 {
 }
 
+void CMecha::SetGridPosition(TPosition _posGridPosition)
+{
+	m_posGridPosition = _posGridPosition;
+}
+
+TPosition CMecha::GetGridPosition() {
+	return m_posGridPosition;
+}
+
+void CMecha::SetMechaFacingDirect(EDIRECTION _eFacingDir) {
+	m_eFacingDir = _eFacingDir;
+}
+
+EDIRECTION CMecha::GetMechaFacingDirect() {
+	return m_eFacingDir;
+}
+
 void CMecha::Shoot()
 {
 }

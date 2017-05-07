@@ -33,7 +33,7 @@ void CGameEngine::Draw()
 				std::cout << " " << _cEmptyTile;
 			}
 			//draw mecha
-			if (_pLevel.GetTile(_iX, _iY).GetMecha() != NULL)
+			if (_pLevel.GetTile(_iX, _iY).GetMecha() == player1.GetMecha())
 			{
 				char _cMechaImage = 16;
 				std::cout << " " << _cMechaImage;
@@ -68,14 +68,17 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	if (_LevelNum = 2) {
 		//include code here load level 2 from txt file
+
 		return _pLevel;
 	}
 	if (_LevelNum = 3) {
 		//include code here load level 3 from txt file
+
 		return _pLevel;
 	}
 	else {
 		//include code here load level 4 from txt file
+
 		return _pLevel;
 	}
 }

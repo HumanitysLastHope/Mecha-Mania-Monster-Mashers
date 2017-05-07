@@ -14,6 +14,11 @@ CPlayer::~CPlayer()
 {
 }
 
+void CPlayer::SetStartingPos(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir) {
+	m_Mecha.SetGridPosition(_posMechaGridPosition);
+	m_Mecha.SetMechaFacingDirect(_eMechaFacingDir);
+}
+
 CMecha* CPlayer::GetMecha()
 {
 	return &m_Mecha;

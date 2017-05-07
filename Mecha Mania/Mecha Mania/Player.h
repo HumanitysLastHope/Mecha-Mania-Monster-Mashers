@@ -10,6 +10,7 @@ public:
 	CPlayer();
 	CPlayer(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir, CBoard* _pBoard);
 	~CPlayer();
+	void SetStartingPos(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir);
 	CMecha* GetMecha();
 	std::vector<ECOMMANDS> GetMoveList();
 private:
