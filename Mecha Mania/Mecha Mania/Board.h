@@ -7,6 +7,7 @@ public:
 	~CBoard();
 
 	CTile& GetTile(int _iX, int _iY);
+	void SetTile(int _iX, int _iY, CTile _pTile);
 
 private:
 	CTile m_pMap [100][100];
