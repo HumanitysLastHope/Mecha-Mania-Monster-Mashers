@@ -28,11 +28,6 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 	int iPlayerInput;
 	bool bValidMove = false;
 
-	// TEMP =====================================================================
-	//playerList[0].moveList.push_back(MOVEBACK);
-	//std::cout << playerList[0].moveList[0] << " is a bag of dicks" << std::endl;
-	// TEMP =====================================================================
-
 	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
 	{
 		for (int j = 0; j < 3; j++)
