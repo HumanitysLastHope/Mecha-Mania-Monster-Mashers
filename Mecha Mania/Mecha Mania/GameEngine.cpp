@@ -145,3 +145,13 @@ std::vector<CPlayer>& CGameEngine::GetPlayerList()
 {
 	return m_PlayerList;
 }
+
+void CGameEngine::Run()
+{
+	CGameEngine gameEngine;
+
+	gameEngine.Draw();
+	gameEngine.Step();
+
+	_getch();
+}
