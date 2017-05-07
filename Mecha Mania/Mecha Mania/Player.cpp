@@ -8,6 +8,7 @@ CPlayer::CPlayer()
 CPlayer::CPlayer(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir, CBoard* _pBoard):
 	m_Mecha(_posMechaGridPosition, _eMechaFacingDir, _pBoard)
 {
+
 }
 
 CPlayer::~CPlayer()

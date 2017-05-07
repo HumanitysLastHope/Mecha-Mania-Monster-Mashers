@@ -59,9 +59,6 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GettingPlayerMovesState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
