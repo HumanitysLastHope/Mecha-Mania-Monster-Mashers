@@ -24,10 +24,6 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	int playerCommand;
 	int iOppositeDirection;
-
-	//for (int j = 0; j < 3; j++)
-	//{
-
 	
 	playerCommand = playerList[i].GetMoveList().front();
 	playerList[i].GetMoveList().pop();
@@ -37,12 +33,6 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	case 11:
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->Draw();
-		_getch();
-		system("CLS");
-
-
-		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
 		break;
 	}
 	case 12:
@@ -50,16 +40,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		_pGameEngine->Draw();
 		_getch();
-
 		system("CLS");
-
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->Draw();
-		_getch();
-
-		system("CLS");
-
 
 		break;
 	}
@@ -68,63 +51,36 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		_pGameEngine->Draw();
 		_getch();
-
 		system("CLS");
-
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		_pGameEngine->Draw();
 		_getch();
-
 		system("CLS");
-
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->Draw();
-		_getch();
-
-		system("CLS");
-
 		break;
 	}
 	case 14:
 	{
 		iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
 		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection));
-		_pGameEngine->Draw();
-		_getch();
-		system("CLS");
-
-
-		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
 		break;
 	}
 	case 21: //clockwise
 	{
 		
 		playerList[i].GetMecha()->Rotate(CLOCKWISE);
-		_pGameEngine->Draw();
-		_getch();
-		system("CLS");
-
 		break;
 	}
 	case 22:
 	{
 		playerList[i].GetMecha()->Rotate(ANTICLOCKWISE);
-		_pGameEngine->Draw();
-		_getch();
-		system("CLS");
-
 		break;
 	}
 	case 23:
 	{
 		playerList[i].GetMecha()->Rotate(ONEEIGHTY);
-		_pGameEngine->Draw();
-		_getch();
-		system("CLS");
-
 		break;
 	}
 	}
@@ -153,6 +109,8 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 		{
 			ExecuteUserInput(_pGameEngine, i);
 			_pGameEngine->Draw();
+			_getch();
+			system("CLS");
 		}
 	}
 	

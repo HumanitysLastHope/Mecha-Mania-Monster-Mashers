@@ -10,7 +10,7 @@ public:
 	CGettingPlayerMovesState();
 	virtual ~CGettingPlayerMovesState() override;
 
-	void ProcessUserInput(CGameEngine* _pGameEngine, int i);
+	void ProcessUserInput(CGameEngine* _pGameEngine, int i, int j);
 	
 
 	// Inherited via IGameState
