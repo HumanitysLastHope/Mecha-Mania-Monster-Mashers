@@ -23,9 +23,11 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	system("CLS"); //clear again before creating new screens
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	int playerCommand;
+	int iOppositeDirection;
+	EDIRECTION iOpposite;
 
-	//playerList[0].GetMecha()->SetGridPosition({ 1,1 });
-
+	//for (int j = 0; j < 3; j++)
+	//{
 
 	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
 	{
@@ -87,8 +89,22 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 			break;
 		}
+		case 14:
+		{
+			iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
+			playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection));
+			_pGameEngine->Draw();
+			_getch();
+			system("CLS");
+
+
+			//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
+			break;
+		}
 		}
 	}
+//	}
+	
 
 	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
 }
