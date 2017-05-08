@@ -199,6 +199,7 @@ void CMecha::Push()
 
 void CMecha::PlaceMine()
 {
+
 }
 
 EDIRECTION CMecha::GetDirection()
