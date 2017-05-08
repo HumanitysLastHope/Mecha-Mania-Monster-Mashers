@@ -17,9 +17,9 @@ ExecutingCMDState::~ExecutingCMDState()
 
 void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 {
-	system("CLS"); //clear screen
-	_pGameEngine->Draw(); //redraw
-	_getch(); //show user screen
+	//system("CLS"); //clear screen
+	//_pGameEngine->Draw(); //redraw
+	//_getch(); //show user screen
 	system("CLS"); //clear again before creating new screens
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	int playerCommand;
@@ -83,6 +83,21 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		playerList[i].GetMecha()->Rotate(ONEEIGHTY);
 		break;
 	}
+	case 31:
+	{
+		playerList[i].GetMecha()->Shoot();
+		break;
+	}
+	case 32:
+	{
+		playerList[i].GetMecha()->Push();
+		break;
+	}
+	case 33:
+	{
+		playerList[i].GetMecha()->PlaceMine();
+		break;
+	}
 	}
 }
 
@@ -103,15 +118,24 @@ void ExecutingCMDState::Draw(CGameEngine * _pGameEngine)
 
 void ExecutingCMDState::Step(CGameEngine * _pGameEngine) 
 {
+	system("CLS");
+	_pGameEngine->Draw();
+	_getch();
+	system("CLS");
+
 	for (int j = 0; j < 3; j++) // EXECUTE 3 ORDERS
 	{
 		for (int i = 0; i < _pGameEngine->playerAliveCount; i++) //EXECUTE EACH PLAYERS ORDER
 		{
 			ExecuteUserInput(_pGameEngine, i);
+			//bullet move phase goes here
+			_pGameEngine->CollisionCheck();
 			_pGameEngine->Draw();
 			_getch();
 			system("CLS");
 		}
+
+		
 	}
 	
 	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
