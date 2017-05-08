@@ -1,6 +1,7 @@
 #include "ExecutingCMDState.h"
 #include <queue>
 #include <iostream>
+#include "GettingPlayerMovesState.h"
 
 
 
@@ -16,8 +17,11 @@ ExecutingCMDState::~ExecutingCMDState()
 
 void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 {
-	std::vector<CPlayer> playerList = _pGameEngine->GetPlayerList();
+	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	int playerCommand;
+
+	//playerList[0].GetMecha()->SetGridPosition({ 1,1 });
+
 
 	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
 	{
@@ -32,6 +36,8 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		}
 		}
 	}
+
+	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
 }
 
 void ExecutingCMDState::Init()

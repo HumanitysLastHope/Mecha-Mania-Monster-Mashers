@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 #include <conio.h>
 #include <iostream>
+#include "ExecutingCMDState.h"
 
 //
 //GettingPlayerMovesStates::GettingPlayerMovesStates()
@@ -23,10 +24,12 @@ CGettingPlayerMovesState::~CGettingPlayerMovesState()
 
 void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 {
-	std::vector<CPlayer> playerList = _pGameEngine->GetPlayerList();
+	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	CPlayer playerGetMove = playerList[0];
 	int iPlayerInput;
 	bool bValidMove = false;
+
+	//playerList[0].GetMecha()->SetGridPosition({ 1,1 });
 
 	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
 	{
@@ -172,6 +175,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 		}
 	}
+
+	_pGameEngine->ChangeState(new ExecutingCMDState);
 }
 
 void CGettingPlayerMovesState::Init()

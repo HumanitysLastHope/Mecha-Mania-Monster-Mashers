@@ -9,6 +9,7 @@ CGameEngine::CGameEngine() :
 	m_Player3({ 0,0 }, NORTH, &m_Level),
 	m_Player4({ 0,0 }, NORTH, &m_Level)
 {
+	LoadBoard(1);
 	ChangeState(new CGettingPlayerMovesState);
 }
 
@@ -25,7 +26,7 @@ void CGameEngine::Step()
 
 void CGameEngine::Draw()
 {
-	LoadBoard(1);
+	
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
@@ -154,6 +155,7 @@ void CGameEngine::Run()
 	{
 		gameEngine.Draw();
 		gameEngine.Step();
+		system("CLS");
 	}
 	
 	_getch();

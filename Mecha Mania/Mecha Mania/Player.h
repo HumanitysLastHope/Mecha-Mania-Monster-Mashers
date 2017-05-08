@@ -13,8 +13,7 @@ public:
 	~CPlayer();
 	void SetStartingPos(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir);
 	CMecha* GetMecha();
-	std::queue<ECOMMANDS> GetMoveList();
-	void SetMoveList(std::vector<ECOMMANDS> PlayerMoveList);
+	std::queue<ECOMMANDS>& GetMoveList();
 private:
 	int m_iD;
 	bool m_bisAlive;
