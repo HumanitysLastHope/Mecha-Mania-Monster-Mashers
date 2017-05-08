@@ -99,6 +99,40 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
 		break;
 	}
+	case 21: //clockwise
+	{
+		
+		playerList[i].GetMecha()->Rotate(CLOCKWISE);
+		_pGameEngine->Draw();
+		_getch();
+		system("CLS");
+
+
+		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
+		break;
+	}
+	case 22:
+	{
+		playerList[i].GetMecha()->Rotate(ANTICLOCKWISE);
+		_pGameEngine->Draw();
+		_getch();
+		system("CLS");
+
+
+		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
+		break;
+	}
+	case 23:
+	{
+		playerList[i].GetMecha()->Rotate(ONEEIGHTY);
+		_pGameEngine->Draw();
+		_getch();
+		system("CLS");
+
+
+		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
+		break;
+	}
 	}
 }
 //	}
