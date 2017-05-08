@@ -3,6 +3,8 @@
 #include "Enums.h"
 
 class CBoard;
+class CBullet;	// TODO:Include this
+class CMine;	// TODO:Include this
 class CMecha
 {
 public:
@@ -18,7 +20,7 @@ public:
 	void Shoot();
 	bool Move(EDIRECTION _eDirection);
 	void Rotate(EROTATION _eRotation);
-	void Push();
+	void WhatToPush(CBullet* _pbulBullet, CMine* _pminMine, CMecha* _pmecMecha);
 	void PlaceMine();
 	EDIRECTION GetDirection();
 
