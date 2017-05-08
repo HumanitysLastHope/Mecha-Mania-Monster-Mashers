@@ -28,7 +28,17 @@ CMecha* CTile::GetMecha()
 	return m_pMecha;
 }
 
-void  CTile::SetMecha(CMecha* _pMecha)
+CMine* CTile::GetMine()
+{
+	return m_pMine;
+}
+
+void CTile::SetMecha(CMecha* _pMecha)
 {
 	m_pMecha = _pMecha;
+}
+
+void CTile::SetMine(CMine* _pMine)
+{
+	m_pMine = _pMine;
 }
