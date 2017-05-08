@@ -1,5 +1,6 @@
 #include "Mecha.h"
 #include"Board.h"
+#include <iostream>
 
 
 CMecha::CMecha()
@@ -118,6 +119,19 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		break;
 	}
 
+	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha() != nullptr && m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() != nullptr)
+	{
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->isArmed() == true)
+		{
+			m_iHealth = m_iHealth - 2;
+			std::cout << "ON BOMB OH SHIT!!!!!!" << std::endl;
+			//delete m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine();
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->bombBlown();
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr);
+		}
+		
+	}
+
 	return true;
 }
 
@@ -199,7 +213,14 @@ void CMecha::Push()
 
 void CMecha::PlaceMine()
 {
-
+	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() == nullptr)
+	{
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(new CMine);
+	}
+	else
+	{
+		//you dumb shit
+	}
 }
 
 EDIRECTION CMecha::GetDirection()

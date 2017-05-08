@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "GettingPlayerMovesState.h"
 #include "ExecutingCMDState.h"
+#include "Mine.h"
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level),
@@ -34,7 +35,7 @@ void CGameEngine::Draw()
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			//draw an empty tile
-			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr)
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr && m_Level.GetTile(_iX,_iY).GetMine() == nullptr)
 			{
 				char _cEmptyTile = 176;
 				std::cout << " " << _cEmptyTile;
@@ -62,6 +63,12 @@ void CGameEngine::Draw()
 					char _cMechaImage = 17;
 					std::cout << " " << _cMechaImage;
 				}
+			}
+			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
+			{
+				char _cMineImage = 15;
+				std::cout << " " << _cMineImage;
+				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
 			}
 		}
 		std::cout << std::endl;

@@ -1,16 +1,24 @@
 #include "Position.h"
 #pragma once
 
-class Mine
+class CMine
 {
 public:
-	Mine();
-	~Mine();
+	CMine();
+	~CMine();
+
 	TPosition getPosition();
+	//void setPosition(TPosition _gridPosition);
+	void ArmMine();
+	bool isArmed();
+	void bombBlown();
+
+	//CMine* getMine();
 
 private:
-	bool isArmed;
-	TPosition gridPosition;
 
+	bool m_isArmed = false;
+	TPosition m_gridPosition;
+	//CBoard* m_pBoard;
 };
 

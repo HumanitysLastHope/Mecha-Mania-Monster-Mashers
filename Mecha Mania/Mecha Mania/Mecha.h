@@ -3,6 +3,7 @@
 #include "Enums.h"
 
 class CBoard;
+
 class CMecha
 {
 public:
@@ -22,7 +23,7 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 
-	TPosition m_posGridPosition;
+	
 
 
 private:
@@ -31,5 +32,6 @@ private:
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
 	CBoard* m_pBoard;
+	TPosition m_posGridPosition;
 };
 
