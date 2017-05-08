@@ -129,6 +129,7 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 		{
 			ExecuteUserInput(_pGameEngine, i);
 			//bullet move phase goes here
+			_pGameEngine->CollisionCheck();
 			_pGameEngine->Draw();
 			_getch();
 			system("CLS");

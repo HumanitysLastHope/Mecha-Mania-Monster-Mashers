@@ -26,6 +26,32 @@ void CGameEngine::Step()
 	m_pCurGameState->Step(this);
 }
 
+bool CGameEngine::CollisionCheck()
+{
+	bool _bReturn = false;
+	//cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water or standing on a pit
+	for (int _iY = 0; _iY < 10; ++_iY)
+	{
+		for (int _iX = 0; _iX < 10; ++_iX)
+		{
+			//checks water
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
+			{
+				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
+				_bReturn = true;
+
+			}
+			//checks pit
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
+			{
+				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
+				_bReturn = true;
+			}
+		}
+	}
+	return _bReturn;
+}
+
 void CGameEngine::Draw()
 {
 	
