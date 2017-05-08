@@ -37,6 +37,10 @@ EDIRECTION CMecha::GetMechaFacingDirect() {
 	return m_eFacingDir;
 }
 
+void CMecha::ChangeHealth(int _iChangeVal) {
+	m_iHealth += _iChangeVal;
+}
+
 void CMecha::Shoot()
 {
 }
