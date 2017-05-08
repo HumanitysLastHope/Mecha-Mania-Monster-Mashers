@@ -10,7 +10,7 @@ public:
 	CMovable(CBoard*);
 	virtual ~CMovable();
 
-	virtual bool Move(EDIRECTION);
+	virtual bool Move(EDIRECTION) = 0;
 	TPosition GetPosition();
 
 protected:
