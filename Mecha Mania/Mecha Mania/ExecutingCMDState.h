@@ -9,7 +9,7 @@ public:
 	ExecutingCMDState();
 	virtual ~ExecutingCMDState() override;
 
-	void ExecuteUserInput(CGameEngine* _pGameEngine);
+	void ExecuteUserInput(CGameEngine* _pGameEngine, int i);
 
 
 	// Inherited via IGameState

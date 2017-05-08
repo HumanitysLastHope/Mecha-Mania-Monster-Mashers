@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include "GameState.h"
 #include "GettingPlayerMovesState.h"
-
+#include "ExecutingCMDState.h"
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level),

@@ -22,7 +22,7 @@ CGettingPlayerMovesState::~CGettingPlayerMovesState()
 {
 }
 
-void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
+void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine, int i)
 {
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	//std::cout << playerList[0].GetMecha()->m_posGridPosition.m_iX;
@@ -32,8 +32,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 	//playerList[0].GetMecha()->SetGridPosition({ 1,1 });
 
-	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
-	{
+	//for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
+	//{
 		for (int j = 0; j < 3; j++)
 		{
 			bValidMove = false;
@@ -175,9 +175,7 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 
 		}
-	}
-
-	_pGameEngine->ChangeState(new ExecutingCMDState);
+	//}
 }
 
 void CGettingPlayerMovesState::Init()
@@ -195,5 +193,10 @@ void CGettingPlayerMovesState::Draw(CGameEngine * _pGameEngine)
 
 void CGettingPlayerMovesState::Step(CGameEngine * _pGameEngine)
 {
-	ProcessUserInput(_pGameEngine);
+	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
+	{
+		ProcessUserInput(_pGameEngine, i);
+		_pGameEngine->Draw();
+	}
+	_pGameEngine->ChangeState(new ExecutingCMDState);
 }
