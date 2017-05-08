@@ -25,14 +25,15 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 
-	TPosition m_posGridPosition;
+	int m_iHealth;
+
 
 
 private:
-	int m_iHealth;
 	
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
 	CBoard* m_pBoard;
+	TPosition m_posGridPosition;
 };
 
