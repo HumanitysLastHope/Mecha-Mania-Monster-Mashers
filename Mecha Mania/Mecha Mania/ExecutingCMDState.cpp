@@ -27,11 +27,13 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	{
 		playerCommand = playerList[i].GetMoveList().front();
 		playerList[i].GetMoveList().pop();
+
 		switch (playerCommand)
 		{
 		case 11:
 		{
 			playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+			std::cout << playerList[i].GetMecha()->GetDirection();
 			break;
 		}
 		}

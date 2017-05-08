@@ -25,6 +25,7 @@ CGettingPlayerMovesState::~CGettingPlayerMovesState()
 void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 {
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
+	//std::cout << playerList[0].GetMecha()->m_posGridPosition.m_iX;
 	CPlayer playerGetMove = playerList[0];
 	int iPlayerInput;
 	bool bValidMove = false;
@@ -181,6 +182,7 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 void CGettingPlayerMovesState::Init()
 {
+
 }
 
 void CGettingPlayerMovesState::Cleanup()
