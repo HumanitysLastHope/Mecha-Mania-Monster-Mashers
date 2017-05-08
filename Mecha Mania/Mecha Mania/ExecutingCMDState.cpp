@@ -33,7 +33,15 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		case 11:
 		{
 			playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-			std::cout << playerList[i].GetMecha()->GetDirection();
+
+			std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
+			break;
+		}
+		case 12:
+		{
+			playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+			playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+
 			break;
 		}
 		}

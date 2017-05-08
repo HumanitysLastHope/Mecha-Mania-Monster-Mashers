@@ -107,11 +107,11 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			{
 				return false;
 			}
-
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetMecha(nullptr);
-			m_posGridPosition.m_iY++;
 		}
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetMecha(this);
+			m_posGridPosition.m_iY++;
+		
 		break;
 
 	default:

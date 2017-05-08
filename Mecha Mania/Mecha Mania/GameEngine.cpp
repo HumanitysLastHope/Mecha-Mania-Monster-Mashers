@@ -82,10 +82,10 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(EAST);
 
 		m_PlayerList[1].GetMecha()->SetGridPosition({ 1, 8 });
-		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(SOUTH);
+		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		m_PlayerList[2].GetMecha()->SetGridPosition({ 8, 1 });
-		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(NORTH);
+		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(SOUTH);
 
 		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 8 });
 		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(WEST);
