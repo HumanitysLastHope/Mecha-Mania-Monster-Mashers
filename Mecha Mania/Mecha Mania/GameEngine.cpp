@@ -42,8 +42,26 @@ void CGameEngine::Draw()
 			//draw mecha
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
-				char _cMechaImage = 16;
-				std::cout << " " << _cMechaImage;
+				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == NORTH)
+				{
+					char _cMechaImage = 30;
+					std::cout << " " << _cMechaImage;
+				}
+				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == EAST)
+				{
+					char _cMechaImage = 16;
+					std::cout << " " << _cMechaImage;
+				}
+				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == SOUTH)
+				{
+					char _cMechaImage = 31;
+					std::cout << " " << _cMechaImage;
+				}
+				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == WEST)
+				{
+					char _cMechaImage = 17;
+					std::cout << " " << _cMechaImage;
+				}
 			}
 		}
 		std::cout << std::endl;
