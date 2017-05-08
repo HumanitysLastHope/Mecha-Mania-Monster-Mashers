@@ -13,6 +13,7 @@ CPlayer::CPlayer(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir, C
 
 CPlayer::~CPlayer()
 {
+	
 }
 
 void CPlayer::SetStartingPos(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir) {
@@ -25,7 +26,7 @@ CMecha* CPlayer::GetMecha()
 	return &m_Mecha;
 }
 
-std::queue<ECOMMANDS> CPlayer::GetMoveList()
+std::queue<ECOMMANDS>& CPlayer::GetMoveList()
 {
 	return m_MoveList;
 }

@@ -22,10 +22,12 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 
+	TPosition m_posGridPosition;
+
 
 private:
 	int m_iHealth;
-	TPosition m_posGridPosition;
+	
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
 	CBoard* m_pBoard;

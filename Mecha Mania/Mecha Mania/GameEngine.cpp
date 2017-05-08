@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include "GameState.h"
 #include "GettingPlayerMovesState.h"
-
+#include "ExecutingCMDState.h"
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level),
@@ -9,6 +9,8 @@ CGameEngine::CGameEngine() :
 	m_Player3({ 0,0 }, NORTH, &m_Level),
 	m_Player4({ 0,0 }, NORTH, &m_Level)
 {
+	LoadBoard(1);
+	//std::cout << m_PlayerList[1].GetMecha()->m_posGridPosition.m_iX;
 	ChangeState(new CGettingPlayerMovesState);
 }
 
@@ -25,7 +27,7 @@ void CGameEngine::Step()
 
 void CGameEngine::Draw()
 {
-	LoadBoard(1);
+	
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
@@ -47,13 +49,15 @@ void CGameEngine::Draw()
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
-	m_pCurGameState->Step(this);
+	//m_pCurGameState->Step(this);
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
 {
 	if (m_pCurGameState != nullptr)
 	{
+		//std::cout << m_Player1.GetMecha()->m_posGridPosition.m_iX;
+
 		m_pCurGameState->Cleanup();
 		delete m_pCurGameState;
 	}
@@ -62,24 +66,29 @@ void CGameEngine::ChangeState(IGameState* _pState)
 
 	if (_pState != nullptr)
 	{
+		//std::cout << m_Player1.GetMecha()->m_posGridPosition.m_iX;
+
 		_pState->Init();
 	}
 }
 
 CBoard& CGameEngine::LoadBoard(int _LevelNum) {
+
+	//m_PlayerList[1]
+
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 1 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
+		m_PlayerList[1].GetMecha()->SetGridPosition({ 1, 8 });
+		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(NORTH);
 
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
+		m_PlayerList[2].GetMecha()->SetGridPosition({ 8, 1 });
+		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(SOUTH);
 
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
+		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 8 });
+		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(WEST);
 
 		//include code here load level 1 from txt file
 		return m_Level;
@@ -150,6 +159,13 @@ void CGameEngine::Run()
 {
 	CGameEngine gameEngine;
 
-	gameEngine.Draw();
+	while (true)
+	{
+		gameEngine.Draw();
+		gameEngine.Step();
+		system("CLS");
+	}
+	
 	_getch();
+
 }
