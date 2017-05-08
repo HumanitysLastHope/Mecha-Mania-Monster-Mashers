@@ -14,6 +14,7 @@ public:
 	TPosition GetGridPosition();
 	void SetMechaFacingDirect(EDIRECTION _eFacingDir);
 	EDIRECTION GetMechaFacingDirect();
+	void ChangeHealth(int _iChangeVal);
 
 	void Shoot();
 	bool Move(EDIRECTION _eDirection);
