@@ -24,11 +24,11 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 
-	
+	int m_iHealth;
+
 
 
 private:
-	int m_iHealth;
 	
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
