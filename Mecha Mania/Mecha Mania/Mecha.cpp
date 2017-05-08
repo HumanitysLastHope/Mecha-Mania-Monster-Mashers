@@ -125,60 +125,71 @@ void CMecha::Rotate(EROTATION _eRotation)
 {
 	switch (_eRotation)
 	{
-	case CLOCKWISE: {
+	case CLOCKWISE: 
+	{
 		if (GetDirection() == NORTH)
 		{
 			SetMechaFacingDirect(EAST);
 		}
-		if (GetDirection() == EAST)
+		else if (GetDirection() == EAST)
 		{
 			SetMechaFacingDirect(SOUTH);
 		}
-		if (GetDirection() == SOUTH)
+		else if (GetDirection() == SOUTH)
 		{
 			SetMechaFacingDirect(WEST);
 		}
-		if (GetDirection() == WEST)
+		else if (GetDirection() == WEST)
 		{
 			SetMechaFacingDirect(NORTH);
 		}
+		break;
 	}
-	case ANTICLOCKWISE: {
+	case ANTICLOCKWISE: 
+	{
 		if (GetDirection() == NORTH)
 		{
 			SetMechaFacingDirect(WEST);
 		}
-		if (GetDirection() == EAST)
+		else if (GetDirection() == EAST)
 		{
 			SetMechaFacingDirect(NORTH);
 		}
-		if (GetDirection() == SOUTH)
+		else if (GetDirection() == SOUTH)
 		{
 			SetMechaFacingDirect(EAST);
 		}
-		if (GetDirection() == WEST)
+		else if (GetDirection() == WEST)
 		{
 			SetMechaFacingDirect(SOUTH);
 		}
+		break;
 	}
-	case ONEEIGHTY: {
+	case ONEEIGHTY: 
+	{
 		if (GetDirection() == NORTH)
 		{
 			SetMechaFacingDirect(SOUTH);
 		}
-		if (GetDirection() == EAST)
+		else if (GetDirection() == EAST)
 		{
 			SetMechaFacingDirect(WEST);
 		}
-		if (GetDirection() == SOUTH)
+		else if (GetDirection() == SOUTH)
 		{
 			SetMechaFacingDirect(NORTH);
 		}
-		if (GetDirection() == WEST)
+		else if (GetDirection() == WEST)
 		{
 			SetMechaFacingDirect(EAST);
 		}
+		break;
 	}
+	default:
+	{
+		break;
+	}
+
 	}
 }
 

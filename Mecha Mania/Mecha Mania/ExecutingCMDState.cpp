@@ -107,8 +107,6 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		_getch();
 		system("CLS");
 
-
-		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
 		break;
 	}
 	case 22:
@@ -118,8 +116,6 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		_getch();
 		system("CLS");
 
-
-		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
 		break;
 	}
 	case 23:
@@ -129,17 +125,11 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		_getch();
 		system("CLS");
 
-
-		//std::cout << i << ": " << playerList[i].GetMecha()->GetDirection();
 		break;
 	}
 	}
 }
-//	}
-	
 
-	//_pGameEngine->ChangeState(new CGettingPlayerMovesState);
-//}//
 
 void ExecutingCMDState::Init()
 {
