@@ -123,6 +123,63 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 void CMecha::Rotate(EROTATION _eRotation)
 {
+	switch (_eRotation)
+	{
+	case CLOCKWISE: {
+		if (GetDirection() == NORTH)
+		{
+			SetMechaFacingDirect(EAST);
+		}
+		if (GetDirection() == EAST)
+		{
+			SetMechaFacingDirect(SOUTH);
+		}
+		if (GetDirection() == SOUTH)
+		{
+			SetMechaFacingDirect(WEST);
+		}
+		if (GetDirection() == WEST)
+		{
+			SetMechaFacingDirect(NORTH);
+		}
+	}
+	case ANTICLOCKWISE: {
+		if (GetDirection() == NORTH)
+		{
+			SetMechaFacingDirect(WEST);
+		}
+		if (GetDirection() == EAST)
+		{
+			SetMechaFacingDirect(NORTH);
+		}
+		if (GetDirection() == SOUTH)
+		{
+			SetMechaFacingDirect(EAST);
+		}
+		if (GetDirection() == WEST)
+		{
+			SetMechaFacingDirect(SOUTH);
+		}
+	}
+	case ONEEIGHTY: {
+		if (GetDirection() == NORTH)
+		{
+			SetMechaFacingDirect(SOUTH);
+		}
+		if (GetDirection() == EAST)
+		{
+			SetMechaFacingDirect(WEST);
+		}
+		if (GetDirection() == SOUTH)
+		{
+			SetMechaFacingDirect(NORTH);
+		}
+		if (GetDirection() == WEST)
+		{
+			SetMechaFacingDirect(EAST);
+		}
+	}
+	}
 }
 
 void CMecha::Push()
