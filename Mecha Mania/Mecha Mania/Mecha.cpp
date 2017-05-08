@@ -209,8 +209,9 @@ void CMecha::Rotate(EROTATION _eRotation)
 	}
 }
 
-void CMecha::WhatToPush(CBullet* _pbulBullet, CMine* _pminMine, CMecha* _pmecMecha)
+CMovable* CMecha::WhatToPush()
 {
+	return nullptr;
 	//TPosition posPushPosition = m_posGridPosition;
 	//switch (m_eFacingDir)
 	//{

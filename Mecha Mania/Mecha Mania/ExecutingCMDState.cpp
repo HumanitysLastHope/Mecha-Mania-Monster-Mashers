@@ -90,7 +90,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	}
 	case 32:
 	{
-		playerList[i].GetMecha()->Push();
+		playerList[i].GetMecha()->WhatToPush();
 		break;
 	}
 	case 33:

@@ -1,6 +1,7 @@
 #pragma once
 #include "Position.h"
 #include "Enums.h"
+#include "Movable.h"
 
 class CBoard;
 class CBullet;	// TODO:Include this
@@ -21,7 +22,7 @@ public:
 	void Shoot();
 	bool Move(EDIRECTION _eDirection);
 	void Rotate(EROTATION _eRotation);
-	void WhatToPush(CBullet* _pbulBullet, CMine* _pminMine, CMecha* _pmecMecha);
+	CMovable* WhatToPush();
 	void PlaceMine();
 	EDIRECTION GetDirection();
 

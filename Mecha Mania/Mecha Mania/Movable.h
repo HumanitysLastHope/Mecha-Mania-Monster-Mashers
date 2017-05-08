@@ -2,7 +2,7 @@
 
 #include "Enums.h"
 #include "Position.h"
-#include "Board.h"
+class CBoard;
 
 class CMovable
 {
