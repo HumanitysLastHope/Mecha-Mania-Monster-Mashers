@@ -36,7 +36,7 @@ void CGameEngine::Draw()
 			{
 				char _cEmptyTile = 176;
 				std::cout << " " << _cEmptyTile;
-			}
+			}			
 			//draw mecha
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
