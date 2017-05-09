@@ -18,7 +18,7 @@ public:
 	int playerAliveCount = 4;
 
 	void Step();
-	bool CollisionCheck();
+	bool CollisionCheck(bool bWaterCheck);
 	void Draw();
 	void ChangeState(IGameState* _state);
 	CBoard& LoadBoard(int _LevelNum);
