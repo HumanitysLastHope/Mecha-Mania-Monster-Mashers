@@ -123,6 +123,7 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 	_pGameEngine->Draw();
 	_getch();
 	system("CLS");
+	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 
 	for (int j = 0; j < 3; j++) // EXECUTE 3 ORDERS
 	{
@@ -131,6 +132,14 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 			ExecuteUserInput(_pGameEngine, i);
 			//bullet move phase goes here
 			_pGameEngine->CollisionCheck();
+			for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
+			{
+  				if (playerList[i].GetMecha()->m_iHealth < 1)
+				{
+					playerList.erase(playerList.begin() + i);
+					_pGameEngine->playerAliveCount--;
+				}
+			}
 			_pGameEngine->Draw();
 			_getch();
 			system("CLS");

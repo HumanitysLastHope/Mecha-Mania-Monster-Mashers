@@ -23,19 +23,23 @@ void CMecha::SetGridPosition(TPosition _posGridPosition)
 	m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(this);
 }
 
-TPosition CMecha::GetGridPosition() {
+TPosition CMecha::GetGridPosition() 
+{
 	return m_posGridPosition;
 }
 
-void CMecha::SetMechaFacingDirect(EDIRECTION _eFacingDir) {
+void CMecha::SetMechaFacingDirect(EDIRECTION _eFacingDir) 
+{
 	m_eFacingDir = _eFacingDir;
 }
 
-EDIRECTION CMecha::GetMechaFacingDirect() {
+EDIRECTION CMecha::GetMechaFacingDirect() 
+{
 	return m_eFacingDir;
 }
 
-void CMecha::ChangeHealth(int _iChangeVal) {
+void CMecha::ChangeHealth(int _iChangeVal) 
+{
 	m_iHealth += _iChangeVal;
 }
 
@@ -129,6 +133,13 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
 		}
 		
+	}
+
+	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha() != nullptr &&  m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetEnvironment() == PIT)
+	{
+		//delete this;
+		//m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+
 	}
 
 	return true;

@@ -40,7 +40,7 @@ bool CGameEngine::CollisionCheck()
 			//checks water
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
-				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
+  				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
 				_bReturn = true;
 
 			}
@@ -48,6 +48,9 @@ bool CGameEngine::CollisionCheck()
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
+				m_Level.GetTile(_iX, _iY).SetMecha(nullptr);
+
+				//delete m_Level.GetTile(_iX, _iY).GetMecha();
 				_bReturn = true;
 			}
 		}

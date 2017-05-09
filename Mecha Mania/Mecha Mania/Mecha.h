@@ -25,6 +25,7 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 
+	//THIS SHOULD BE PRIVATE!!!!!!!!!!!
 	int m_iHealth;
 
 
