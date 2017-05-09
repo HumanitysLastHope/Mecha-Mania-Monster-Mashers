@@ -1,7 +1,9 @@
 #include "Movable.h"
+#include "Position.h"
 
-CMovable::CMovable(CBoard* _pBoard) : 
-	m_pBoard(_pBoard) 
+CMovable::CMovable(CBoard* _pBoard, TPosition _posGridPosition) :
+	m_pBoard(_pBoard),
+	m_posGridPosition(_posGridPosition)
 {}
 
 CMovable::~CMovable() 
@@ -14,5 +16,5 @@ bool CMovable::Move(EDIRECTION)
 
 TPosition CMovable::GetPosition()
 {
-	return m_posBoardPos;
+	return m_posGridPosition;
 }

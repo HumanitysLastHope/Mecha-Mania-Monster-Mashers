@@ -7,13 +7,13 @@ class CBoard;
 class CMovable
 {
 public:
-	CMovable(CBoard*);
+	CMovable(CBoard*, TPosition);
 	virtual ~CMovable();
 
 	virtual bool Move(EDIRECTION) = 0;
 	TPosition GetPosition();
 
 protected:
-	TPosition m_posBoardPos;
+	TPosition m_posGridPosition;
 	CBoard*   m_pBoard;
 };
