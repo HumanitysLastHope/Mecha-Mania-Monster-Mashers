@@ -8,7 +8,7 @@
 #include <string>
 
 CGameEngine::CGameEngine() :
-	m_Player1({0,0}, NORTH, &m_Level),
+	m_Player1({ 0,0 }, NORTH, &m_Level),
 	m_Player2({ 0,0 }, NORTH, &m_Level),
 	m_Player3({ 0,0 }, NORTH, &m_Level),
 	m_Player4({ 0,0 }, NORTH, &m_Level)
@@ -40,7 +40,9 @@ bool CGameEngine::CollisionCheck(bool bWaterCheck)
 			//checks water
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr && bWaterCheck == true)
 			{
-  				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
+   				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
+				std::cout << m_Level.GetTile(_iX, _iY).GetMecha()->m_iHealth;
+
 				_bReturn = true;
 
 			}
@@ -50,6 +52,7 @@ bool CGameEngine::CollisionCheck(bool bWaterCheck)
 				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
 				m_Level.GetTile(_iX, _iY).SetMecha(nullptr);
 
+
 				//delete m_Level.GetTile(_iX, _iY).GetMecha();
 				_bReturn = true;
 			}
@@ -58,20 +61,30 @@ bool CGameEngine::CollisionCheck(bool bWaterCheck)
 	return _bReturn;
 }
 
+void CGameEngine::WaterCheck(CPlayer* _pPlayer)
+{
+	if (m_Level.GetTile(_pPlayer->GetMecha()->GetGridPosition().m_iX, _pPlayer->GetMecha()->GetGridPosition().m_iY).GetEnvironment() == WATER)
+	{
+ 		_pPlayer->GetMecha()->ChangeHealth(-1);
+		std::cout << _pPlayer->GetMecha()->m_iHealth;
+
+	}
+}
+
 void CGameEngine::Draw()
 {
-	
+
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			//draw an empty tile
-			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr && m_Level.GetTile(_iX,_iY).GetMine() == nullptr)
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr && m_Level.GetTile(_iX, _iY).GetMine() == nullptr)
 			{
 				char _cEmptyTile = 176;
 				std::cout << " " << _cEmptyTile;
-			}			
+			}
 			//draw mecha
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
@@ -157,7 +170,9 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
-		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
+		/*m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);*/
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 7, 0 });
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
 		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
@@ -171,7 +186,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
 		//include code here load level 1 from txt file
 		std::ifstream levelOneFile;
-	
+
 		levelOneFile.open("LevelOne.txt");
 		if (levelOneFile.is_open() == false)
 		{
@@ -215,7 +230,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	if (_LevelNum == 2) {
 		//sets the players starting locations and facing direction
-	
+
 
 		//include code here load level 2 from txt file
 
@@ -231,7 +246,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	else {
 		//sets the players starting locations and facing direction
-	
+
 
 		//include code here load level 4 from txt file
 
@@ -255,7 +270,7 @@ void CGameEngine::Run()
 		gameEngine.Step();
 		system("CLS");
 	}
-	
+
 	_getch();
 
 }

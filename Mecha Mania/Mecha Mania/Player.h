@@ -13,6 +13,7 @@ public:
 	void SetStartingPos(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir);
 	CMecha* GetMecha();
 	std::queue<ECOMMANDS>& GetMoveList();
+	bool bDead = false;
 private:
 	int m_iD;
 	bool m_bisAlive;

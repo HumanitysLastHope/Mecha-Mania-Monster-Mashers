@@ -58,7 +58,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		// If there's a player in front move that player
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha() != nullptr)
 		{
-			
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha() != nullptr && m_pBoard->GetTile(m_posGridPosition.m_iX - 2, m_posGridPosition.m_iY).GetEnvironment() == WATER)
+			{
+				m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->m_iHealth--;
+			}
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection) == false)
 			{
 				return false;
@@ -72,6 +75,7 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		{
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->ArmMine();
 		}
+		
 		break;
 
 	case NORTH:
@@ -80,6 +84,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha() != nullptr)
 		{
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY-1).GetMecha() != nullptr && m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY-2).GetEnvironment() == WATER)
+			{
+				m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY-1).GetMecha()->m_iHealth--;
+			}
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha()->Move(_eDirection) == false)
 			{
 				return false;
@@ -101,6 +109,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha() != nullptr)
 		{
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX+1, m_posGridPosition.m_iY).GetMecha() != nullptr && m_pBoard->GetTile(m_posGridPosition.m_iX+2, m_posGridPosition.m_iY).GetEnvironment() == WATER)
+			{
+				m_pBoard->GetTile(m_posGridPosition.m_iX+1, m_posGridPosition.m_iY).GetMecha()->m_iHealth--;
+			}
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection) == false)
 			{
 				return false;
@@ -122,8 +134,13 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha() != nullptr)
 		{
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha() != nullptr && m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 2).GetEnvironment() == WATER)
+			{
+				m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->m_iHealth--;
+			}
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->Move(_eDirection) == false)
 			{
+				
 				return false;
 			}
 		}
@@ -139,6 +156,8 @@ bool CMecha::Move(EDIRECTION _eDirection)
 	default:
 		break;
 	}
+
+	
 
 
 
