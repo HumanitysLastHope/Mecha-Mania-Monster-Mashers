@@ -3,6 +3,8 @@
 #include "GettingPlayerMovesState.h"
 #include "ExecutingCMDState.h"
 #include "Mine.h"
+#include <fstream>
+#include <iostream>
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level),
@@ -164,21 +166,15 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(WEST);
 
 		//include code here load level 1 from txt file
+		//std::ifstream levelOneFile ("\Mecha - Mania - Monster - Mashers\Mecha Mania\Levels\LevelOne.txt");
+
+		//levelOneFile.open("\Mecha - Mania - Monster - Mashers\Mecha Mania\Levels\LevelOne.txt");
+
 		return m_Level;
 	}
 	if (_LevelNum == 2) {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
-
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
-
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
-
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
+	
 
 		//include code here load level 2 from txt file
 
@@ -186,17 +182,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	if (_LevelNum == 3) {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
-
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
-
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
 
 		//include code here load level 3 from txt file
 
@@ -204,17 +190,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	else {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
-
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
-
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
-
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
+	
 
 		//include code here load level 4 from txt file
 
