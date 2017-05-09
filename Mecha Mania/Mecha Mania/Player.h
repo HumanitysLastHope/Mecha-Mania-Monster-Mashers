@@ -8,7 +8,6 @@
 class CPlayer
 {
 public:
-	CPlayer();
 	CPlayer(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir, CBoard* _pBoard);
 	~CPlayer();
 	void SetStartingPos(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir);

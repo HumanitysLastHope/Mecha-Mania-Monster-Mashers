@@ -2,11 +2,12 @@
 
 #include "Movable.h"
 #include "Enums.h"
+#include "Position.h"
 
 class CBullet : public CMovable
 {
 public:
-	CBullet(CBoard*);
+	CBullet(CBoard*, TPosition);
 	virtual ~CBullet() override;
 
 	EDIRECTION GetDirection();

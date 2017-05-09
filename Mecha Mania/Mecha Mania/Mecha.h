@@ -6,10 +6,9 @@
 class CBoard;
 class CBullet;	// TODO:Include this
 class CMine;	// TODO:Include this
-class CMecha
+class CMecha: public CMovable
 {
 public:
-	CMecha();
 	CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard);
 	~CMecha();
 
@@ -34,7 +33,5 @@ private:
 	
 	EDIRECTION m_eFacingDir;
 	//CMine m_PlacedMine;
-	CBoard* m_pBoard;
-	TPosition m_posGridPosition;
 };
 

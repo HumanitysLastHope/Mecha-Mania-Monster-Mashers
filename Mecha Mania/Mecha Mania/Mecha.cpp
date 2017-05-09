@@ -1,17 +1,14 @@
-#include "Mecha.h"
-#include"Board.h"
 #include <iostream>
 
+#include "Mecha.h"
+#include "Board.h"
+#include "Position.h"
 
-CMecha::CMecha()
-{
-}
 
 CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard)
 	:m_iHealth(5),
-	m_posGridPosition(_posGridPosition),
 	m_eFacingDir(_eFacingDir),
-	m_pBoard(_pBoard)
+	CMovable(_pBoard, _posGridPosition)
 {
 }
 

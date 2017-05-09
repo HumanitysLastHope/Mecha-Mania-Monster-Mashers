@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
-CBullet::CBullet(CBoard* _pBoard) :
-	CMovable(_pBoard)
+CBullet::CBullet(CBoard* _pBoard, TPosition _posGridPosition) :
+	CMovable(_pBoard, _posGridPosition)
 {
 }
 
