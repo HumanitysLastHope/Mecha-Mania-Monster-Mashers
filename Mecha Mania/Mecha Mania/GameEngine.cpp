@@ -5,6 +5,7 @@
 #include "Mine.h"
 #include <fstream>
 #include <iostream>
+#include <string>
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level),
@@ -153,20 +154,57 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
-		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 1 });
-		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(EAST);
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
-		m_PlayerList[1].GetMecha()->SetGridPosition({ 1, 8 });
-		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(NORTH);
+		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
+		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_PlayerList[2].GetMecha()->SetGridPosition({ 8, 1 });
-		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(SOUTH);
+		m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 1 });
+		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
 
-		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 8 });
-		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(WEST);
+		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 7 });
+		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		//include code here load level 1 from txt file
-		//std::ifstream levelOneFile ("\Mecha - Mania - Monster - Mashers\Mecha Mania\Levels\LevelOne.txt");
+		std::ifstream levelOneFile;
+	
+		levelOneFile.open("LevelOne.txt");
+		if (levelOneFile.is_open() == false)
+		{
+			std::cout << "Error opening file." << std::endl;
+		}
+
+		int j = 0;
+
+		for (std::string line; getline(levelOneFile, line); j++)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				switch (line[i])
+				{
+				case 'p':
+				{
+					m_Level.GetTile(i, j).SetEnvironment(PIT);
+					break;
+				}
+				case '0':
+				{
+					break;
+				}
+				case 'w':
+				{
+					m_Level.GetTile(i, j).SetEnvironment(WATER);
+
+					break;
+				}
+				default:
+				{
+					break;
+				}
+				}
+			}
+		}
 
 		//levelOneFile.open("\Mecha - Mania - Monster - Mashers\Mecha Mania\Levels\LevelOne.txt");
 
