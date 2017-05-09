@@ -29,7 +29,7 @@ void CGameEngine::Step()
 bool CGameEngine::CollisionCheck()
 {
 	bool _bReturn = false;
-	//cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water or standing on a pit
+	//cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water, pit
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
 		for (int _iX = 0; _iX < 10; ++_iX)
@@ -90,12 +90,34 @@ void CGameEngine::Draw()
 					std::cout << " " << _cMechaImage;
 				}
 			}
+
+			////draw bullet
+			else if (m_Level.GetTile(_iX, _iY).GetBullet() != nullptr)
+			{
+				char _cBulletImage = 249;
+				std::cout << " " << _cBulletImage;
+			}
+			//draw mine
 			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
 			{
 				char _cMineImage = 15;
 				std::cout << " " << _cMineImage;
 				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
 			}
+
+			////draw water
+			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER)
+			{
+				char _cWaterImage = 126;
+				std::cout << " " << _cWaterImage;
+			}
+			////draw pit
+			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT)
+			{
+				char _cPitImage = 220;
+				std::cout << " " << _cPitImage;
+			}
+
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
