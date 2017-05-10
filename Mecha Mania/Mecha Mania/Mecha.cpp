@@ -319,7 +319,7 @@ CMovable* CMecha::WhatToPush()
 
 	case EAST:
 	{
-		while (posPushPosition.m_iX <= 9)
+		while (posPushPosition.m_iX < 9)
 		{
 			posPushPosition.m_iX++;
 
@@ -343,7 +343,7 @@ CMovable* CMecha::WhatToPush()
 
 	case SOUTH:
 	{
-		while (posPushPosition.m_iY <= 9)
+		while (posPushPosition.m_iY < 9)
 		{
 			posPushPosition.m_iY++;
 
