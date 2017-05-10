@@ -26,3 +26,15 @@ std::queue<ECOMMANDS>& CPlayer::GetMoveList()
 {
 	return m_MoveList;
 }
+
+bool CPlayer::CheckDeath()
+{
+	if (this->GetMecha()->m_iHealth < 1)
+	{
+		return true; //death
+	}
+	else
+	{
+		return false;
+	}
+}

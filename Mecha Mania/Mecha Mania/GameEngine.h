@@ -22,6 +22,8 @@ public:
 	void Draw();
 	void ChangeState(IGameState* _state);
 	CBoard& LoadBoard(int _LevelNum);
+	void WaterCheck(CPlayer* _pPlayer);
+
 
 	std::vector<CPlayer>& GetPlayerList();
 

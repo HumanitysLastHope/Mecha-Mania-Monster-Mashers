@@ -25,6 +25,10 @@ CGettingPlayerMovesState::~CGettingPlayerMovesState()
 void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine, int i, int j)
 {
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
+	if (playerList[i].bDead == true)
+	{
+		return;
+	}
 	//std::cout << playerList[0].GetMecha()->m_posGridPosition.m_iX;
 	CPlayer playerGetMove = playerList[0];
 	int iPlayerInput;
@@ -190,7 +194,7 @@ void CGettingPlayerMovesState::Draw(CGameEngine * _pGameEngine)
 
 void CGettingPlayerMovesState::Step(CGameEngine * _pGameEngine)
 {
-	for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
