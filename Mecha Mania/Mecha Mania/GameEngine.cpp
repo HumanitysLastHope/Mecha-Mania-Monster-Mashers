@@ -81,6 +81,13 @@ void CGameEngine::Draw()
 	{
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
+			int _ibackgroundcolour;
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER) {
+				_ibackgroundcolour = 144;
+			}
+			else {
+				_ibackgroundcolour = 128;
+			}
 			//draw an empty tile
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr && m_Level.GetTile(_iX, _iY).GetMine() == nullptr)
 			{
@@ -92,28 +99,21 @@ void CGameEngine::Draw()
 			//draw mecha
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
-				int _iMechaColour;
-				if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER) {
-					_iMechaColour = 144;
-				}
-				else {
-					_iMechaColour = 128;
-				}
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
 				{
-					SetConsoleTextAttribute(hConsole, (_iMechaColour + 13));
+					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 13));
 				}
 				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 2)
 				{
-					SetConsoleTextAttribute(hConsole, (_iMechaColour + 14));
+					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 14));
 				}
 				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 3)
 				{
-					SetConsoleTextAttribute(hConsole, (_iMechaColour + 10));
+					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 10));
 				}
 				else
 				{
-					SetConsoleTextAttribute(hConsole, (_iMechaColour + 11));
+					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 11));
 				}
 
 				char _cMechaImage;
@@ -151,6 +151,7 @@ void CGameEngine::Draw()
 			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
 			{
 				char _cMineImage = 15;
+				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
 				std::cout << _cMineImage;
 				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
 				SetConsoleTextAttribute(hConsole, 15);
