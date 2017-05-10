@@ -3,12 +3,15 @@
 #include "GettingPlayerMovesState.h"
 #include "ExecutingCMDState.h"
 #include "Mine.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 
 CGameEngine::CGameEngine() :
-	m_Player1({0,0}, NORTH, &m_Level),
-	m_Player2({ 0,0 }, NORTH, &m_Level),
-	m_Player3({ 0,0 }, NORTH, &m_Level),
-	m_Player4({ 0,0 }, NORTH, &m_Level)
+	m_Player1({0,0}, NORTH, &m_Level, 1),
+	m_Player2({ 0,0 }, NORTH, &m_Level, 2),
+	m_Player3({ 0,0 }, NORTH, &m_Level, 3),
+	m_Player4({ 0,0 }, NORTH, &m_Level, 4)
 {
 	LoadBoard(1);
 	//std::cout << m_PlayerList[1].GetMecha()->m_posGridPosition.m_iX;
@@ -26,7 +29,7 @@ void CGameEngine::Step()
 	m_pCurGameState->Step(this);
 }
 
-bool CGameEngine::CollisionCheck()
+bool CGameEngine::CollisionCheck(bool bWaterCheck)
 {
 	bool _bReturn = false;
 	//cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water, pit
@@ -35,9 +38,9 @@ bool CGameEngine::CollisionCheck()
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			//checks water
-			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr && bWaterCheck == true)
 			{
-				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
+  				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
 				_bReturn = true;
 
 			}
@@ -45,6 +48,9 @@ bool CGameEngine::CollisionCheck()
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
+				m_Level.GetTile(_iX, _iY).SetMecha(nullptr);
+
+				//delete m_Level.GetTile(_iX, _iY).GetMecha();
 				_bReturn = true;
 			}
 		}
@@ -67,8 +73,16 @@ void CGameEngine::Draw()
 				std::cout << " " << _cEmptyTile;
 			}			
 			//draw mecha
+
+
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
+				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
+				{
+					//Code here to change the output colour to be player 1 colour
+					//add copies of this if statement for the other players
+				}
+
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == NORTH)
 				{
 					char _cMechaImage = 30;
@@ -151,34 +165,65 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
-		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 1 });
-		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(EAST);
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
-		m_PlayerList[1].GetMecha()->SetGridPosition({ 1, 8 });
-		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(NORTH);
+		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
+		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_PlayerList[2].GetMecha()->SetGridPosition({ 8, 1 });
-		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(SOUTH);
+		m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 1 });
+		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
 
-		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 8 });
-		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(WEST);
+		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 7 });
+		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		//include code here load level 1 from txt file
+		std::ifstream levelOneFile;
+	
+		levelOneFile.open("LevelOne.txt");
+		if (levelOneFile.is_open() == false)
+		{
+			std::cout << "Error opening file." << std::endl;
+		}
+
+		int j = 0;
+
+		for (std::string line; getline(levelOneFile, line); j++)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				switch (line[i])
+				{
+				case 'p':
+				{
+					m_Level.GetTile(i, j).SetEnvironment(PIT);
+					break;
+				}
+				case '0':
+				{
+					break;
+				}
+				case 'w':
+				{
+					m_Level.GetTile(i, j).SetEnvironment(WATER);
+
+					break;
+				}
+				default:
+				{
+					break;
+				}
+				}
+			}
+		}
+
+		//levelOneFile.open("\Mecha - Mania - Monster - Mashers\Mecha Mania\Levels\LevelOne.txt");
+
 		return m_Level;
 	}
 	if (_LevelNum == 2) {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
-
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
-
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
-
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
+	
 
 		//include code here load level 2 from txt file
 
@@ -186,17 +231,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	if (_LevelNum == 3) {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
-
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
-
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
 
 		//include code here load level 3 from txt file
 
@@ -204,17 +239,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 	else {
 		//sets the players starting locations and facing direction
-		m_Player1.GetMecha()->SetGridPosition({ 1, 1 });
-		m_Player1.GetMecha()->SetMechaFacingDirect(EAST);
-
-		m_Player2.GetMecha()->SetGridPosition({ 1, 8 });
-		m_Player2.GetMecha()->SetMechaFacingDirect(SOUTH);
-
-		m_Player3.GetMecha()->SetGridPosition({ 8, 1 });
-		m_Player3.GetMecha()->SetMechaFacingDirect(NORTH);
-
-		m_Player4.GetMecha()->SetGridPosition({ 8, 8 });
-		m_Player4.GetMecha()->SetMechaFacingDirect(WEST);
+	
 
 		//include code here load level 4 from txt file
 

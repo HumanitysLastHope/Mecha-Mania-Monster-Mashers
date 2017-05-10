@@ -5,16 +5,26 @@
 #include "Position.h"
 
 
-CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard)
+CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard, int _iID)
 	:m_iHealth(5),
 	m_eFacingDir(_eFacingDir),
 	CMovable(_pBoard, _posGridPosition)
 {
+	setID(_iID);
 }
-
 
 CMecha::~CMecha()
 {
+}
+
+int CMecha::getID()
+{
+	return m_iID;
+}
+
+void CMecha::setID(int _iID)
+{
+	m_iID = _iID;
 }
 
 void CMecha::SetGridPosition(TPosition _posGridPosition)
@@ -23,19 +33,23 @@ void CMecha::SetGridPosition(TPosition _posGridPosition)
 	m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(this);
 }
 
-TPosition CMecha::GetGridPosition() {
+TPosition CMecha::GetGridPosition() 
+{
 	return m_posGridPosition;
 }
 
-void CMecha::SetMechaFacingDirect(EDIRECTION _eFacingDir) {
+void CMecha::SetMechaFacingDirect(EDIRECTION _eFacingDir) 
+{
 	m_eFacingDir = _eFacingDir;
 }
 
-EDIRECTION CMecha::GetMechaFacingDirect() {
+EDIRECTION CMecha::GetMechaFacingDirect() 
+{
 	return m_eFacingDir;
 }
 
-void CMecha::ChangeHealth(int _iChangeVal) {
+void CMecha::ChangeHealth(int _iChangeVal) 
+{
 	m_iHealth += _iChangeVal;
 }
 
@@ -54,15 +68,20 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		// If there's a player in front move that player
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha() != nullptr)
 		{
+			
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection) == false)
 			{
 				return false;
 			}
 		}
-
+		
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
 		m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).SetMecha(this);
 		m_posGridPosition.m_iX--;
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() != nullptr)
+		{
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->ArmMine();
+		}
 		break;
 
 	case NORTH:
@@ -80,6 +99,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).SetMecha(this);
 		m_posGridPosition.m_iY--;
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() != nullptr)
+		{
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->ArmMine();
+		}
 		break;
 
 	case EAST:
@@ -97,6 +120,10 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
 		m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).SetMecha(this);
 		m_posGridPosition.m_iX++;
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() != nullptr)
+		{
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->ArmMine();
+		}
 		break;
 
 	case SOUTH:
@@ -113,12 +140,17 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetMecha(this);
 			m_posGridPosition.m_iY++;
-		
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() != nullptr)
+			{
+				m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->ArmMine();
+			}
 		break;
 
 	default:
 		break;
 	}
+
+
 
 	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha() != nullptr && m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() != nullptr)
 	{
@@ -129,6 +161,13 @@ bool CMecha::Move(EDIRECTION _eDirection)
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
 		}
 		
+	}
+
+	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha() != nullptr &&  m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetEnvironment() == PIT)
+	{
+		//delete this;
+		//m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMecha(nullptr);
+
 	}
 
 	return true;
