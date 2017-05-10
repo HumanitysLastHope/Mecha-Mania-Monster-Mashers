@@ -22,6 +22,13 @@ bool CBullet::Move(EDIRECTION _eDirection)
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
 			return false;
 		}
+		// If there's a bullet in front move that bullet
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetBullet() != nullptr)
+		{
+			// TODO remove bullets from the bullet list
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
+			m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).SetBullet(nullptr);
+		}
 
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
 		m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).SetBullet(this);
@@ -33,6 +40,13 @@ bool CBullet::Move(EDIRECTION _eDirection)
 		{
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
 			return false;
+		}
+
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetBullet() != nullptr)
+		{
+			// TODO remove bullets from the bullet list
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).SetBullet(nullptr);
 		}
 
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
@@ -47,6 +61,13 @@ bool CBullet::Move(EDIRECTION _eDirection)
 			return false;
 		}
 
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetBullet() != nullptr)
+		{
+			// TODO remove bullets from the bullet list
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
+			m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).SetBullet(nullptr);
+		}
+
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
 		m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).SetBullet(this);
 		m_posGridPosition.m_iX++;
@@ -57,6 +78,13 @@ bool CBullet::Move(EDIRECTION _eDirection)
 		{
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
 			return false;
+		}
+
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetBullet() != nullptr)
+		{
+			// TODO remove bullets from the bullet list
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetBullet(nullptr);
 		}
 
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);

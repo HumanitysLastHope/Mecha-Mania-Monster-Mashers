@@ -36,7 +36,7 @@ bool CMine::Move(EDIRECTION _eDirection)
 		// Checks if you would hit a wall
 		if (m_posGridPosition.m_iX == 0)
 			return false;
-		// If there's a mine in front move that player
+		// If there's a mine in front move that mine
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMine() != nullptr)
 		{
 
