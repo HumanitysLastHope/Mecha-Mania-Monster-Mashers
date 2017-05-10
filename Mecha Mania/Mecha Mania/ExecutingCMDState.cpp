@@ -129,21 +129,12 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		objToPush = playerList[i].GetMecha()->WhatToPush();
 		if (objToPush != nullptr)
 		{
-			objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect());
+			if (objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect()) != false)
+			{
+				objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect());
+			}
 		}
-		//What if mecha is pushed into water?
-
-		/*CMecha* mecha = dynamic_cast<CMecha*>(objToPush);
-
-		if (mecha != nullptr)
-		{
-			_pGameEngine->WaterCheck()
-		}*/
-
-		if (objToPush != nullptr)
-		{
-			objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect());
-		}
+		
 		break;
 	}
 	case 33:

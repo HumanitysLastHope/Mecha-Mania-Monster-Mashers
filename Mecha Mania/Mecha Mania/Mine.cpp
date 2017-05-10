@@ -36,6 +36,17 @@ bool CMine::Move(EDIRECTION _eDirection)
 		// Checks if you would hit a wall
 		if (m_posGridPosition.m_iX == 0)
 			return false;
+
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha() != nullptr) //PUSHED ONTO PLAYER WITH MINE UNDERNEATH
+		{
+
+			m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->ChangeHealth(-2);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
+			bombBlown();
+
+			return false;
+
+		}
 		// If there's a mine in front move that mine
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMine() != nullptr)
 		{
@@ -55,6 +66,17 @@ bool CMine::Move(EDIRECTION _eDirection)
 		if (m_posGridPosition.m_iY == 0)
 			return false;
 
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY -1).GetMecha() != nullptr) //PUSHED ONTO PLAYER WITH MINE UNDERNEATH
+		{
+
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY -1).GetMecha()->ChangeHealth(-2);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
+			bombBlown();
+
+			return false;
+
+		}
+
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMine() != nullptr)
 		{
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMine()->Move(_eDirection) == false)
@@ -71,6 +93,17 @@ bool CMine::Move(EDIRECTION _eDirection)
 	case EAST:
 		if (m_posGridPosition.m_iX == 9)
 			return false;
+
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha() != nullptr) //PUSHED ONTO PLAYER WITH MINE UNDERNEATH
+		{
+
+			m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha()->ChangeHealth(-2);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
+			bombBlown();
+
+			return false;
+
+		}
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMine() != nullptr)
 		{
