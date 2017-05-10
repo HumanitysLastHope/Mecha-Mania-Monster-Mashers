@@ -180,7 +180,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		//sets the players starting locations and facing direction
 		/*m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);*/
-		m_PlayerList[0].GetMecha()->SetGridPosition({ 7, 0 });
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
 		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
