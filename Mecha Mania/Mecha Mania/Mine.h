@@ -1,16 +1,19 @@
+#include "Movable.h"
+#include "Enums.h"
 #include "Position.h"
 #pragma once
 
-class CMine
+class CMine : public CMovable
 {
 public:
-	CMine();
+	CMine(CBoard*, TPosition);
 	~CMine();
 
 	TPosition getPosition();
 	//void setPosition(TPosition _gridPosition);
 	void ArmMine();
 	bool isArmed();
+	bool Move(EDIRECTION _eDirection);
 	void bombBlown();
 
 	//CMine* getMine();
@@ -18,7 +21,5 @@ public:
 private:
 
 	bool m_isArmed = false;
-	TPosition m_gridPosition;
-	//CBoard* m_pBoard;
 };
 

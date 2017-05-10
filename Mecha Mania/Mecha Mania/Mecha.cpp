@@ -5,16 +5,26 @@
 #include "Position.h"
 
 
-CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard)
+CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard, int _iID)
 	:m_iHealth(5),
 	m_eFacingDir(_eFacingDir),
 	CMovable(_pBoard, _posGridPosition)
 {
+	setID(_iID);
 }
-
 
 CMecha::~CMecha()
 {
+}
+
+int CMecha::getID()
+{
+	return m_iID;
+}
+
+void CMecha::setID(int _iID)
+{
+	m_iID = _iID;
 }
 
 void CMecha::SetGridPosition(TPosition _posGridPosition)
@@ -256,120 +266,116 @@ void CMecha::Rotate(EROTATION _eRotation)
 
 CMovable* CMecha::WhatToPush()
 {
+	TPosition posPushPosition = m_posGridPosition;
+	switch (m_eFacingDir)
+	{
+	case WEST:
+	{
+		while (posPushPosition.m_iX >= 0)
+		{
+			posPushPosition.m_iX--;
+			
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine();
+			}
+		}
+	}
+		break;
+
+	case NORTH:
+	{
+		while (posPushPosition.m_iY >= 0)
+		{
+			posPushPosition.m_iY--;
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine();
+			}
+		}
+	}
+		break;
+
+	case EAST:
+	{
+		while (posPushPosition.m_iX <= 9)
+		{
+			posPushPosition.m_iX++;
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine();
+			}
+		}
+	}
+		break;
+
+	case SOUTH:
+	{
+		while (posPushPosition.m_iY <= 9)
+		{
+			posPushPosition.m_iY++;
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet();
+			}
+
+			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
+			{
+				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine();
+			}
+		}
+	}
+		break;
+
+	default:
+		break;
+	}
 	return nullptr;
-	//TPosition posPushPosition = m_posGridPosition;
-	//switch (m_eFacingDir)
-	//{
-	//case WEST:
-	//{
-	//	while (posPushPosition.m_iX >= 0)
-	//	{
-	//		posPushPosition.m_iX--;
-	//		
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine()
-	//		}
-	//	}
-	//	//return nullptr;
-	//}
-	//	break;
-
-	//case NORTH:
-	//{
-	//	while (posPushPosition.m_iY >= 0)
-	//	{
-	//		posPushPosition.m_iY--;
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine()
-	//		}
-	//	}
-	//	//return nullptr;
-	//}
-	//	break;
-
-	//case EAST:
-	//{
-	//	while (posPushPosition.m_iX <= 9)
-	//	{
-	//		posPushPosition.m_iX++;
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine()
-	//		}
-	//	}
-	//	//return nullptr;
-	//}
-	//	break;
-
-	//case SOUTH:
-	//{
-	//	while (posPushPosition.m_iY <= 9)
-	//	{
-	//		posPushPosition.m_iY++;
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetBullet()
-	//		}
-
-	//		if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine() != nullptr)
-	//		{
-	//			//return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMine()
-	//		}
-	//	}
-	//	//return nullptr;
-	//}
-	//	break;
-
-	//default:
-	//	break;
-	//}
 }
 
 void CMecha::PlaceMine()
 {
 	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() == nullptr)
 	{
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(new CMine);
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(new CMine(m_pBoard,m_posGridPosition));
 	}
 	else
 	{

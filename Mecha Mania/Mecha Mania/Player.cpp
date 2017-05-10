@@ -1,8 +1,8 @@
 #include "Player.h"
 
 
-CPlayer::CPlayer(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir, CBoard* _pBoard):
-	m_Mecha(_posMechaGridPosition, _eMechaFacingDir, _pBoard)
+CPlayer::CPlayer(TPosition _posMechaGridPosition, EDIRECTION _eMechaFacingDir, CBoard* _pBoard, int _ID) :
+	m_Mecha(_posMechaGridPosition, _eMechaFacingDir, _pBoard, _ID)
 {
 
 }

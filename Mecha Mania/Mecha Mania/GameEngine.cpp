@@ -8,10 +8,10 @@
 #include <string>
 
 CGameEngine::CGameEngine() :
-	m_Player1({ 0,0 }, NORTH, &m_Level),
-	m_Player2({ 0,0 }, NORTH, &m_Level),
-	m_Player3({ 0,0 }, NORTH, &m_Level),
-	m_Player4({ 0,0 }, NORTH, &m_Level)
+	m_Player1({0,0}, NORTH, &m_Level, 1),
+	m_Player2({ 0,0 }, NORTH, &m_Level, 2),
+	m_Player3({ 0,0 }, NORTH, &m_Level, 3),
+	m_Player4({ 0,0 }, NORTH, &m_Level, 4)
 {
 	LoadBoard(1);
 	//std::cout << m_PlayerList[1].GetMecha()->m_posGridPosition.m_iX;
@@ -86,8 +86,16 @@ void CGameEngine::Draw()
 				std::cout << " " << _cEmptyTile;
 			}
 			//draw mecha
+
+
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
+				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
+				{
+					//Code here to change the output colour to be player 1 colour
+					//add copies of this if statement for the other players
+				}
+
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == NORTH)
 				{
 					char _cMechaImage = 30;
