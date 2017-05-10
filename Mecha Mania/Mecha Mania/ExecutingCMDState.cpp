@@ -17,15 +17,14 @@ ExecutingCMDState::~ExecutingCMDState()
 
 void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 {
-	
+
 	//system("CLS"); //clear screen
 	//_pGameEngine->Draw(); //redraw
 	//_getch(); //show user screen
 	system("CLS"); //clear again before creating new screens
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
+	playerList[i].bDead = playerList[i].CheckDeath();
 
-	std::cout << "Player: " << i << " HP: ";
-	std::cout << playerList[i].GetMecha()->m_iHealth;
 	int playerCommand;
 	int iOppositeDirection;
 
@@ -44,7 +43,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	case 11:
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
+		_pGameEngine->WaterCheck(&(playerList[i]));
 
 		break;
 	}
@@ -56,8 +55,14 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		_getch();
 		system("CLS");
 
+		playerList[i].bDead = playerList[i].CheckDeath();
+		if (playerList[i].bDead == true)
+		{
+			return;
+		}
+
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
+		_pGameEngine->WaterCheck(&(playerList[i]));
 		break;
 	}
 	case 13:
@@ -68,21 +73,33 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		_getch();
 		system("CLS");
 
+		playerList[i].bDead = playerList[i].CheckDeath();
+		if (playerList[i].bDead == true)
+		{
+			return;
+		}
+
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		_pGameEngine->WaterCheck(&(playerList[i]));
 		_pGameEngine->Draw();
 		_getch();
 		system("CLS");
 
+		playerList[i].bDead = playerList[i].CheckDeath();
+		if (playerList[i].bDead == true)
+		{
+			return;
+		}
+
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
+		_pGameEngine->WaterCheck(&(playerList[i]));
 		break;
 	}
 	case 14:
 	{
 		iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
 		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection));
-		//_pGameEngine->WaterCheck(&(playerList[i]));
+		_pGameEngine->WaterCheck(&(playerList[i]));
 		break;
 	}
 	case 21: //clockwise
@@ -118,7 +135,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	}
 	}
 	
-	_pGameEngine->WaterCheck(&(playerList[i]));
+	//_pGameEngine->WaterCheck(&(playerList[i]));
 
 
 }
@@ -155,34 +172,33 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 
 	for (int j = 0; j < 3; j++) // EXECUTE 3 ORDERS
 	{
-		/*for (int k = 0; k < _pGameEngine->playerAliveCount; k++)
-		{
-		_pGameEngine->WaterCheck(&(playerList[k]));
-		}*/
+
 		for (int i = 0; i < 4; i++) //EXECUTE EACH PLAYERS ORDER
 		{
 
+			_pGameEngine->WaterCheck(&(playerList[i]));
 			ExecuteUserInput(_pGameEngine, i);
 			_pGameEngine->CollisionCheck(false);
-			
+
 			//bullet move phase goes here
 			for (int l = 0; l < _pGameEngine->playerAliveCount; l++)
 			{
-				if (playerList[l].GetMecha()->m_iHealth < 1)
-				{
-				//	playerList.erase(playerList.begin() + i);
-				//	_pGameEngine->playerAliveCount--;
-					playerList[l].bDead = true;
-				}
+				playerList[l].bDead = playerList[l].CheckDeath();
 			}
 
 			_pGameEngine->Draw();
+			std::cout << "Player: " << i << " HP: ";
+			std::cout << playerList[i].GetMecha()->m_iHealth;
 			_getch();
 			system("CLS");
 		}
+
+		
+	}
+		
 		//_pGameEngine->CollisionCheck(true);
 
-	}
+	
 
 	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
 

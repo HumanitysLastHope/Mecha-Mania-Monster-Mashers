@@ -14,6 +14,8 @@ public:
 	CMecha* GetMecha();
 	std::queue<ECOMMANDS>& GetMoveList();
 	bool bDead = false;
+	bool CheckDeath();
+
 private:
 	int m_iD;
 	bool m_bisAlive;
