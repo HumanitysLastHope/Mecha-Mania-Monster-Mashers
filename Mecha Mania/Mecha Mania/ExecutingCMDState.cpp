@@ -167,6 +167,7 @@ void ExecutingCMDState::Draw(CGameEngine * _pGameEngine)
 void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 {
 	bool waterCheck = false;
+	int i = 0;
 	system("CLS");
 	_pGameEngine->Draw();
 	_getch();
@@ -176,9 +177,9 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 	for (int j = 0; j < 3; j++) // EXECUTE 3 ORDERS
 	{
 
-		for (int i = 0; i < 4; i++) //EXECUTE EACH PLAYERS ORDER
+		for (int z = 0; z < 4; z++) //EXECUTE EACH PLAYERS ORDER
 		{
-
+			i = _pGameEngine->m_CommandOrder[z];
 			_pGameEngine->WaterCheck(&(playerList[i]));
 			ExecuteUserInput(_pGameEngine, i);
 			_pGameEngine->PitCheck();
@@ -201,7 +202,8 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 		
 		//_pGameEngine->CollisionCheck(true);
 
-	
+	_pGameEngine->SetNewFirstPlayer();
+
 	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
 
 }

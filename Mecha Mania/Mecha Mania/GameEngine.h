@@ -23,7 +23,9 @@ public:
 	void ChangeState(IGameState* _state);
 	CBoard& LoadBoard(int _LevelNum);
 	void WaterCheck(CPlayer* _pPlayer);
+	void SetNewFirstPlayer();
 
+	std::vector<int> m_CommandOrder;
 
 	std::vector<CPlayer>& GetPlayerList();
 
@@ -35,6 +37,7 @@ private:
 	CPlayer m_Player3;
 	CPlayer m_Player4;
 	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
+	
 	IGameState* m_pCurGameState;
 };
 

@@ -15,7 +15,12 @@ CGameEngine::CGameEngine() :
 	m_Player4({ 0,0 }, NORTH, &m_Level, 4)
 {
 	LoadBoard(1);
-	//std::cout << m_PlayerList[1].GetMecha()->m_posGridPosition.m_iX;
+
+	m_CommandOrder.push_back(0);
+	m_CommandOrder.push_back(1);
+	m_CommandOrder.push_back(2);
+	m_CommandOrder.push_back(3);
+
 	ChangeState(new CGettingPlayerMovesState);
 }
 
@@ -313,4 +318,12 @@ void CGameEngine::Run()
 
 	_getch();
 
+}
+
+void CGameEngine::SetNewFirstPlayer()
+{
+	int iTemp = m_CommandOrder.front();
+
+	m_CommandOrder.erase(m_CommandOrder.begin());
+	m_CommandOrder.push_back(iTemp);
 }
