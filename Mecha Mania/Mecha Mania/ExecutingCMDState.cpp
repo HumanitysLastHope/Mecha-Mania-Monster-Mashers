@@ -43,14 +43,14 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	case 11:
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 
 		break;
 	}
 	case 12:
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 		_pGameEngine->Draw();
 		_getch();
 		system("CLS");
@@ -62,13 +62,13 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		}
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 		break;
 	}
 	case 13:
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 		_pGameEngine->Draw();
 		_getch();
 		system("CLS");
@@ -80,7 +80,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		}
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 		_pGameEngine->Draw();
 		_getch();
 		system("CLS");
@@ -92,14 +92,14 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 		}
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 		break;
 	}
 	case 14:
 	{
 		iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
 		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection));
-		_pGameEngine->WaterCheck(&(playerList[i]));
+		//_pGameEngine->WaterCheck(&(playerList[i]));
 		break;
 	}
 	case 21: //clockwise
@@ -125,7 +125,25 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	}
 	case 32:
 	{
-		playerList[i].GetMecha()->WhatToPush();
+		CMovable* objToPush;
+		objToPush = playerList[i].GetMecha()->WhatToPush();
+		if (objToPush != nullptr)
+		{
+			objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect());
+		}
+		//What if mecha is pushed into water?
+
+		/*CMecha* mecha = dynamic_cast<CMecha*>(objToPush);
+
+		if (mecha != nullptr)
+		{
+			_pGameEngine->WaterCheck()
+		}*/
+
+		if (objToPush != nullptr)
+		{
+			objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect());
+		}
 		break;
 	}
 	case 33:

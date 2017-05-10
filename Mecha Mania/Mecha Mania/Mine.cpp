@@ -89,7 +89,17 @@ bool CMine::Move(EDIRECTION _eDirection)
 		if (m_posGridPosition.m_iY == 9)
 			return false;
 
-		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMine() != nullptr)
+		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha() != nullptr) //PUSHED ONTO PLAYER WITH MINE UNDERNEATH
+		{
+			
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->ChangeHealth(-2);
+			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
+			bombBlown();
+
+			return false;
+
+		}
+		else if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMine() != nullptr)
 		{
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMine()->Move(_eDirection) == false)
 			{

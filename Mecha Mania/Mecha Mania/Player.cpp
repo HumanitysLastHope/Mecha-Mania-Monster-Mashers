@@ -31,7 +31,7 @@ bool CPlayer::CheckDeath()
 {
 	if (this->GetMecha()->m_iHealth < 1)
 	{
-		return true; //death
+		return true; // Death
 	}
 	else
 	{
