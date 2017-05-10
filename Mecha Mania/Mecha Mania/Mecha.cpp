@@ -360,7 +360,7 @@ void CMecha::PlaceMine()
 {
 	if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine() == nullptr)
 	{
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(new CMine);
+		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(new CMine(m_pBoard,m_posGridPosition));
 	}
 	else
 	{
