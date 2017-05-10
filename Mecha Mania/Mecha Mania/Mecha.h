@@ -13,7 +13,6 @@ public:
 	~CMecha();
 
 	int getID();
-	void setID(int _iID);
 	void SetGridPosition(TPosition _posGridPosition);
 	TPosition GetGridPosition();
 	void SetMechaFacingDirect(EDIRECTION _eFacingDir);

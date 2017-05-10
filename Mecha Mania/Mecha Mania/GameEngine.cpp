@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <windows.h>
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level, 1),
@@ -73,7 +74,8 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 
 void CGameEngine::Draw()
 {
-
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, 128);
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
@@ -83,72 +85,94 @@ void CGameEngine::Draw()
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr && m_Level.GetTile(_iX, _iY).GetMine() == nullptr)
 			{
 				char _cEmptyTile = 176;
-				std::cout << " " << _cEmptyTile;
+				std::cout << _cEmptyTile;
+				SetConsoleTextAttribute(hConsole, 15);
+				std::cout << " ";
 			}
 			//draw mecha
-
-
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
+				char _cMechaImage;
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
 				{
-					//Code here to change the output colour to be player 1 colour
-					//add copies of this if statement for the other players
+					SetConsoleTextAttribute(hConsole, 141);
+				}
+				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 2)
+				{
+					SetConsoleTextAttribute(hConsole, 142);
+				}
+				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 3)
+				{
+					SetConsoleTextAttribute(hConsole, 139);
+				}
+				else
+				{
+					SetConsoleTextAttribute(hConsole, 138);
 				}
 
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == NORTH)
 				{
-					char _cMechaImage = 30;
-					std::cout << " " << _cMechaImage;
+					 _cMechaImage = 30;
 				}
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == EAST)
 				{
-					char _cMechaImage = 16;
-					std::cout << " " << _cMechaImage;
+					 _cMechaImage = 16;
 				}
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == SOUTH)
 				{
-					char _cMechaImage = 31;
-					std::cout << " " << _cMechaImage;
+					 _cMechaImage = 31;
 				}
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == WEST)
 				{
-					char _cMechaImage = 17;
-					std::cout << " " << _cMechaImage;
+					_cMechaImage = 17;
 				}
+				std::cout << _cMechaImage;
+				SetConsoleTextAttribute(hConsole, 15);
+				std::cout << " ";
+				SetConsoleTextAttribute(hConsole, 128);
 			}
 
 			////draw bullet
 			else if (m_Level.GetTile(_iX, _iY).GetBullet() != nullptr)
 			{
 				char _cBulletImage = 249;
-				std::cout << " " << _cBulletImage;
+				std::cout << _cBulletImage;
+				SetConsoleTextAttribute(hConsole, 15);
+				std::cout << " ";
 			}
 			//draw mine
 			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
 			{
 				char _cMineImage = 15;
-				std::cout << " " << _cMineImage;
+				std::cout << _cMineImage;
 				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
+				SetConsoleTextAttribute(hConsole, 15);
+				std::cout << " ";
 			}
 
 			////draw water
 			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER)
 			{
 				char _cWaterImage = 126;
-				std::cout << " " << _cWaterImage;
+				SetConsoleTextAttribute(hConsole, 159);
+				std::cout << _cWaterImage;
+				SetConsoleTextAttribute(hConsole, 15);
+				std::cout << " ";
 			}
 			////draw pit
 			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT)
 			{
 				char _cPitImage = 220;
-				std::cout << " " << _cPitImage;
+				SetConsoleTextAttribute(hConsole, 15);
+				std::cout << _cPitImage;
+				std::cout << " ";
 			}
-
+			SetConsoleTextAttribute(hConsole, 128);
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
+	SetConsoleTextAttribute(hConsole, 15);
 	//m_pCurGameState->Step(this);
 }
 

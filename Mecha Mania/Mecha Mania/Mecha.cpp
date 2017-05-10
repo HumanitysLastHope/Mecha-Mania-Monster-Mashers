@@ -10,7 +10,7 @@ CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoa
 	m_eFacingDir(_eFacingDir),
 	CMovable(_pBoard, _posGridPosition)
 {
-	setID(_iID);
+	m_iID = _iID;
 }
 
 CMecha::~CMecha()
@@ -20,11 +20,6 @@ CMecha::~CMecha()
 int CMecha::getID()
 {
 	return m_iID;
-}
-
-void CMecha::setID(int _iID)
-{
-	m_iID = _iID;
 }
 
 void CMecha::SetGridPosition(TPosition _posGridPosition)
