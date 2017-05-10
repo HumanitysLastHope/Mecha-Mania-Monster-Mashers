@@ -9,6 +9,7 @@ class CBullet : public CMovable
 public:
 	CBullet(CBoard*, TPosition);
 	virtual ~CBullet() override;
+	bool Move(EDIRECTION _eDirection);
 
 	EDIRECTION GetDirection();
 
