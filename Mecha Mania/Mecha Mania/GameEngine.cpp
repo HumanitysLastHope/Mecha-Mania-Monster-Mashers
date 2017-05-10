@@ -92,24 +92,31 @@ void CGameEngine::Draw()
 			//draw mecha
 			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
-				char _cMechaImage;
+				int _iMechaColour;
+				if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER) {
+					_iMechaColour = 144;
+				}
+				else {
+					_iMechaColour = 128;
+				}
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
 				{
-					SetConsoleTextAttribute(hConsole, 141);
+					SetConsoleTextAttribute(hConsole, (_iMechaColour + 13));
 				}
 				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 2)
 				{
-					SetConsoleTextAttribute(hConsole, 142);
+					SetConsoleTextAttribute(hConsole, (_iMechaColour + 14));
 				}
 				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 3)
 				{
-					SetConsoleTextAttribute(hConsole, 139);
+					SetConsoleTextAttribute(hConsole, (_iMechaColour + 10));
 				}
 				else
 				{
-					SetConsoleTextAttribute(hConsole, 138);
+					SetConsoleTextAttribute(hConsole, (_iMechaColour + 11));
 				}
 
+				char _cMechaImage;
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->GetDirection() == NORTH)
 				{
 					 _cMechaImage = 30;
