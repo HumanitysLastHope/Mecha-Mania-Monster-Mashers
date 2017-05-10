@@ -18,7 +18,7 @@ public:
 	int playerAliveCount = 4;
 
 	void Step();
-	bool CollisionCheck(bool bWaterCheck);
+	bool PitCheck();
 	void Draw();
 	void ChangeState(IGameState* _state);
 	CBoard& LoadBoard(int _LevelNum);
@@ -26,7 +26,6 @@ public:
 
 
 	std::vector<CPlayer>& GetPlayerList();
-
 
 	static void Run();
 private:

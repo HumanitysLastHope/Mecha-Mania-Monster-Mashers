@@ -173,12 +173,6 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 	system("CLS");
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 
-	/*for (int k = 0; k < _pGameEngine->playerAliveCount; k++)
-	{
-		_pGameEngine->WaterCheck(&(playerList[k]));
-	}*/
-	
-
 	for (int j = 0; j < 3; j++) // EXECUTE 3 ORDERS
 	{
 
@@ -187,7 +181,7 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 
 			_pGameEngine->WaterCheck(&(playerList[i]));
 			ExecuteUserInput(_pGameEngine, i);
-			_pGameEngine->CollisionCheck(false);
+			_pGameEngine->PitCheck();
 
 			//bullet move phase goes here
 			for (int l = 0; l < _pGameEngine->playerAliveCount; l++)
@@ -208,7 +202,6 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 		//_pGameEngine->CollisionCheck(true);
 
 	
-
 	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
 
 }
