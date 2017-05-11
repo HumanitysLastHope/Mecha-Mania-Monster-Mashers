@@ -1,7 +1,8 @@
 #include "Bullet.h"
 #include "Board.h"
 
-CBullet::CBullet(CBoard* _pBoard, TPosition _posGridPosition) :
+CBullet::CBullet(CBoard* _pBoard, const TPosition& _posGridPosition, EDIRECTION _eMovingDir) :
+	m_eMovingDir(_eMovingDir),
 	CMovable(_pBoard, _posGridPosition)
 {
 }
@@ -101,5 +102,5 @@ bool CBullet::Move(EDIRECTION _eDirection)
 
 EDIRECTION CBullet::GetDirection()
 {
-	return EDIRECTION();
+	return m_eMovingDir;
 }

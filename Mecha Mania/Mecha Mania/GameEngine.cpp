@@ -28,6 +28,10 @@ CGameEngine::CGameEngine() :
 CGameEngine::~CGameEngine()
 {
 	delete m_pCurGameState;
+	for (auto it = m_vecpBulletList.begin(); it != m_vecpBulletList.end(); ++it)
+	{
+		delete (*it);
+	}
 }
 
 void CGameEngine::Step()
@@ -299,10 +303,20 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 	}
 }
 
+CBoard & CGameEngine::GetBoard()
+{
+	return m_Level;
+}
+
 
 std::vector<CPlayer>& CGameEngine::GetPlayerList()
 {
 	return m_PlayerList;
+}
+
+std::vector<CBullet*>& CGameEngine::GetBulletList()
+{
+	return m_vecpBulletList;
 }
 
 void CGameEngine::Run()
@@ -326,4 +340,36 @@ void CGameEngine::SetNewFirstPlayer()
 
 	m_CommandOrder.erase(m_CommandOrder.begin());
 	m_CommandOrder.push_back(iTemp);
+}
+
+CBullet* CGameEngine::SpawnBullet(const TPosition& _posBoardPos, EDIRECTION _eMovingDir)
+{
+	//TODO: Check if the tile already has a bullet on it (both bullets should get destroyed in this case)
+	CTile& tile = m_Level.GetTile(_posBoardPos);
+	if (tile.GetBullet() != nullptr)
+	{
+		DestroyBullet(tile.GetBullet());
+
+		return nullptr;
+	}
+	else
+	{
+		// Create the bullet at the end of the bullet list
+		m_vecpBulletList.push_back(new CBullet(&m_Level, _posBoardPos, _eMovingDir));
+
+		// Add the bullet to the board at the correct location
+		CBullet* pBullet = m_vecpBulletList.back();
+		tile.SetBullet(pBullet);
+
+		return pBullet;
+	}
+}
+
+void CGameEngine::DestroyBullet(CBullet * pBullet)
+{
+	// Remove from board
+	m_Level.GetTile(pBullet->GetPosition()).SetBullet(nullptr);
+
+	// Delete from list of bullets in the game
+	m_vecpBulletList.erase(std::remove(m_vecpBulletList.begin(), m_vecpBulletList.end(), pBullet), m_vecpBulletList.end());
 }

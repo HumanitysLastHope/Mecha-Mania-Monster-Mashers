@@ -7,7 +7,7 @@ class CBoard;
 class CMovable
 {
 public:
-	CMovable(CBoard*, TPosition);
+	CMovable(CBoard*, const TPosition&);
 	virtual ~CMovable();
 
 	virtual bool Move(EDIRECTION) = 0;

@@ -156,6 +156,7 @@
     <ClInclude Include="Mecha.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="Movable.h" />
+    <ClInclude Include="MovingBulletsState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Position.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Mecha.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Movable.cpp" />
+    <ClCompile Include="MovingBulletsState.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>

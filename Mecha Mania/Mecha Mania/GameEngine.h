@@ -1,6 +1,9 @@
 #include <vector>
 #include <conio.h>
 #include <iostream>
+#include <list>
+
+#include "Bullet.h"
 #include "Player.h"
 #include "Board.h"
 #include "Tile.h"
@@ -22,12 +25,17 @@ public:
 	void Draw();
 	void ChangeState(IGameState* _state);
 	CBoard& LoadBoard(int _LevelNum);
+	CBoard& GetBoard();
 	void WaterCheck(CPlayer* _pPlayer);
 	void SetNewFirstPlayer();
+
+	CBullet* SpawnBullet(const TPosition&, EDIRECTION);
+	void DestroyBullet(CBullet*);
 
 	std::vector<int> m_CommandOrder;
 
 	std::vector<CPlayer>& GetPlayerList();
+	std::vector<CBullet*>& GetBulletList();
 
 	static void Run();
 private:
@@ -37,6 +45,7 @@ private:
 	CPlayer m_Player3;
 	CPlayer m_Player4;
 	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
+	std::vector<CBullet*> m_vecpBulletList;
 	
 	IGameState* m_pCurGameState;
 };

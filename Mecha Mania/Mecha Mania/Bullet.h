@@ -7,13 +7,13 @@
 class CBullet : public CMovable
 {
 public:
-	CBullet(CBoard*, TPosition);
+	CBullet(CBoard*, const TPosition&, EDIRECTION);
 	virtual ~CBullet() override;
 	bool Move(EDIRECTION _eDirection);
 
 	EDIRECTION GetDirection();
 
 private:
-	EDIRECTION m_eFacingDir;
+	EDIRECTION m_eMovingDir;
 };
 

@@ -5,7 +5,6 @@ class CGameEngine;
 class IGameState
 {
 public:
-	IGameState();
 	virtual ~IGameState();
 
 	virtual void Init() = 0;
@@ -13,5 +12,7 @@ public:
 
 	virtual void Draw(CGameEngine* _gameEngine) = 0;
 	virtual void Step(CGameEngine* _gameEngine) = 0;
+protected:
+	IGameState();
 };
 
