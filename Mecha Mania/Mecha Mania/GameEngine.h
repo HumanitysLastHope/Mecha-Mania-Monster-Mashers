@@ -46,6 +46,8 @@ private:
 	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
 	std::vector<CBullet*> m_vecpBulletList;
 
+	bool BulletCollisionTest();
+
 	// Actually destroy bullets in a safe location when we are not iterating through the list of bullets
 	void ActuallyDestroyBullets();
 	bool m_bBulletsToDestroy;

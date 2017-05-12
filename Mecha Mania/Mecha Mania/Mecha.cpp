@@ -3,7 +3,8 @@
 #include "Mecha.h"
 #include "Board.h"
 #include "Position.h"
-
+#include "GameEngine.h"
+#include "Util.h"
 
 CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard, int _iID)
 	:m_iHealth(5),
@@ -48,8 +49,9 @@ void CMecha::ChangeHealth(int _iChangeVal)
 	m_iHealth += _iChangeVal;
 }
 
-void CMecha::Shoot()
+void CMecha::Shoot(CGameEngine& _rGameEngine)
 {
+	_rGameEngine.SpawnBullet(Util::GetNextPosition(m_posGridPosition, m_eFacingDir), m_eFacingDir);
 }
 
 bool CMecha::Move(EDIRECTION _eDirection)
@@ -370,4 +372,9 @@ void CMecha::PlaceMine()
 EDIRECTION CMecha::GetDirection()
 {
 	return m_eFacingDir;
+}
+
+int CMecha::GetHealth() const
+{
+	return m_iHealth;
 }

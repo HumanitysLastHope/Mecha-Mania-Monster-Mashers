@@ -18,10 +18,11 @@ public:
 	EDIRECTION GetDirection();
 	bool IsDestroyed() const;
 	void SetDestroyed();
+	int GetDamage() const;
 
 private:
 	bool m_bIsDestroyed;
-
+	const int m_iDamage;
 	EDIRECTION m_eMovingDir;
 	CGameEngine& m_rGameEngine;
 };

@@ -1,11 +1,13 @@
 #include "Bullet.h"
 #include "Board.h"
 #include "GameEngine.h"
+#include "Util.h"
 
 CBullet::CBullet(CBoard* _pBoard, CGameEngine& _rGameEngine, const TPosition& _posGridPosition, EDIRECTION _eMovingDir) :
 	m_eMovingDir(_eMovingDir),
 	m_rGameEngine(_rGameEngine),
 	m_bIsDestroyed(false),
+	m_iDamage(1),
 	CMovable(_pBoard, _posGridPosition)
 {
 }
@@ -15,36 +17,10 @@ CBullet::~CBullet()
 {
 }
 
-TPosition GetNextPosition(const TPosition& _rkpos, EDIRECTION _eDirection)
-{
-	TPosition newPos;
-	switch (_eDirection)
-	{
-	case WEST:
-		newPos = { _rkpos.m_iX - 1, _rkpos.m_iY };
-		break;
-	case NORTH:
-		newPos = { _rkpos.m_iX, _rkpos.m_iY - 1 };
-		break;
-	case EAST:
-		newPos = { _rkpos.m_iX + 1, _rkpos.m_iY };
-		break;
-	case SOUTH:
-		newPos = { _rkpos.m_iX, _rkpos.m_iY + 1 };
-		break;
-	case NODIR:
-	default:
-		newPos = _rkpos;
-		break;
-	}
-
-	return newPos;
-}
-
 bool CBullet::Move(EDIRECTION _eDirection)
 {
 	// Get next position that bullet will try to move to
-	TPosition newPos = GetNextPosition(m_posGridPosition, _eDirection);
+	TPosition newPos = Util::GetNextPosition(m_posGridPosition, _eDirection);
 
 	// Checks if you would hit a wall
 	if (!m_pBoard->IsValidPos(newPos))
@@ -60,7 +36,7 @@ bool CBullet::Move(EDIRECTION _eDirection)
 		CBullet* other = m_pBoard->GetTile(newPos).GetBullet();
 
 		// Get other bullets next position
-		TPosition otherNewPos = GetNextPosition(other->GetPosition(), other->GetDirection());
+		TPosition otherNewPos = Util::GetNextPosition(other->GetPosition(), other->GetDirection());
 
 		// Collision case when both bullets try to pass through each other
 		if (newPos == other->GetPosition() && otherNewPos == m_posGridPosition)
@@ -100,4 +76,9 @@ bool CBullet::IsDestroyed() const
 void CBullet::SetDestroyed()
 {
 	m_bIsDestroyed = true;
+}
+
+int CBullet::GetDamage() const
+{
+	return m_iDamage;
 }

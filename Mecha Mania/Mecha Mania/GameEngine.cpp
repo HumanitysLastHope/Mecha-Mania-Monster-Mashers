@@ -37,6 +37,9 @@ CGameEngine::~CGameEngine()
 void CGameEngine::Step()
 {
 	m_pCurGameState->Step(this);
+
+	BulletCollisionTest();
+
 	if (m_bBulletsToDestroy)
 	{
 		ActuallyDestroyBullets();
@@ -80,7 +83,7 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	if (m_Level.GetTile(_pPlayer->GetMecha()->GetGridPosition().m_iX, _pPlayer->GetMecha()->GetGridPosition().m_iY).GetEnvironment() == WATER)
 	{
  		_pPlayer->GetMecha()->ChangeHealth(-1);
-		std::cout << _pPlayer->GetMecha()->m_iHealth;
+		std::cout << _pPlayer->GetMecha()->GetHealth();
 
 	}
 }
@@ -346,26 +349,61 @@ void CGameEngine::SetNewFirstPlayer()
 	m_CommandOrder.push_back(iTemp);
 }
 
+bool CGameEngine::BulletCollisionTest()
+{
+	bool bCollision = false;
+
+	// Do bullet-bullet and bullet-mecha collision check
+	for (auto it = m_vecpBulletList.begin(); it != m_vecpBulletList.end(); ++it)
+	{
+		CBullet* pBullet = *it;
+		CTile& rTile = GetBoard().GetTile(pBullet->GetPosition());
+
+		if (rTile.GetBulletCount() > 1)
+		{
+			bCollision = true;
+			DestroyBullet(pBullet);
+		}
+
+		if (rTile.GetMecha() != nullptr)
+		{
+			bCollision = true;
+			DestroyBullet(pBullet);
+			rTile.GetMecha()->ChangeHealth(-pBullet->GetDamage());
+		}
+	}
+
+	return bCollision;
+}
+
 CBullet* CGameEngine::SpawnBullet(const TPosition& _posBoardPos, EDIRECTION _eMovingDir)
 {
-	//TODO: Check if the tile already has a bullet on it (both bullets should get destroyed in this case)
-	CTile& tile = m_Level.GetTile(_posBoardPos);
-	if (tile.GetBullet() != nullptr)
+	// Check we are spawning at a valid position
+	if (!m_Level.IsValidPos(_posBoardPos))
 	{
-		DestroyBullet(tile.GetBullet());
-
 		return nullptr;
 	}
 	else
 	{
-		// Create the bullet at the end of the bullet list
-		m_vecpBulletList.push_back(new CBullet(&m_Level, *this, _posBoardPos, _eMovingDir));
+		// Check if the tile already has a bullet on it (both bullets should get destroyed in this case)
+		CTile& tile = m_Level.GetTile(_posBoardPos);
+		if (tile.GetBullet() != nullptr)
+		{
+			DestroyBullet(tile.GetBullet());
 
-		// Add the bullet to the board at the correct location
-		CBullet* pBullet = m_vecpBulletList.back();
-		tile.AddBullet(pBullet);
+			return nullptr;
+		}
+		else
+		{
+			// Create the bullet at the end of the bullet list
+			m_vecpBulletList.push_back(new CBullet(&m_Level, *this, _posBoardPos, _eMovingDir));
 
-		return pBullet;
+			// Add the bullet to the board at the correct location
+			CBullet* pBullet = m_vecpBulletList.back();
+			tile.AddBullet(pBullet);
+
+			return pBullet;
+		}
 	}
 }
 

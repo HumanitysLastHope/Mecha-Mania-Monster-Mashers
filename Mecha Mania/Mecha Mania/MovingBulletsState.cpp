@@ -41,16 +41,4 @@ void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 			(*it)->Move((*it)->GetDirection());
 		}
 	}
-
-	// Do collision check for bullets
-	for (auto it = vecpBullets.begin(); it != vecpBullets.end(); ++it)
-	{
-		CBullet* pBullet = *it;
-		CTile& rTile = _pGameEngine->GetBoard().GetTile(pBullet->GetPosition());
-
-		if (rTile.GetBulletCount() > 1)
-		{
-			_pGameEngine->DestroyBullet(pBullet);
-		}
-	}
 }

@@ -3,6 +3,7 @@
 #include "Enums.h"
 #include "Movable.h"
 
+class CGameEngine;
 class CBoard;
 class CBullet;	// TODO:Include this
 class CMine;	// TODO:Include this
@@ -19,21 +20,21 @@ public:
 	EDIRECTION GetMechaFacingDirect();
 	void ChangeHealth(int _iChangeVal);
 
-	void Shoot();
+	void Shoot(CGameEngine& _rGameEngine);
 	bool Move(EDIRECTION _eDirection);
 	void Rotate(EROTATION _eRotation);
 	CMovable* WhatToPush();
 	void PlaceMine();
 	EDIRECTION GetDirection();
-
-	//THIS SHOULD BE PRIVATE!!!!!!!!!!!
-	int m_iHealth;
+	int GetHealth() const;
+	
 
 
 
 private:
 	int m_iID;
 	EDIRECTION m_eFacingDir;
+	int m_iHealth;
 	//CMine m_PlacedMine;
 };
 

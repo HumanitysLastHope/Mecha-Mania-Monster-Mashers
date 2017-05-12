@@ -29,7 +29,7 @@ std::queue<ECOMMANDS>& CPlayer::GetMoveList()
 
 bool CPlayer::CheckDeath()
 {
-	if (this->GetMecha()->m_iHealth < 1)
+	if (this->GetMecha()->GetHealth() < 1)
 	{
 		return true; // Death
 	}

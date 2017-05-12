@@ -4,6 +4,7 @@
 #include <MovingBulletsState.h>
 #include <Position.h>
 #include <Enums.h>
+#include <Player.h>
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
@@ -178,6 +179,7 @@ TEST_CASE("Test bullets hitting edge of screen")
 
 	// Run one step
 	gameEngine.Step();
+
 	// Check bullet1 is destroyed
 	auto it1 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet1);
 	REQUIRE(it1 == rvecpBullets.end());
@@ -197,4 +199,79 @@ TEST_CASE("Test bullets hitting edge of screen")
 	auto it4 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet4);
 	REQUIRE(it4 == rvecpBullets.end());
 	REQUIRE(rBoard.GetTile(9, 0).GetBullet() == nullptr);
+}
+
+TEST_CASE("Test trying to spawn bullets outside of board")
+{
+	// Init game engine
+	CGameEngine gameEngine;
+
+	std::vector<CBullet*>& rvecpBullets = gameEngine.GetBulletList();
+	CBoard& rBoard = gameEngine.GetBoard();
+
+	// Add some bullets
+	CBullet* pBullet1 = gameEngine.SpawnBullet({ -1, 0 }, EDIRECTION::WEST);
+	CBullet* pBullet2 = gameEngine.SpawnBullet({ 1, -1 }, EDIRECTION::NORTH);
+	CBullet* pBullet3 = gameEngine.SpawnBullet({ 0, 10 }, EDIRECTION::SOUTH);
+	CBullet* pBullet4 = gameEngine.SpawnBullet({ 10, 0 }, EDIRECTION::EAST);
+
+	// Swap current system to the moving bullets system
+	CMovingBulletsState* pState = new CMovingBulletsState;
+	gameEngine.ChangeState(pState);
+
+	// Run one step
+	gameEngine.Step();
+
+	// Check bullet1 is destroyed
+	auto it1 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet1);
+	REQUIRE(pBullet1 == nullptr);
+	REQUIRE(it1 == rvecpBullets.end());
+
+	// Check bullet2 is destroyed
+	auto it2 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet2);
+	REQUIRE(pBullet2 == nullptr);
+	REQUIRE(it2 == rvecpBullets.end());
+
+	// Check bullet3 is destroyed
+	auto it3 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet3);
+	REQUIRE(pBullet3 == nullptr);
+	REQUIRE(it3 == rvecpBullets.end());
+
+	// Check bullet4 is destroyed
+	auto it4 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet4);
+	REQUIRE(pBullet4 == nullptr);
+	REQUIRE(it4 == rvecpBullets.end());
+}
+
+TEST_CASE("Test bullets damaging player")
+{
+	// Init game engine
+	CGameEngine gameEngine;
+
+	std::vector<CBullet*>& rvecpBullets = gameEngine.GetBulletList();
+	CBoard& rBoard = gameEngine.GetBoard();
+
+	// Add a bullet
+	CBullet* pBullet1 = gameEngine.SpawnBullet({ 0, 0 }, EDIRECTION::EAST);
+
+	// Add a mecha
+	CPlayer& player1 = gameEngine.GetPlayerList()[0];
+	int iStartHealth = player1.GetMecha()->GetHealth();
+	player1.SetStartingPos({ 1, 0 }, EDIRECTION::EAST);
+
+	// Swap current system to the moving bullets system
+	CMovingBulletsState* pState = new CMovingBulletsState;
+	gameEngine.ChangeState(pState);
+
+	// Run one step
+	gameEngine.Step();
+
+	// Check that mecha took damage
+	REQUIRE(player1.GetMecha()->GetHealth() == (iStartHealth - 1));
+
+	// Check that bullet was destroyed
+	auto it1 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet1);
+	REQUIRE(it1 == rvecpBullets.end());
+	REQUIRE(rBoard.GetTile(0, 0).GetBullet() == nullptr);
+	REQUIRE(rBoard.GetTile(0, 1).GetBullet() == nullptr);
 }

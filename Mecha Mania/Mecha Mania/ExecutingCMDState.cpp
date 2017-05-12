@@ -1,10 +1,10 @@
 #include "ExecutingCMDState.h"
 #include <queue>
 #include <iostream>
-#include "GettingPlayerMovesState.h"
 #include <conio.h>
 
-
+#include "GettingPlayerMovesState.h"
+#include "MovingBulletsState.h"
 
 ExecutingCMDState::ExecutingCMDState()
 {
@@ -120,7 +120,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	}
 	case 31:
 	{
-		playerList[i].GetMecha()->Shoot();
+		playerList[i].GetMecha()->Shoot(*_pGameEngine);
 		break;
 	}
 	case 32:
@@ -184,7 +184,11 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 			ExecuteUserInput(_pGameEngine, i);
 			_pGameEngine->PitCheck();
 
-			//bullet move phase goes here
+			//Move bullets.....
+			auto pTemp = new CMovingBulletsState;
+			pTemp->Step(_pGameEngine);
+			delete pTemp;
+
 			for (int l = 0; l < _pGameEngine->playerAliveCount; l++)
 			{
 				playerList[l].bDead = playerList[l].CheckDeath();
@@ -192,7 +196,7 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 
 			_pGameEngine->Draw();
 			std::cout << "Player: " << i << " HP: ";
-			std::cout << playerList[i].GetMecha()->m_iHealth;
+			std::cout << playerList[i].GetMecha()->GetHealth();
 			_getch();
 			system("CLS");
 		}
