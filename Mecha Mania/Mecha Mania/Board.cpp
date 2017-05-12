@@ -33,3 +33,8 @@ int CBoard::GetHeight() const
 void CBoard::SetTile(int _iX, int _iY, CTile _pTile) {
 	m_arrMap[_iX][_iY] = _pTile;
 }
+
+bool CBoard::IsValidPos(const TPosition& _rkpos)
+{
+	return !(_rkpos.m_iX < 0 || _rkpos.m_iX >= GetWidth() || _rkpos.m_iY < 0 || _rkpos.m_iY >= GetHeight());
+}

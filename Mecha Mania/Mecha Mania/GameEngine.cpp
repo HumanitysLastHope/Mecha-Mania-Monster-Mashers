@@ -37,6 +37,10 @@ CGameEngine::~CGameEngine()
 void CGameEngine::Step()
 {
 	m_pCurGameState->Step(this);
+	if (m_bBulletsToDestroy)
+	{
+		ActuallyDestroyBullets();
+	}
 }
 
 bool CGameEngine::PitCheck()
@@ -359,7 +363,7 @@ CBullet* CGameEngine::SpawnBullet(const TPosition& _posBoardPos, EDIRECTION _eMo
 
 		// Add the bullet to the board at the correct location
 		CBullet* pBullet = m_vecpBulletList.back();
-		tile.SetBullet(pBullet);
+		tile.AddBullet(pBullet);
 
 		return pBullet;
 	}
@@ -367,9 +371,27 @@ CBullet* CGameEngine::SpawnBullet(const TPosition& _posBoardPos, EDIRECTION _eMo
 
 void CGameEngine::DestroyBullet(CBullet * pBullet)
 {
-	// Remove from board
-	m_Level.GetTile(pBullet->GetPosition()).SetBullet(nullptr);
+	// Set game engine state to destroy bullets at a later date
+	m_bBulletsToDestroy = true;
 
-	// Delete from list of bullets in the game
-	m_vecpBulletList.erase(std::remove(m_vecpBulletList.begin(), m_vecpBulletList.end(), pBullet), m_vecpBulletList.end());
+	// Set bullets state to destroyed, game engine will do actual cleanup later
+	pBullet->SetDestroyed();
+
+	// Remove from board
+	m_Level.GetTile(pBullet->GetPosition()).RemoveBullet(pBullet);
+}
+
+void CGameEngine::ActuallyDestroyBullets()
+{
+	if (m_bBulletsToDestroy)
+	// Conditionally remove bullets, on the condition that they are in a destroyed state
+	m_vecpBulletList.erase(std::remove_if(
+		m_vecpBulletList.begin(), m_vecpBulletList.end(),
+		[](const CBullet* rpBullet)
+		{
+			return rpBullet->IsDestroyed();
+		}
+	), m_vecpBulletList.end());
+
+	m_bBulletsToDestroy = false;
 }

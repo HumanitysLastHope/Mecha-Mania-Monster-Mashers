@@ -26,23 +26,15 @@ void CMovingBulletsState::Draw(CGameEngine * _pGameEngine)
 
 void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 {
-	static int iBulletIdx = 0;
+	// Loop over all bullets
 	std::vector<CBullet*> vecpBulletList = _pGameEngine->GetBulletList();
-
-	// Check we have bullets to move
-	if (vecpBulletList.size() > 0)
+	for (auto it = vecpBulletList.begin(); it != vecpBulletList.end(); ++it)
 	{
-		// Check we have a valid index into the bullet list
-		if (iBulletIdx >= vecpBulletList.size())
+		// Check the bullet hasn't been destroyed
+		if (!(*it)->IsDestroyed())
 		{
-			iBulletIdx = 0;
+			// Move the bullet
+			(*it)->Move((*it)->GetDirection());
 		}
-
-		// Move one bullet one space
-		CBullet* pBullet = vecpBulletList.at(iBulletIdx);
-		pBullet->Move(pBullet->GetDirection());
-
-		// Update the index to the next bullet to be moved
-		iBulletIdx = (iBulletIdx + 1) % vecpBulletList.size();
 	}
 }

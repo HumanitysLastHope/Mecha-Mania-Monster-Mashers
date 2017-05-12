@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Tile.h"
 
 
@@ -34,7 +35,7 @@ CMine* CTile::GetMine()
 
 CBullet* CTile::GetBullet()
 {
-	return m_pBullet;
+	return m_vecpBullets.size() != 0 ? m_vecpBullets[0] : nullptr;
 }
 
 void CTile::SetMecha(CMecha* _pMecha)
@@ -47,7 +48,23 @@ void CTile::SetMine(CMine* _pMine)
 	m_pMine = _pMine;
 }
 
-void CTile::SetBullet(CBullet* _pBullet)
+bool CTile::RemoveBullet(CBullet * _pBullet)
 {
-	m_pBullet = _pBullet;
+	// Search for the bullet to be removed
+	bool bResult = false;
+	auto it = std::remove(m_vecpBullets.begin(), m_vecpBullets.end(), _pBullet);
+	if (it != m_vecpBullets.end())
+		bResult = true;
+
+	// Remove the bullet from the list if it is found
+	if (bResult == true)
+		m_vecpBullets.erase(it, m_vecpBullets.end());
+
+	// Return whether we removed a bullet from the list or not
+	return bResult;
+}
+
+void CTile::AddBullet(CBullet * _pBullet)
+{
+	m_vecpBullets.push_back(_pBullet);
 }

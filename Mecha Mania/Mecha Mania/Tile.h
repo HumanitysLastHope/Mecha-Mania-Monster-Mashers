@@ -1,4 +1,7 @@
 #pragma once
+
+#include <vector>
+
 #include "Enums.h"
 #include "Mecha.h"
 #include "Bullet.h"
@@ -17,12 +20,13 @@ public:
 	CBullet* GetBullet();
 	void SetMine(CMine* _pMine);
 	void SetMecha(CMecha* _pMecha);
-	void SetBullet(CBullet* _pBullet);
+	bool RemoveBullet(CBullet* _pBullet);
+	void AddBullet(CBullet* _pBullet);
 
 private:
 	CMine* m_pMine;
 	CMecha* m_pMecha;
-	CBullet* m_pBullet;
+	std::vector<CBullet*> m_vecpBullets;
 
 	EENVIRONMENT m_peEnvironment;
 };

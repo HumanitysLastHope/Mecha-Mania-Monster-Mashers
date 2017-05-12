@@ -1,7 +1,6 @@
 #include <vector>
 #include <conio.h>
 #include <iostream>
-#include <list>
 
 #include "Bullet.h"
 #include "Player.h"
@@ -46,6 +45,10 @@ private:
 	CPlayer m_Player4;
 	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
 	std::vector<CBullet*> m_vecpBulletList;
+
+	// Actually destroy bullets in a safe location when we are not iterating through the list of bullets
+	void ActuallyDestroyBullets();
+	bool m_bBulletsToDestroy;
 	
 	IGameState* m_pCurGameState;
 };

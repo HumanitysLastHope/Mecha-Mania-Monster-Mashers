@@ -24,7 +24,8 @@ enum EDIRECTION
 	WEST,
 	NORTH,
 	EAST,
-	SOUTH
+	SOUTH,
+	NODIR
 };
 enum EROTATION
 {
