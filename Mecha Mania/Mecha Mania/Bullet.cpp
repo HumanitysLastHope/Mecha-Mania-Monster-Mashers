@@ -18,6 +18,7 @@ bool CBullet::Move(EDIRECTION _eDirection)
 {
 	TPosition newPos;
 
+	// Get next position that bullet will try to move to
 	switch (_eDirection)
 	{
 	case WEST:
@@ -41,11 +42,10 @@ bool CBullet::Move(EDIRECTION _eDirection)
 	if (newPos.m_iX < 0 || newPos.m_iX >= m_pBoard->GetWidth() || newPos.m_iY < 0 || newPos.m_iY >= m_pBoard->GetHeight())
 	{
 		m_rGameEngine.DestroyBullet(this);
-		return false;
 	}
 
 	// If two bullets collide, destroy both bullets
-	if (m_pBoard->GetTile(newPos).GetBullet() != nullptr)
+	else if (m_pBoard->GetTile(newPos).GetBullet() != nullptr)
 	{
 		CBullet* other = m_pBoard->GetTile(newPos).GetBullet();
 		m_rGameEngine.DestroyBullet(this);
@@ -53,9 +53,12 @@ bool CBullet::Move(EDIRECTION _eDirection)
 	}
 
 	// Otherwise update the bullet to its new position
-	m_pBoard->GetTile(m_posGridPosition).SetBullet(nullptr);
-	m_pBoard->GetTile(newPos).SetBullet(this);
-	m_posGridPosition = newPos;
+	else
+	{
+		m_pBoard->GetTile(m_posGridPosition).SetBullet(nullptr);
+		m_pBoard->GetTile(newPos).SetBullet(this);
+		m_posGridPosition = newPos;
+	}
 
 	return true;
 }
