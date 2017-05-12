@@ -105,7 +105,10 @@ void CGameEngine::Draw()
 				_ibackgroundcolour = 128;
 			}
 			//draw an empty tile
-			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR && m_Level.GetTile(_iX, _iY).GetMecha() == nullptr && m_Level.GetTile(_iX, _iY).GetMine() == nullptr)
+			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == FLOOR 
+				&& m_Level.GetTile(_iX, _iY).GetMecha() == nullptr 
+				&& m_Level.GetTile(_iX, _iY).GetMine() == nullptr
+				&& m_Level.GetTile(_iX, _iY).GetBullet() == nullptr)
 			{
 				char _cEmptyTile = 176;
 				std::cout << _cEmptyTile;
@@ -113,7 +116,7 @@ void CGameEngine::Draw()
 				std::cout << " ";
 			}
 			//draw mecha
-			if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
+			else if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
 				{
