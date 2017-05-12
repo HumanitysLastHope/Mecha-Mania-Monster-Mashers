@@ -1,8 +1,10 @@
 #include "Bullet.h"
 #include "Board.h"
+#include "GameEngine.h"
 
-CBullet::CBullet(CBoard* _pBoard, const TPosition& _posGridPosition, EDIRECTION _eMovingDir) :
+CBullet::CBullet(CBoard* _pBoard, CGameEngine& _rGameEngine, const TPosition& _posGridPosition, EDIRECTION _eMovingDir) :
 	m_eMovingDir(_eMovingDir),
+	m_rGameEngine(_rGameEngine),
 	CMovable(_pBoard, _posGridPosition)
 {
 }
@@ -14,89 +16,47 @@ CBullet::~CBullet()
 
 bool CBullet::Move(EDIRECTION _eDirection)
 {
+	TPosition newPos;
+
 	switch (_eDirection)
 	{
 	case WEST:
-		// Checks if you would hit a wall
-		if (m_posGridPosition.m_iX == 0)
-		{
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			return false;
-		}
-		// If there's a bullet in front move that bullet
-		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetBullet() != nullptr)
-		{
-			// TODO remove bullets from the bullet list
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).SetBullet(nullptr);
-		}
-
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-		m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).SetBullet(this);
-		m_posGridPosition.m_iX--;
+		newPos = { m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY };
 		break;
-
 	case NORTH:
-		if (m_posGridPosition.m_iY == 0)
-		{
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			return false;
-		}
-
-		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetBullet() != nullptr)
-		{
-			// TODO remove bullets from the bullet list
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).SetBullet(nullptr);
-		}
-
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).SetBullet(this);
-		m_posGridPosition.m_iY--;
+		newPos = { m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1 };
 		break;
-
 	case EAST:
-		if (m_posGridPosition.m_iX == 9)
-		{
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			return false;
-		}
-
-		if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetBullet() != nullptr)
-		{
-			// TODO remove bullets from the bullet list
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).SetBullet(nullptr);
-		}
-
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-		m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).SetBullet(this);
-		m_posGridPosition.m_iX++;
+		newPos = { m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY };
 		break;
-
 	case SOUTH:
-		if (m_posGridPosition.m_iY == 9)
-		{
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			return false;
-		}
-
-		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetBullet() != nullptr)
-		{
-			// TODO remove bullets from the bullet list
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetBullet(nullptr);
-		}
-
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetBullet(nullptr);
-		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).SetBullet(this);
-		m_posGridPosition.m_iY++;
-
+		newPos = { m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1 };
 		break;
-
 	default:
+		newPos = { m_posGridPosition.m_iX, m_posGridPosition.m_iY };
 		break;
 	}
+
+	// Checks if you would hit a wall
+	if (newPos.m_iX < 0 || newPos.m_iX >= m_pBoard->GetWidth() || newPos.m_iY < 0 || newPos.m_iY >= m_pBoard->GetHeight())
+	{
+		m_rGameEngine.DestroyBullet(this);
+		return false;
+	}
+
+	// If two bullets collide, destroy both bullets
+	if (m_pBoard->GetTile(newPos).GetBullet() != nullptr)
+	{
+		CBullet* other = m_pBoard->GetTile(newPos).GetBullet();
+		m_rGameEngine.DestroyBullet(this);
+		m_rGameEngine.DestroyBullet(other);
+	}
+
+	// Otherwise update the bullet to its new position
+	m_pBoard->GetTile(m_posGridPosition).SetBullet(nullptr);
+	m_pBoard->GetTile(newPos).SetBullet(this);
+	m_posGridPosition = newPos;
+
 	return true;
 }
 

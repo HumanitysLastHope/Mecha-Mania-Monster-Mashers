@@ -83,6 +83,9 @@ TEST_CASE("Test bullets colliding")
 	// Init game engine
 	CGameEngine gameEngine;
 
+	std::vector<CBullet*>& rvecpBullets = gameEngine.GetBulletList();
+	CBoard& rBoard = gameEngine.GetBoard();
+
 	// Add some bullets
 	CBullet* pBullet1 = gameEngine.SpawnBullet({ 0, 0 }, EDIRECTION::EAST);
 	CBullet* pBullet2 = gameEngine.SpawnBullet({ 1, 0 }, EDIRECTION::WEST);
@@ -94,10 +97,10 @@ TEST_CASE("Test bullets colliding")
 	// Run one step
 	gameEngine.Step();
 	// Check both bullets collide and are destroyed
-	auto it1 = std::find(gameEngine.GetBulletList().begin(), gameEngine.GetBulletList().end(), pBullet1);
-	auto it2 = std::find(gameEngine.GetBulletList().begin(), gameEngine.GetBulletList().end(), pBullet2);
-	REQUIRE(it1 == gameEngine.GetBulletList().end());
-	REQUIRE(it2 == gameEngine.GetBulletList().end());
-	REQUIRE(gameEngine.GetBoard().GetTile(0, 0).GetBullet() == nullptr);
-	REQUIRE(gameEngine.GetBoard().GetTile(1, 0).GetBullet() == nullptr);
+	auto it1 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet1);
+	auto it2 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet2);
+	REQUIRE(it1 == rvecpBullets.end());
+	REQUIRE(it2 == rvecpBullets.end());
+	REQUIRE(rBoard.GetTile(0, 0).GetBullet() == nullptr);
+	REQUIRE(rBoard.GetTile(1, 0).GetBullet() == nullptr);
 }

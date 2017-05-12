@@ -11,6 +11,8 @@ public:
 
 	CTile& GetTile(int _iX, int _iY);
 	CTile& GetTile(const TPosition&);
+	int GetWidth() const;
+	int GetHeight() const;
 	void SetTile(int _iX, int _iY, CTile _pTile);
 
 private:

@@ -20,6 +20,16 @@ CTile & CBoard::GetTile(const TPosition& _pos)
 	return m_arrMap[_pos.m_iX][_pos.m_iY];
 }
 
+int CBoard::GetWidth() const
+{
+	return 10;
+}
+
+int CBoard::GetHeight() const
+{
+	return 10;
+}
+
 void CBoard::SetTile(int _iX, int _iY, CTile _pTile) {
 	m_arrMap[_iX][_iY] = _pTile;
 }

@@ -4,10 +4,12 @@
 #include "Enums.h"
 #include "Position.h"
 
+class CGameEngine;
+
 class CBullet : public CMovable
 {
 public:
-	CBullet(CBoard*, const TPosition&, EDIRECTION);
+	CBullet(CBoard*, CGameEngine&, const TPosition&, EDIRECTION);
 	virtual ~CBullet() override;
 	bool Move(EDIRECTION _eDirection);
 
@@ -15,5 +17,6 @@ public:
 
 private:
 	EDIRECTION m_eMovingDir;
+	CGameEngine& m_rGameEngine;
 };
 

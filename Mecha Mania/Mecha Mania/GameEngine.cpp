@@ -355,7 +355,7 @@ CBullet* CGameEngine::SpawnBullet(const TPosition& _posBoardPos, EDIRECTION _eMo
 	else
 	{
 		// Create the bullet at the end of the bullet list
-		m_vecpBulletList.push_back(new CBullet(&m_Level, _posBoardPos, _eMovingDir));
+		m_vecpBulletList.push_back(new CBullet(&m_Level, *this, _posBoardPos, _eMovingDir));
 
 		// Add the bullet to the board at the correct location
 		CBullet* pBullet = m_vecpBulletList.back();
