@@ -104,6 +104,12 @@ TEST_CASE("Test bullets colliding")
 	CBullet* pBullet5 = gameEngine.SpawnBullet({ 4, 0 }, EDIRECTION::EAST);
 	CBullet* pBullet6 = gameEngine.SpawnBullet({ 6, 0 }, EDIRECTION::WEST);
 
+	// Four bullets all colliding
+	CBullet* pBullet7  = gameEngine.SpawnBullet({ 4, 2 }, EDIRECTION::EAST);
+	CBullet* pBullet8  = gameEngine.SpawnBullet({ 5, 1 }, EDIRECTION::SOUTH);
+	CBullet* pBullet9  = gameEngine.SpawnBullet({ 6, 2 }, EDIRECTION::WEST);
+	CBullet* pBullet10 = gameEngine.SpawnBullet({ 5, 3 }, EDIRECTION::NORTH);
+
 	// Swap current system to the moving bullets system
 	CMovingBulletsState* pState = new CMovingBulletsState;
 	gameEngine.ChangeState(pState);
@@ -136,6 +142,20 @@ TEST_CASE("Test bullets colliding")
 	REQUIRE(rBoard.GetTile(4, 0).GetBullet() == nullptr);
 	REQUIRE(rBoard.GetTile(5, 0).GetBullet() == nullptr);
 	REQUIRE(rBoard.GetTile(6, 0).GetBullet() == nullptr);
+
+	// Check third set of bullets collide and are destroyed
+	auto it7 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet7);
+	auto it8 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet8);
+	auto it9 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet9);
+	auto it10 = std::find(rvecpBullets.begin(), rvecpBullets.end(), pBullet10);
+	REQUIRE(it7 == rvecpBullets.end());
+	REQUIRE(it8 == rvecpBullets.end());
+	REQUIRE(it9 == rvecpBullets.end());
+	REQUIRE(it10 == rvecpBullets.end());
+	REQUIRE(rBoard.GetTile(4, 2).GetBullet() == nullptr);
+	REQUIRE(rBoard.GetTile(5, 1).GetBullet() == nullptr);
+	REQUIRE(rBoard.GetTile(6, 2).GetBullet() == nullptr);
+	REQUIRE(rBoard.GetTile(5, 3).GetBullet() == nullptr);
 }
 
 TEST_CASE("Test bullets hitting edge of screen")

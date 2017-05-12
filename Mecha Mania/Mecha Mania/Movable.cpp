@@ -14,7 +14,7 @@ bool CMovable::Move(EDIRECTION)
 	return false;
 }
 
-TPosition CMovable::GetPosition()
+TPosition CMovable::GetPosition() const
 {
 	return m_posGridPosition;
 }

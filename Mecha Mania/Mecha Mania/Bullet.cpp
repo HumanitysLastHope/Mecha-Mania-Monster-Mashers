@@ -41,35 +41,6 @@ TPosition GetNextPosition(const TPosition& _rkpos, EDIRECTION _eDirection)
 	return newPos;
 }
 
-std::vector<CBullet*> CBullet::GetIncomingBullets(const TPosition & _rkpos)
-{
-	std::vector<CBullet*> vecpIncomingBullets;
-
-	// Loop over cardinal directions
-	for (int iDir = 0; iDir != EDIRECTION::NODIR; ++iDir)
-	{
-		TPosition curCardinalPos = GetNextPosition(_rkpos, static_cast<EDIRECTION>(iDir));
-
-		// Check position is valid
-		if (m_pBoard->IsValidPos(curCardinalPos))
-		{
-			// Check if cardinal positions contain bullets
-			CBullet* pBullet = m_pBoard->GetTile(curCardinalPos).GetBullet();
-			if (pBullet)
-			{
-				// Check if bullets will intersect after next step
-				TPosition nextpos = GetNextPosition(pBullet->GetPosition(), pBullet->GetDirection());
-				if (nextpos == _rkpos)
-				{
-					vecpIncomingBullets.push_back(pBullet);
-				}
-			}
-		}
-	}
-
-	return vecpIncomingBullets;
-}
-
 bool CBullet::Move(EDIRECTION _eDirection)
 {
 	// Get next position that bullet will try to move to
@@ -105,18 +76,7 @@ bool CBullet::Move(EDIRECTION _eDirection)
 		}
 	}
 
-	// Handle case where bullets will overlap after step
-	std::vector<CBullet*> vecpIncomingBullets = GetIncomingBullets(newPos);
-	if (vecpIncomingBullets.size() >= 2)
-	{
-		bCollision = true;
-		for (auto it = vecpIncomingBullets.begin(); it != vecpIncomingBullets.end(); ++it)
-		{
-			m_rGameEngine.DestroyBullet(*it);
-		}
-	}
-
-	// If bullets aren't colliding, then move this bullet to the next tile
+	// If bullets aren't phasing through each other, then move this bullet to the next tile
 	if (!bCollision)
 	{
 		m_pBoard->GetTile(m_posGridPosition).RemoveBullet(this);

@@ -15,13 +15,14 @@ public:
 
 	EENVIRONMENT GetEnvironment();
 	void SetEnvironment(EENVIRONMENT _peEnvironment);
-	CMecha* GetMecha();
-	CMine* GetMine();
-	CBullet* GetBullet();
+	CMecha* GetMecha() const;
+	CMine* GetMine() const;
+	CBullet* GetBullet() const;
 	void SetMine(CMine* _pMine);
 	void SetMecha(CMecha* _pMecha);
-	bool RemoveBullet(CBullet* _pBullet);
+	bool RemoveBullet(const CBullet* _pBullet);
 	void AddBullet(CBullet* _pBullet);
+	int GetBulletCount() const;
 
 private:
 	CMine* m_pMine;

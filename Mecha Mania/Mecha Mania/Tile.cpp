@@ -2,9 +2,10 @@
 #include "Tile.h"
 
 
-CTile::CTile()
+CTile::CTile() :
+	m_peEnvironment(FLOOR)
 {
-	m_peEnvironment = FLOOR;
+	
 }
 
 
@@ -23,17 +24,17 @@ void  CTile::SetEnvironment(EENVIRONMENT _peEnvironment)
 }
 
 
-CMecha* CTile::GetMecha()
+CMecha* CTile::GetMecha() const
 {
 	return m_pMecha;
 }
 
-CMine* CTile::GetMine()
+CMine* CTile::GetMine() const
 {
 	return m_pMine;
 }
 
-CBullet* CTile::GetBullet()
+CBullet* CTile::GetBullet() const
 {
 	return m_vecpBullets.size() != 0 ? m_vecpBullets[0] : nullptr;
 }
@@ -48,7 +49,7 @@ void CTile::SetMine(CMine* _pMine)
 	m_pMine = _pMine;
 }
 
-bool CTile::RemoveBullet(CBullet * _pBullet)
+bool CTile::RemoveBullet(const CBullet * _pBullet)
 {
 	// Search for the bullet to be removed
 	bool bResult = false;
@@ -67,4 +68,9 @@ bool CTile::RemoveBullet(CBullet * _pBullet)
 void CTile::AddBullet(CBullet * _pBullet)
 {
 	m_vecpBullets.push_back(_pBullet);
+}
+
+int CTile::GetBulletCount() const
+{
+	return m_vecpBullets.size();
 }

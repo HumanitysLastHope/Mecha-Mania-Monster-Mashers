@@ -1,6 +1,7 @@
 #include "MovingBulletsState.h"
 #include "GameEngine.h"
 #include "Bullet.h"
+#include "Tile.h"
 
 CMovingBulletsState::CMovingBulletsState()
 {
@@ -26,15 +27,30 @@ void CMovingBulletsState::Draw(CGameEngine * _pGameEngine)
 
 void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 {
-	// Loop over all bullets
-	std::vector<CBullet*> vecpBulletList = _pGameEngine->GetBulletList();
-	for (auto it = vecpBulletList.begin(); it != vecpBulletList.end(); ++it)
+	// Move all bullets
+	std::vector<CBullet*> vecpBullets = _pGameEngine->GetBulletList();
+	for (auto it = vecpBullets.begin(); it != vecpBullets.end(); ++it)
 	{
 		// Check the bullet hasn't been destroyed
 		if (!(*it)->IsDestroyed())
 		{
-			// Move the bullet
+			// Move the bullet 
+			// (destroys bullets that try to phase through each other,
+			// all others collisions are handled in the collision check at the end of 
+			// this step)
 			(*it)->Move((*it)->GetDirection());
+		}
+	}
+
+	// Do collision check for bullets
+	for (auto it = vecpBullets.begin(); it != vecpBullets.end(); ++it)
+	{
+		CBullet* pBullet = *it;
+		CTile& rTile = _pGameEngine->GetBoard().GetTile(pBullet->GetPosition());
+
+		if (rTile.GetBulletCount() > 1)
+		{
+			_pGameEngine->DestroyBullet(pBullet);
 		}
 	}
 }

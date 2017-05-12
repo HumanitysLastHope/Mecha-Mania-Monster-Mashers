@@ -24,7 +24,5 @@ private:
 
 	EDIRECTION m_eMovingDir;
 	CGameEngine& m_rGameEngine;
-
-	std::vector<CBullet*> GetIncomingBullets(const TPosition&);
 };
 

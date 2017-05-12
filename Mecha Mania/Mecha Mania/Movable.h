@@ -11,7 +11,7 @@ public:
 	virtual ~CMovable();
 
 	virtual bool Move(EDIRECTION) = 0;
-	TPosition GetPosition();
+	TPosition GetPosition() const;
 
 protected:
 	TPosition m_posGridPosition;

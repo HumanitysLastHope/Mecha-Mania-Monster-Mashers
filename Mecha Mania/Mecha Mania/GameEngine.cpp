@@ -376,21 +376,31 @@ void CGameEngine::DestroyBullet(CBullet * pBullet)
 
 	// Set bullets state to destroyed, game engine will do actual cleanup later
 	pBullet->SetDestroyed();
-
-	// Remove from board
-	m_Level.GetTile(pBullet->GetPosition()).RemoveBullet(pBullet);
 }
 
 void CGameEngine::ActuallyDestroyBullets()
 {
-	if (m_bBulletsToDestroy)
 	// Conditionally remove bullets, on the condition that they are in a destroyed state
 	m_vecpBulletList.erase(std::remove_if(
 		m_vecpBulletList.begin(), m_vecpBulletList.end(),
-		[](const CBullet* rpBullet)
+		[&](const CBullet* pBullet)
+	{
+		if (pBullet->IsDestroyed())
 		{
-			return rpBullet->IsDestroyed();
+			// Remove from board
+			m_Level.GetTile(pBullet->GetPosition()).RemoveBullet(pBullet);
+
+			// Delete memory
+			delete pBullet;
+
+			// Tell erase function to remove from list
+			return true;
 		}
+		else
+		{
+			return false;
+		}
+	}
 	), m_vecpBulletList.end());
 
 	m_bBulletsToDestroy = false;
