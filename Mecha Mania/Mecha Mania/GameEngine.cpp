@@ -38,12 +38,12 @@ void CGameEngine::Step()
 {
 	m_pCurGameState->Step(this);
 
-	BulletCollisionTest();
+	/*BulletCollisionTest();
 
 	if (m_bBulletsToDestroy)
 	{
 		ActuallyDestroyBullets();
-	}
+	}*/
 }
 
 bool CGameEngine::PitCheck()
