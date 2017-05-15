@@ -185,14 +185,37 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 			_pGameEngine->PitCheck();
 
 			//Move bullets.....
-			auto pTemp = new CMovingBulletsState;
+			auto pTemp = new CMovingBulletsState;	
+			//_getch();
+			system("CLS");
+			_pGameEngine->Draw();
+
 			pTemp->Step(_pGameEngine);
+			_getch();
+			system("CLS");
+
+			//system("CLS");
+
+
 			delete pTemp;
+
+
+
+			_pGameEngine->BulletCollisionTest();
+
+
+
+			if (_pGameEngine->m_bBulletsToDestroy)
+			{
+				_pGameEngine->ActuallyDestroyBullets();
+			}
+
 
 			for (int l = 0; l < _pGameEngine->playerAliveCount; l++)
 			{
 				playerList[l].bDead = playerList[l].CheckDeath();
 			}
+		
 
 			_pGameEngine->Draw();
 			std::cout << "Player: " << i << " HP: ";
