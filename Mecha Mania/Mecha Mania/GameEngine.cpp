@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <conio.h>
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level, 1),
@@ -14,6 +15,9 @@ CGameEngine::CGameEngine() :
 	m_Player3({ 0,0 }, NORTH, &m_Level, 3),
 	m_Player4({ 0,0 }, NORTH, &m_Level, 4)
 {
+	system("mode 200");
+	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
+	
 	LoadBoard(1);
 
 	m_CommandOrder.push_back(0);
@@ -88,13 +92,24 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	}
 }
 
+//Author: Jack Mair
+//Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
+//Returns: void.
 void CGameEngine::Draw()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, 128);
+
+	//SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, NULL);
+	//MoveWindow(console, r.left, r.top, 800, 800, TRUE);
+
+	SetConsoleCursorPosition(hConsole, { 10, 7 });
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
+		COORD point;
+		point.X = 10 + _iY;
+		point.Y = 7 + _iY;
+		SetConsoleCursorPosition(hConsole, point);
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			int _ibackgroundcolour;
@@ -162,6 +177,7 @@ void CGameEngine::Draw()
 			else if (m_Level.GetTile(_iX, _iY).GetBullet() != nullptr)
 			{
 				char _cBulletImage = 249;
+				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
 				std::cout << _cBulletImage;
 				SetConsoleTextAttribute(hConsole, 15);
 				std::cout << " ";
@@ -172,7 +188,7 @@ void CGameEngine::Draw()
 				char _cMineImage = 15;
 				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
 				std::cout << _cMineImage;
-				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
+				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine(); //arms the mine when it gets drawn so it can now blow up when another mecha stands on it.
 				SetConsoleTextAttribute(hConsole, 15);
 				std::cout << " ";
 			}
@@ -196,6 +212,7 @@ void CGameEngine::Draw()
 			}
 			SetConsoleTextAttribute(hConsole, 128);
 		}
+		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
