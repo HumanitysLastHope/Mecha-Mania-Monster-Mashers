@@ -57,6 +57,18 @@ CGameEngine::~CGameEngine()
 	{
 		delete (*it);
 	}
+	for (int _iY = 0; _iY < 10; ++_iY)
+	{
+		for (int _iX = 0; _iX < 10; ++_iX)
+		{
+			if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
+			{
+				CMine* temp = m_Level.GetTile(_iX, _iY).GetMine();
+				m_Level.GetTile(_iX, _iY).SetMine(nullptr);
+				delete temp;
+			}
+		}
+	}
 }
 
 void CGameEngine::Step()
@@ -90,28 +102,17 @@ void CGameEngine::Step()
 bool CGameEngine::PitCheck()
 {
 	bool _bReturn = false;
-	//cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water, pit
+	// Cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water, pit
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
-			////checks water
-			//if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr && bWaterCheck == true)
-			//{
-   //				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-1);
-			//	std::cout << m_Level.GetTile(_iX, _iY).GetMecha()->m_iHealth;
-
-			//	_bReturn = true;
-
-			//}
-			//checks pit
+			// Checks pit
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
 				m_Level.GetTile(_iX, _iY).SetMecha(nullptr);
 
-
-				//delete m_Level.GetTile(_iX, _iY).GetMecha();
 				_bReturn = true;
 			}
 		}
@@ -129,9 +130,9 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	}
 }
 
-//Author: Jack Mair
-//Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
-//Returns: void.
+// Author: Jack Mair
+// Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
+// Returns: void.
 void CGameEngine::Draw()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

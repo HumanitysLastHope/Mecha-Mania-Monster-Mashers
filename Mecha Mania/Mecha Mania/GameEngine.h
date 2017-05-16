@@ -52,6 +52,7 @@ private:
 	CPlayer m_Player4;
 	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
 	std::vector<CBullet*> m_vecpBulletList;
+	//std::vector<CMine*> m_vecMineList;
 
 
 	

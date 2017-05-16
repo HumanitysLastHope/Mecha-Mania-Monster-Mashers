@@ -22,7 +22,7 @@ void CMovingBulletsState::Cleanup()
 
 void CMovingBulletsState::Draw(CGameEngine * _pGameEngine)
 {
-
+	_pGameEngine->Draw();
 }
 
 void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
@@ -38,6 +38,7 @@ void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 			// (destroys bullets that try to phase through each other,
 			// all others collisions are handled in the collision check at the end of 
 			// this step)
+			
 			(*it)->Move((*it)->GetDirection());
 		}
 	}

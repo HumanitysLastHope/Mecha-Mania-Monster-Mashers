@@ -34,8 +34,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	i = _pGameEngine->m_CommandOrder[z];
 
-	std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
-	_getch();
+	//_getch();
 
 
 	if (playerList[i].GetMoveList().empty() == true && playerList[i].bDead == false)
@@ -77,9 +76,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		//_pGameEngine->WaterCheck(&(playerList[i]));
-		_pGameEngine->Draw();
-		_getch();
 		system("CLS");
+		_pGameEngine->Draw();
+		//_getch();
 
 		playerList[i].bDead = playerList[i].CheckDeath();
 		if (playerList[i].bDead == true)
@@ -95,9 +94,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		//_pGameEngine->WaterCheck(&(playerList[i]));
-		_pGameEngine->Draw();
-		_getch();
 		system("CLS");
+		_pGameEngine->Draw();
+		//_getch();
 
 		playerList[i].bDead = playerList[i].CheckDeath();
 		if (playerList[i].bDead == true)
@@ -107,9 +106,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
 		//_pGameEngine->WaterCheck(&(playerList[i]));
-		_pGameEngine->Draw();
-		_getch();
 		system("CLS");
+		_pGameEngine->Draw();
+		//_getch();
 
 		playerList[i].bDead = playerList[i].CheckDeath();
 		if (playerList[i].bDead == true)
@@ -147,6 +146,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	case 31:
 	{
 		playerList[i].GetMecha()->Shoot(*_pGameEngine);
+		system("CLS");
+		_pGameEngine->Draw();
+		//_getch();
 		break;
 	}
 	case 32:
@@ -172,7 +174,8 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	}
 	
 	//_pGameEngine->Draw();
-	//_getch();
+	std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
+	_getch();
 	//_pGameEngine->WaterCheck(&(playerList[i]));
 }
 
@@ -198,6 +201,7 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 		//Move bullets.....
 		auto pTemp = new CMovingBulletsState;	
 		pTemp->Step(_pGameEngine);
+
 		delete pTemp;
 		_pGameEngine->BulletCollisionTest();
 

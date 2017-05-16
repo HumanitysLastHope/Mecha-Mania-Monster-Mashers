@@ -29,7 +29,15 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	if (playerList[i].bDead == true)
 	{
-		
+		if (i < 3)
+		{
+			i++;
+		}
+		else
+		{
+			i = 0;
+			_pGameEngine->ChangeState(new ExecutingCMDState);
+		}
 	}
 	else
 	{
@@ -179,26 +187,27 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 			}
 		}
-	}
-	if (j < 2)
-	{
-		j++;
-	}
-	else
-	{
-		j = 0;
-		if (i < 3)
+
+		if (j < 2)
 		{
-			i++;
+			j++;
 		}
 		else
 		{
-			i = 0;
-			_pGameEngine->ChangeState(new ExecutingCMDState);
+			j = 0;
+			if (i < 3)
+			{
+				i++;
+			}
+			else
+			{
+				i = 0;
+				_pGameEngine->ChangeState(new ExecutingCMDState);
+			}
 		}
+		std::cout << "Press any key to continue..." << std::endl;
+		_getch();
 	}
-	std::cout << "Press any key to continue..." << std::endl;
-	_getch();
 }
 
 void CGettingPlayerMovesState::Init()
