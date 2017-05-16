@@ -10,7 +10,7 @@ public:
 	CGettingPlayerMovesState();
 	virtual ~CGettingPlayerMovesState() override;
 
-	void ProcessUserInput(CGameEngine* _pGameEngine, int i, int j);
+	void ProcessUserInput(CGameEngine* _pGameEngine);
 	
 
 	// Inherited via IGameState
@@ -22,5 +22,11 @@ public:
 
 	virtual void Step(CGameEngine * _pGameEngine) override;
 
+	void ResetCount();
+
+private:
+
+	int i = 0;
+	int j = 0;
 };
 

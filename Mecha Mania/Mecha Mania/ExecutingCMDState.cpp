@@ -8,6 +8,8 @@
 
 ExecutingCMDState::ExecutingCMDState()
 {
+	z = -1; // INITIAL DO NOT CHANGE
+	j = 0;
 }
 
 
@@ -15,14 +17,38 @@ ExecutingCMDState::~ExecutingCMDState()
 {
 }
 
-void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
+void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 {
-
-	//system("CLS"); //clear screen
-	//_pGameEngine->Draw(); //redraw
-	//_getch(); //show user screen
-	system("CLS"); //clear again before creating new screens
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
+
+	int i = 0; // Doesn't matter that it's reset
+
+	if (z < 3)
+	{
+		z++; // NEXT PLAYER
+	}
+	else
+	{
+		z = 0;
+	}
+
+	i = _pGameEngine->m_CommandOrder[z];
+
+	std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
+	_getch();
+
+
+	if (playerList[i].GetMoveList().empty() == true && playerList[i].bDead == false)
+	{
+		_pGameEngine->SetNewFirstPlayer();
+		_pGameEngine->ChangeState(new CGettingPlayerMovesState);
+   		return;
+	}
+
+	_pGameEngine->WaterCheck(&(playerList[i]));
+	
+	//system("CLS"); //clear again before creating new screens
+//	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	playerList[i].bDead = playerList[i].CheckDeath();
 
 	int playerCommand;
@@ -145,9 +171,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	}
 	}
 	
+	//_pGameEngine->Draw();
+	//_getch();
 	//_pGameEngine->WaterCheck(&(playerList[i]));
-
-
 }
 
 
@@ -167,71 +193,16 @@ void ExecutingCMDState::Draw(CGameEngine * _pGameEngine)
 
 void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 {
-	bool waterCheck = false;
-	int i = 0;
-	system("CLS");
-	_pGameEngine->Draw();
-	_getch();
-	system("CLS");
-	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
+		ExecuteUserInput(_pGameEngine);
+		
+		//Move bullets.....
+		auto pTemp = new CMovingBulletsState;	
+		pTemp->Step(_pGameEngine);
+		delete pTemp;
+		_pGameEngine->BulletCollisionTest();
 
-	for (int j = 0; j < 3; j++) // EXECUTE 3 ORDERS
-	{
-
-		for (int z = 0; z < 4; z++) //EXECUTE EACH PLAYERS ORDER
+		if (_pGameEngine->m_bBulletsToDestroy)
 		{
-			i = _pGameEngine->m_CommandOrder[z];
-			_pGameEngine->WaterCheck(&(playerList[i]));
-			ExecuteUserInput(_pGameEngine, i);
-			_pGameEngine->PitCheck();
-
-			//Move bullets.....
-			auto pTemp = new CMovingBulletsState;	
-			//_getch();
-			system("CLS");
-			_pGameEngine->Draw();
-
-			pTemp->Step(_pGameEngine);
-			_getch();
-			system("CLS");
-
-			//system("CLS");
-
-
-			delete pTemp;
-
-
-
-			_pGameEngine->BulletCollisionTest();
-
-
-
-			if (_pGameEngine->m_bBulletsToDestroy)
-			{
-				_pGameEngine->ActuallyDestroyBullets();
-			}
-
-
-			for (int l = 0; l < _pGameEngine->playerAliveCount; l++)
-			{
-				playerList[l].bDead = playerList[l].CheckDeath();
-			}
-		
-
-			_pGameEngine->Draw();
-			std::cout << "Player: " << i << " HP: ";
-			std::cout << playerList[i].GetMecha()->GetHealth();
-			_getch();
-			system("CLS");
+			_pGameEngine->ActuallyDestroyBullets();
 		}
-
-		
-	}
-		
-		//_pGameEngine->CollisionCheck(true);
-
-	_pGameEngine->SetNewFirstPlayer();
-
-	_pGameEngine->ChangeState(new CGettingPlayerMovesState);
-
 }

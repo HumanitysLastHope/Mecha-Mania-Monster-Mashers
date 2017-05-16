@@ -61,14 +61,30 @@ CGameEngine::~CGameEngine()
 
 void CGameEngine::Step()
 {
+
+	playerAliveCount = 0;
+	for (int l = 0; l < 4; l++) // CHECK DEATH
+	{
+
+		m_PlayerList[l].bDead = m_PlayerList[l].CheckDeath();
+
+		if (m_PlayerList[l].bDead == false)
+		{
+			playerAliveCount++;
+		}
+	}
+
+	PitCheck();
+
+
 	m_pCurGameState->Step(this);
 
-	BulletCollisionTest();
+	/*BulletCollisionTest();
 
 	if (m_bBulletsToDestroy)
 	{
 		ActuallyDestroyBullets();
-	}
+	}*/
 }
 
 bool CGameEngine::PitCheck()
@@ -108,7 +124,7 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	if (m_Level.GetTile(_pPlayer->GetMecha()->GetGridPosition().m_iX, _pPlayer->GetMecha()->GetGridPosition().m_iY).GetEnvironment() == WATER)
 	{
  		_pPlayer->GetMecha()->ChangeHealth(-1);
-		std::cout << _pPlayer->GetMecha()->GetHealth();
+		//std::cout << _pPlayer->GetMecha()->GetHealth();
 
 	}
 }
@@ -393,13 +409,14 @@ void CGameEngine::Run()
 	// Initialize game
 	CGameEngine gameEngine;
 
-	while (true)
+	while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0)
 	{
 		gameEngine.Draw();
 		gameEngine.Step();
 		system("CLS");
 	}
 
+	std::cout << "GAME OVER LOSERS" << std::endl;
 	_getch();
 
 }

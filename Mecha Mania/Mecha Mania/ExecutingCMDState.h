@@ -9,7 +9,7 @@ public:
 	ExecutingCMDState();
 	virtual ~ExecutingCMDState() override;
 
-	void ExecuteUserInput(CGameEngine* _pGameEngine, int i);
+	void ExecuteUserInput(CGameEngine* _pGameEngine);
 
 
 	// Inherited via IGameState
@@ -20,5 +20,9 @@ public:
 	virtual void Draw(CGameEngine * _pGameEngine) override;
 
 	virtual void Step(CGameEngine * _pGameEngine) override;
+
+private:
+	int z;
+	int j;
 };
 
