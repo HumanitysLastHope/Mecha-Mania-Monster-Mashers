@@ -83,6 +83,15 @@ void CGameEngine::Step()
 		if (m_PlayerList[l].bDead == false)
 		{
 			playerAliveCount++;
+
+			if (playerAliveCount == 1)
+			{
+				m_pWinner = &m_PlayerList[l];
+			}
+			else
+			{
+				m_pWinner == nullptr;
+			}
 		}
 	}
 
@@ -102,7 +111,8 @@ void CGameEngine::Step()
 bool CGameEngine::PitCheck()
 {
 	bool _bReturn = false;
-	// Cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on water, pit
+
+	// Cycles through the whole grid for each tile and checks and excutes behaviour if a Mecha is standing on pit
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
 		for (int _iX = 0; _iX < 10; ++_iX)
@@ -125,8 +135,6 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	if (m_Level.GetTile(_pPlayer->GetMecha()->GetGridPosition().m_iX, _pPlayer->GetMecha()->GetGridPosition().m_iY).GetEnvironment() == WATER)
 	{
  		_pPlayer->GetMecha()->ChangeHealth(-1);
-		//std::cout << _pPlayer->GetMecha()->GetHealth();
-
 	}
 }
 
@@ -417,7 +425,14 @@ void CGameEngine::Run()
 		system("CLS");
 	}
 
-	std::cout << "GAME OVER LOSERS" << std::endl;
+	if (gameEngine.m_pWinner != nullptr)
+	{
+		std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
+	}
+	else
+	{
+		std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
+	}
 	_getch();
 
 }

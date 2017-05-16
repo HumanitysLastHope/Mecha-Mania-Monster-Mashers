@@ -32,12 +32,10 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		z = 0;
 	}
 
-	i = _pGameEngine->m_CommandOrder[z];
-
-	//_getch();
+	i = _pGameEngine->m_CommandOrder[z]; // Determine player using command order
 
 
-	if (playerList[i].GetMoveList().empty() == true && playerList[i].bDead == false)
+	if (playerList[i].GetMoveList().empty() == true && playerList[i].bDead == false) // If alive and no commands left to execute
 	{
 		_pGameEngine->SetNewFirstPlayer();
 		_pGameEngine->ChangeState(new CGettingPlayerMovesState);
@@ -45,40 +43,62 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	}
 
 	_pGameEngine->WaterCheck(&(playerList[i]));
-	
-	//system("CLS"); //clear again before creating new screens
-//	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 	playerList[i].bDead = playerList[i].CheckDeath();
 
 	int playerCommand;
 	int iOppositeDirection;
 
-	if (playerList[i].bDead == false)
+	if (playerList[i].bDead == false) // Get alive players command
 	{
 		playerCommand = playerList[i].GetMoveList().front();
 		playerList[i].GetMoveList().pop();
 	}
-	else
+	else // Skip dead player's turn
 	{
 		return;
 	}
 
 	switch (playerCommand)
 	{
-	case 11:
+	case 11: // Move 1
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
 
 		break;
 	}
-	case 12:
+	case 12: // Move 2
 	{
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
 		system("CLS");
 		_pGameEngine->Draw();
-		//_getch();
+
+		playerList[i].bDead = playerList[i].CheckDeath();
+
+		if (playerList[i].bDead == true)
+		{
+			return;
+		}
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+
+		break;
+	}
+	case 13: // Move 3
+	{
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		system("CLS");
+		_pGameEngine->Draw();
+
+		playerList[i].bDead = playerList[i].CheckDeath();
+
+		if (playerList[i].bDead == true)
+		{
+			return;
+		}
+
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+
+		system("CLS");
+		_pGameEngine->Draw();
 
 		playerList[i].bDead = playerList[i].CheckDeath();
 		if (playerList[i].bDead == true)
@@ -87,71 +107,40 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		}
 
 		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
+
 		break;
 	}
-	case 13:
-	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
-		system("CLS");
-		_pGameEngine->Draw();
-		//_getch();
-
-		playerList[i].bDead = playerList[i].CheckDeath();
-		if (playerList[i].bDead == true)
-		{
-			return;
-		}
-
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
-		system("CLS");
-		_pGameEngine->Draw();
-		//_getch();
-
-		playerList[i].bDead = playerList[i].CheckDeath();
-		if (playerList[i].bDead == true)
-		{
-			return;
-		}
-
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
-		//_pGameEngine->WaterCheck(&(playerList[i]));
-		break;
-	}
-	case 14:
+	case 14: // Move backwards
 	{
 		iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
 		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection));
-		//_pGameEngine->WaterCheck(&(playerList[i]));
+
 		break;
 	}
-	case 21: //clockwise
+	case 21: // Clockwise
 	{
 
 		playerList[i].GetMecha()->Rotate(CLOCKWISE);
 		break;
 	}
-	case 22:
+	case 22: // Anti-Clockwise
 	{
 		playerList[i].GetMecha()->Rotate(ANTICLOCKWISE);
 		break;
 	}
-	case 23:
+	case 23: // Flip
 	{
 		playerList[i].GetMecha()->Rotate(ONEEIGHTY);
 		break;
 	}
-	case 31:
+	case 31: // Shoot
 	{
 		playerList[i].GetMecha()->Shoot(*_pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
-		//_getch();
 		break;
 	}
-	case 32:
+	case 32: // Push
 	{
 		CMovable* objToPush;
 		objToPush = playerList[i].GetMecha()->WhatToPush();
@@ -166,17 +155,15 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		
 		break;
 	}
-	case 33:
+	case 33: // Place mine
 	{
 		playerList[i].GetMecha()->PlaceMine();
 		break;
 	}
 	}
 	
-	//_pGameEngine->Draw();
 	std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
 	_getch();
-	//_pGameEngine->WaterCheck(&(playerList[i]));
 }
 
 
