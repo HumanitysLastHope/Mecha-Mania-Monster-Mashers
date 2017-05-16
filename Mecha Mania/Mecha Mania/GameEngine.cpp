@@ -9,15 +9,36 @@
 #include <windows.h>
 #include <conio.h>
 
+void set_console_size(HANDLE screen_buffer, SHORT width, SHORT height)
+{
+	COORD const size = { width, height };
+	BOOL success;
+
+	SMALL_RECT const minimal_window = { 0, 0, 1, 1 };
+	success = SetConsoleWindowInfo(screen_buffer, TRUE, &minimal_window);
+
+	success = SetConsoleScreenBufferSize(screen_buffer, size);
+
+	SMALL_RECT const window = { 0, 0, size.X - 1, size.Y - 1 };
+	success = SetConsoleWindowInfo(screen_buffer, TRUE, &window);
+}
+
+void setFontSize(int FontSize)
+{
+	CONSOLE_FONT_INFOEX info = { 0 };
+	info.cbSize = sizeof(info);
+	info.dwFontSize.Y = FontSize; // leave X as zero
+	info.FontWeight = FW_NORMAL;
+	wcscpy_s(info.FaceName, sizeof(L"Lucida Console"), L"Lucida Console");
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
+}
+
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level, 1),
 	m_Player2({ 0,0 }, NORTH, &m_Level, 2),
 	m_Player3({ 0,0 }, NORTH, &m_Level, 3),
 	m_Player4({ 0,0 }, NORTH, &m_Level, 4)
 {
-	system("mode 200");
-	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
-	
 	LoadBoard(1);
 
 	m_CommandOrder.push_back(0);
@@ -348,6 +369,15 @@ std::vector<CBullet*>& CGameEngine::GetBulletList()
 
 void CGameEngine::Run()
 {
+	// Size console window
+	HANDLE hHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	set_console_size(hHandle, 150, 50);
+
+	// Set font size
+	int iFontSize = 18;
+	setFontSize(iFontSize);
+
+	// Initialize game
 	CGameEngine gameEngine;
 
 	while (true)
