@@ -7,6 +7,31 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <conio.h>
+
+void set_console_size(HANDLE screen_buffer, SHORT width, SHORT height)
+{
+	COORD const size = { width, height };
+	BOOL success;
+
+	SMALL_RECT const minimal_window = { 0, 0, 1, 1 };
+	success = SetConsoleWindowInfo(screen_buffer, TRUE, &minimal_window);
+
+	success = SetConsoleScreenBufferSize(screen_buffer, size);
+
+	SMALL_RECT const window = { 0, 0, size.X - 1, size.Y - 1 };
+	success = SetConsoleWindowInfo(screen_buffer, TRUE, &window);
+}
+
+void setFontSize(int FontSize)
+{
+	CONSOLE_FONT_INFOEX info = { 0 };
+	info.cbSize = sizeof(info);
+	info.dwFontSize.Y = FontSize; // leave X as zero
+	info.FontWeight = FW_NORMAL;
+	wcscpy_s(info.FaceName, sizeof(L"Lucida Console"), L"Lucida Console");
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
+}
 
 CGameEngine::CGameEngine() :
 	m_Player1({0,0}, NORTH, &m_Level, 1),
@@ -38,12 +63,12 @@ void CGameEngine::Step()
 {
 	m_pCurGameState->Step(this);
 
-	/*BulletCollisionTest();
+	BulletCollisionTest();
 
 	if (m_bBulletsToDestroy)
 	{
 		ActuallyDestroyBullets();
-	}*/
+	}
 }
 
 bool CGameEngine::PitCheck()
@@ -88,13 +113,24 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	}
 }
 
+//Author: Jack Mair
+//Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
+//Returns: void.
 void CGameEngine::Draw()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, 128);
+
+	//SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, NULL);
+	//MoveWindow(console, r.left, r.top, 800, 800, TRUE);
+
+	SetConsoleCursorPosition(hConsole, { 10, 7 });
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
+		COORD point;
+		point.X = 10 + _iY;
+		point.Y = 7 + _iY;
+		SetConsoleCursorPosition(hConsole, point);
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			int _ibackgroundcolour;
@@ -162,6 +198,7 @@ void CGameEngine::Draw()
 			else if (m_Level.GetTile(_iX, _iY).GetBullet() != nullptr)
 			{
 				char _cBulletImage = 249;
+				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
 				std::cout << _cBulletImage;
 				SetConsoleTextAttribute(hConsole, 15);
 				std::cout << " ";
@@ -209,6 +246,7 @@ void CGameEngine::Draw()
 			}
 			SetConsoleTextAttribute(hConsole, 128);
 		}
+		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
@@ -344,6 +382,15 @@ std::vector<CBullet*>& CGameEngine::GetBulletList()
 
 void CGameEngine::Run()
 {
+	// Size console window
+	HANDLE hHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	set_console_size(hHandle, 150, 50);
+
+	// Set font size
+	int iFontSize = 18;
+	setFontSize(iFontSize);
+
+	// Initialize game
 	CGameEngine gameEngine;
 
 	while (true)
