@@ -127,6 +127,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine, int i)
 	{
 		CMovable* objToPush;
 		objToPush = playerList[i].GetMecha()->WhatToPush();
+
 		if (objToPush != nullptr)
 		{
 			if (objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect()) != false)

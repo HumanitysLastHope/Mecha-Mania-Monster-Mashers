@@ -169,12 +169,25 @@ void CGameEngine::Draw()
 			//draw mine
 			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
 			{
-				char _cMineImage = 15;
-				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
-				std::cout << _cMineImage;
-				m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
-				SetConsoleTextAttribute(hConsole, 15);
-				std::cout << " ";
+				if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT)
+				{
+					m_Level.GetTile(_iX, _iY).SetMine(nullptr);
+					m_Level.GetTile(_iX, _iY).GetMine()->bombBlown();
+					char _cPitImage = 220;
+					SetConsoleTextAttribute(hConsole, 15);
+					std::cout << _cPitImage;
+					std::cout << " ";
+				}
+				else
+				{
+					char _cMineImage = 15;
+					SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
+					std::cout << _cMineImage;
+					m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
+					SetConsoleTextAttribute(hConsole, 15);
+					std::cout << " ";
+				}
+				
 			}
 
 			////draw water
