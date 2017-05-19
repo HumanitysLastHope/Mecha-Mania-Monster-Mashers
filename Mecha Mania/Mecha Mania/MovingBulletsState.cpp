@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 #include "Bullet.h"
 #include "Tile.h"
+#include "ExecutingCMDState.h"
 
 CMovingBulletsState::CMovingBulletsState()
 {
@@ -42,4 +43,6 @@ void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 			(*it)->Move((*it)->GetDirection());
 		}
 	}
+
+	_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 }

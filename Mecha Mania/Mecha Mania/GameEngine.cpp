@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "GettingPlayerMovesState.h"
 #include "ExecutingCMDState.h"
+#include "MovingBulletsState.h"
 #include "Mine.h"
 #include <fstream>
 #include <iostream>
@@ -34,25 +35,29 @@ void setFontSize(int FontSize)
 }
 
 CGameEngine::CGameEngine() :
-	m_Player1({0,0}, NORTH, &m_Level, 1),
+	m_Player1({ 0,0 }, NORTH, &m_Level, 1),
 	m_Player2({ 0,0 }, NORTH, &m_Level, 2),
 	m_Player3({ 0,0 }, NORTH, &m_Level, 3),
-	m_Player4({ 0,0 }, NORTH, &m_Level, 4)
+	m_Player4({ 0,0 }, NORTH, &m_Level, 4),
+	m_pstateExecuting(new ExecutingCMDState),
+	m_pstateGetInput(new CGettingPlayerMovesState),
+	m_pstateMovBullet(new CMovingBulletsState)
 {
-	LoadBoard(1);
+	LoadBoard(2);
 
 	m_CommandOrder.push_back(0);
 	m_CommandOrder.push_back(1);
 	m_CommandOrder.push_back(2);
 	m_CommandOrder.push_back(3);
 
-	ChangeState(new CGettingPlayerMovesState);
+	inGetState = true;
+	ChangeState(m_pstateGetInput);
 }
 
 
 CGameEngine::~CGameEngine()
 {
-	delete m_pCurGameState;
+	//delete m_pCurGameState;
 	for (auto it = m_vecpBulletList.begin(); it != m_vecpBulletList.end(); ++it)
 	{
 		delete (*it);
@@ -69,6 +74,11 @@ CGameEngine::~CGameEngine()
 			}
 		}
 	}
+
+	delete m_pstateExecuting;
+	delete m_pstateGetInput;
+	delete m_pstateMovBullet;
+
 }
 
 void CGameEngine::Step()
@@ -100,12 +110,12 @@ void CGameEngine::Step()
 
 	m_pCurGameState->Step(this);
 
-	/*BulletCollisionTest();
+	BulletCollisionTest();
 
 	if (m_bBulletsToDestroy)
 	{
 		ActuallyDestroyBullets();
-	}*/
+	}
 }
 
 bool CGameEngine::PitCheck()
@@ -299,7 +309,7 @@ void CGameEngine::ChangeState(IGameState* _pState)
 		//std::cout << m_Player1.GetMecha()->m_posGridPosition.m_iX;
 
 		m_pCurGameState->Cleanup();
-		delete m_pCurGameState;
+		//delete m_pCurGameState;
 	}
 
 	m_pCurGameState = _pState;
@@ -314,12 +324,11 @@ void CGameEngine::ChangeState(IGameState* _pState)
 
 CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
-	//m_PlayerList[1]
+	std::ifstream LoadFile;
 
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
-		/*m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
-		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);*/
+
 		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
@@ -333,56 +342,35 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		//include code here load level 1 from txt file
-		std::ifstream levelOneFile;
 
-		levelOneFile.open("LevelOne.txt");
-		if (levelOneFile.is_open() == false)
+		LoadFile.open("LevelOne.txt");
+		if (LoadFile.is_open() == false)
 		{
 			std::cout << "Error opening file." << std::endl;
 		}
-
-		int j = 0;
-
-		for (std::string line; getline(levelOneFile, line); j++)
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				switch (line[i])
-				{
-				case 'p':
-				{
-					m_Level.GetTile(i, j).SetEnvironment(PIT);
-					break;
-				}
-				case '0':
-				{
-					break;
-				}
-				case 'w':
-				{
-					m_Level.GetTile(i, j).SetEnvironment(WATER);
-
-					break;
-				}
-				default:
-				{
-					break;
-				}
-				}
-			}
-		}
-
-		//levelOneFile.open("\Mecha - Mania - Monster - Mashers\Mecha Mania\Levels\LevelOne.txt");
-
-		return m_Level;
 	}
 	if (_LevelNum == 2) {
 		//sets the players starting locations and facing direction
 
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 2, 2 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
+
+		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 7 });
+		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
+
+		m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 2 });
+		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+
+		m_PlayerList[3].GetMecha()->SetGridPosition({ 7, 7 });
+		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		//include code here load level 2 from txt file
 
-		return m_Level;
+		LoadFile.open("LevelTwo.txt");
+		if (LoadFile.is_open() == false)
+		{
+			std::cout << "Error opening file." << std::endl;
+		}
 	}
 	if (_LevelNum == 3) {
 		//sets the players starting locations and facing direction
@@ -390,7 +378,6 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
 		//include code here load level 3 from txt file
 
-		return m_Level;
 	}
 	else {
 		//sets the players starting locations and facing direction
@@ -398,8 +385,42 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 
 		//include code here load level 4 from txt file
 
-		return m_Level;
 	}
+
+	int j = 0;
+
+	for (std::string line; getline(LoadFile, line); j++)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			switch (line[i])
+			{
+			case 'p':
+			{
+				m_Level.GetTile(i, j).SetEnvironment(PIT);
+				break;
+			}
+			case '0':
+			{
+				break;
+			}
+			case 'w':
+			{
+				m_Level.GetTile(i, j).SetEnvironment(WATER);
+
+				break;
+			}
+			default:
+			{
+				break;
+			}
+			}
+		}
+	}
+
+	LoadFile.close();
+
+	return m_Level;
 }
 
 CBoard & CGameEngine::GetBoard()
@@ -431,16 +452,20 @@ void CGameEngine::Run()
 	// Initialize game
 	CGameEngine gameEngine;
 
-	while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0)
+	while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
 	{
 		gameEngine.Draw();
 		gameEngine.Step();
 		system("CLS");
 	}
 
-	if (gameEngine.m_pWinner != nullptr)
+	if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
 	{
 		std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
+	}
+	else if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == true) // A player won then died
+	{
+		std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D!";
 	}
 	else
 	{
@@ -551,4 +576,19 @@ void CGameEngine::ActuallyDestroyBullets()
 	), m_vecpBulletList.end());
 
 	m_bBulletsToDestroy = false;
+}
+
+ExecutingCMDState* CGameEngine::GetExecutingState()
+{
+	return m_pstateExecuting;
+}
+
+CGettingPlayerMovesState* CGameEngine::GetGettingInputState()
+{
+	return m_pstateGetInput;
+}
+
+CMovingBulletsState* CGameEngine::GetMovBulletState()
+{
+	return m_pstateMovBullet;
 }

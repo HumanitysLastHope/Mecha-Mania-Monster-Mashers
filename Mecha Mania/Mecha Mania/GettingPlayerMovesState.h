@@ -22,7 +22,6 @@ public:
 
 	virtual void Step(CGameEngine * _pGameEngine) override;
 
-
 private:
 
 	int i = 0;
