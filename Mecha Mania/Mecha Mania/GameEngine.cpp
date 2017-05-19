@@ -90,7 +90,7 @@ void CGameEngine::Step()
 			}
 			else
 			{
-				m_pWinner == nullptr;
+				m_pWinner = nullptr;
 			}
 		}
 	}
@@ -138,24 +138,37 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	}
 }
 
+
+
+// Author: Jack Mair
+// Input: Moves the cursor position to input coods.
+// Returns: void.
+void GotoXY(int _iX, int _iY) {
+	COORD point;
+	point.X = _iX;
+	point.Y = _iY;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
+}
+
 // Author: Jack Mair
 // Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
 // Returns: void.
 void CGameEngine::Draw()
 {
+	for (int _iX = 0; _iX < 20; ++_iX)
+	{
+		GotoXY(10 + _iX, 0);
+		std::cout << "#";
+	}
+	
+
+
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	//SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, NULL);
-	//MoveWindow(console, r.left, r.top, 800, 800, TRUE);
-
-	SetConsoleCursorPosition(hConsole, { 10, 7 });
+	
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
 	{
-		COORD point;
-		point.X = 10 + _iY;
-		point.Y = 7 + _iY;
-		SetConsoleCursorPosition(hConsole, point);
+		GotoXY(10 + _iY, 7 + _iY);
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
 			int _ibackgroundcolour;
