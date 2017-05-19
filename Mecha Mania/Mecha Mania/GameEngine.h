@@ -7,9 +7,13 @@
 #include "Board.h"
 #include "Tile.h"
 
+
 #pragma once
 
 class IGameState;
+class ExecutingCMDState;
+class CGettingPlayerMovesState;
+class CMovingBulletsState;
 
 class CGameEngine
 {
@@ -43,6 +47,12 @@ public:
 	void ActuallyDestroyBullets();
 	bool m_bBulletsToDestroy;
 
+	bool inGetState;
+
+	ExecutingCMDState* GetExecutingState();
+	CGettingPlayerMovesState* GetGettingInputState();
+	CMovingBulletsState* GetMovBulletState();
+
 
 private:
 	CBoard m_Level;
@@ -55,6 +65,10 @@ private:
 	std::vector<CBullet*> m_vecpBulletList;
 	//std::vector<CMine*> m_vecMineList;
 
+	
+	ExecutingCMDState* m_pstateExecuting;
+	CGettingPlayerMovesState* m_pstateGetInput;
+	CMovingBulletsState* m_pstateMovBullet;
 
 	
 	IGameState* m_pCurGameState;

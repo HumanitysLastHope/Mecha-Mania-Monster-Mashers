@@ -4,4 +4,6 @@
 int main()
 {
 	CGameEngine::Run();
+
+	return 0;
 }

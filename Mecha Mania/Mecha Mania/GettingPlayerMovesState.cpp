@@ -36,7 +36,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 		else
 		{
 			i = 0;
-			_pGameEngine->ChangeState(new ExecutingCMDState);
+			_pGameEngine->inGetState = false;
+			_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 		}
 	}
 	else
@@ -202,7 +203,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 			else
 			{
 				i = 0;
-				_pGameEngine->ChangeState(new ExecutingCMDState);
+				_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
+				_pGameEngine->GetExecutingState()->ResetZ();
 			}
 		}
 		std::cout << "Press any key to continue..." << std::endl;
