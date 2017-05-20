@@ -148,8 +148,6 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	}
 }
 
-
-
 // Author: Jack Mair
 // Input: Moves the cursor position to input coods.
 // Returns: void.
@@ -160,20 +158,125 @@ void GotoXY(int _iX, int _iY) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
 }
 
+void DrawGrid(int _iTopX, int _iTopY, int _iBottomX, int _iBottomY)
+{
+	char _cBoxTile;
+	for (int _iX = 0; _iX <= 40; ++_iX)
+	{
+			GotoXY(_iTopX + _iX, _iTopY);
+			_cBoxTile = 205;
+			std::cout << _cBoxTile;
+			GotoXY(_iTopX + _iX, 20);
+			std::cout << _cBoxTile;
+			if (_iX <= 16) {
+				GotoXY(_iTopX, _iTopY + _iX);
+				_cBoxTile = 186;
+				std::cout << _cBoxTile;
+				GotoXY(_iBottomX, _iTopY + _iX);
+				_cBoxTile = 186;
+				std::cout << _cBoxTile;
+			}
+	}
+
+	GotoXY(_iTopX, _iTopY);
+	_cBoxTile = 201;
+	std::cout << _cBoxTile;
+
+	GotoXY(_iBottomX, _iTopY);
+	_cBoxTile = 187;
+	std::cout << _cBoxTile;
+
+	GotoXY(_iTopX, _iBottomY);
+	_cBoxTile = 200;
+	std::cout << _cBoxTile;
+
+	GotoXY(_iBottomX, _iBottomY);
+	_cBoxTile = 188;
+	std::cout << _cBoxTile;
+}
+
 // Author: Jack Mair
 // Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
 // Returns: void.
 void CGameEngine::Draw()
 {
-	for (int _iX = 0; _iX < 20; ++_iX)
-	{
-		GotoXY(10 + _iX, 0);
-		std::cout << "#";
-	}
-	
-
-
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	static int _ibackgroundcolour = 128;
+	char _cIconHolder;
+
+	DrawGrid(4, 4, 44, 20);
+	DrawGrid(4, 4, 44, 20);
+
+	GotoXY(13, 4);
+	std::cout << "xX ARENA OF DEATH! Xx";
+
+	//Draws the move input list
+	GotoXY(4, 27);
+	std::cout << "Key:";
+	GotoXY(4, 28);
+	std::cout << "[1] Move		[2] Rotate		[3] Attack";
+	GotoXY(4, 30);
+	std::cout << "[0] -1";
+	GotoXY(4, 31);
+	std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
+	GotoXY(4, 32);
+	std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
+	GotoXY(4, 33);
+	std::cout << "[3] 3		[3] Flip		[3] Mine";
+
+	//Draws the player health UI
+	if (m_Player1.GetMecha() != nullptr) {
+		GotoXY(54, 5);
+		std::cout << "Player 1";
+		GotoXY(54, 6);
+		std::cout << "HP: " << m_Player1.GetMecha()->GetHealth();
+		if (m_Player1.CheckDeath() != true) {
+			SetConsoleTextAttribute(hConsole, (13));
+		}
+		GotoXY(52, 5);
+		_cIconHolder = 30;
+		std::cout << _cIconHolder;
+		SetConsoleTextAttribute(hConsole, 15);
+	}
+	if (m_Player2.GetMecha() != nullptr) {
+		GotoXY(54, 8);
+		std::cout << "Player 2";
+		GotoXY(54, 9);
+		std::cout << "HP: " << m_Player2.GetMecha()->GetHealth();
+		if (m_Player2.CheckDeath() != true) {
+			SetConsoleTextAttribute(hConsole, (14));
+		}
+		GotoXY(52, 8);
+		_cIconHolder = 30;
+		std::cout << _cIconHolder;
+		SetConsoleTextAttribute(hConsole, 15);
+	}
+	if (m_Player3.GetMecha() != nullptr) {
+		GotoXY(54, 11);
+		std::cout << "Player 3";
+		GotoXY(54, 12);
+		std::cout << "HP: " << m_Player3.GetMecha()->GetHealth();
+		if (m_Player3.CheckDeath() != true) {
+			SetConsoleTextAttribute(hConsole, (10));
+		}
+		GotoXY(52, 11);
+		_cIconHolder = 30;
+		std::cout << _cIconHolder;
+		SetConsoleTextAttribute(hConsole, 15);
+	}
+	if (m_Player4.GetMecha() != nullptr) {
+		GotoXY(54, 14);
+		std::cout << "Player 4";
+		GotoXY(54, 15);
+		std::cout << "HP: " << m_Player4.GetMecha()->GetHealth();
+		if (m_Player4.CheckDeath() != true) {
+			SetConsoleTextAttribute(hConsole, (11));
+		}
+		GotoXY(52, 14);
+		_cIconHolder = 30;
+		std::cout << _cIconHolder;
+		SetConsoleTextAttribute(hConsole, 15);
+	}
 	
 	//draws the arena
 	for (int _iY = 0; _iY < 10; ++_iY)
@@ -181,7 +284,6 @@ void CGameEngine::Draw()
 		GotoXY(10 + _iY, 7 + _iY);
 		for (int _iX = 0; _iX < 10; ++_iX)
 		{
-			int _ibackgroundcolour;
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER) {
 				_ibackgroundcolour = 144;
 			}
@@ -194,10 +296,8 @@ void CGameEngine::Draw()
 				&& m_Level.GetTile(_iX, _iY).GetMine() == nullptr
 				&& m_Level.GetTile(_iX, _iY).GetBullet() == nullptr)
 			{
-				char _cEmptyTile = 176;
-				std::cout << _cEmptyTile;
-				SetConsoleTextAttribute(hConsole, 15);
 				std::cout << " ";
+				SetConsoleTextAttribute(hConsole, 15);
 			}
 			//draw mecha
 			else if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
@@ -238,7 +338,6 @@ void CGameEngine::Draw()
 				}
 				std::cout << _cMechaImage;
 				SetConsoleTextAttribute(hConsole, 15);
-				std::cout << " ";
 				SetConsoleTextAttribute(hConsole, 128);
 			}
 
@@ -249,7 +348,6 @@ void CGameEngine::Draw()
 				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
 				std::cout << _cBulletImage;
 				SetConsoleTextAttribute(hConsole, 15);
-				std::cout << " ";
 			}
 			//draw mine
 			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
@@ -261,7 +359,6 @@ void CGameEngine::Draw()
 					char _cPitImage = 220;
 					SetConsoleTextAttribute(hConsole, 15);
 					std::cout << _cPitImage;
-					std::cout << " ";
 				}
 				else
 				{
@@ -270,7 +367,6 @@ void CGameEngine::Draw()
 					std::cout << _cMineImage;
 					m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
 					SetConsoleTextAttribute(hConsole, 15);
-					std::cout << " ";
 				}
 				
 			}
@@ -282,7 +378,6 @@ void CGameEngine::Draw()
 				SetConsoleTextAttribute(hConsole, 159);
 				std::cout << _cWaterImage;
 				SetConsoleTextAttribute(hConsole, 15);
-				std::cout << " ";
 			}
 			////draw pit
 			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT)
@@ -290,16 +385,19 @@ void CGameEngine::Draw()
 				char _cPitImage = 220;
 				SetConsoleTextAttribute(hConsole, 15);
 				std::cout << _cPitImage;
-				std::cout << " ";
 			}
+			SetConsoleTextAttribute(hConsole, 15);
+			std::cout << " ";
 			SetConsoleTextAttribute(hConsole, 128);
 		}
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
 	}
+
 	SetConsoleTextAttribute(hConsole, 15);
 	//m_pCurGameState->Step(this);
+	GotoXY(4, 22);
+	std::cout << "Player X";
+	GotoXY(4, 23); 
+	std::cout << "Input Commands:";
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
