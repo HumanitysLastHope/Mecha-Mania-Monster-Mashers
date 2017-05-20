@@ -9,6 +9,8 @@
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include <regex>
+
 
 void set_console_size(HANDLE screen_buffer, SHORT width, SHORT height)
 {
@@ -158,6 +160,32 @@ void GotoXY(int _iX, int _iY) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
 }
 
+//Author: Jack Mair
+//Input: A minimal Int value that can be inputted by the player, a maximum Int value that can be inputted by the player, a personalised error message
+//Returns: A valid int input
+int inputValidator(const int &_inputMin, const int &_inputMax, const std::string &_sErrorMsg)
+{
+	std::string input;
+	std::regex integer("[[:digit:]]+");
+	while (true)
+	{
+		std::cin >> input;
+
+		if ((regex_match(input, integer)) && (_inputMin <= stoi(input)) && (_inputMax >= stoi(input)))
+		{
+			return(stoi(input));
+		}
+		else
+		{
+			GotoXY(22, 22);
+			std::cout << " ]                                        ";
+			GotoXY(4, 23);
+			std::cout << _sErrorMsg << std::endl;
+			GotoXY(22, 22);
+		}
+	}
+}
+
 void DrawGrid(int _iTopX, int _iTopY, int _iBottomX, int _iBottomY)
 {
 	char _cBoxTile;
@@ -214,15 +242,15 @@ void CGameEngine::Draw()
 	GotoXY(4, 27);
 	std::cout << "Key:";
 	GotoXY(4, 28);
-	std::cout << "[1] Move		[2] Rotate		[3] Attack";
+	std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
 	GotoXY(4, 30);
-	std::cout << "[0] -1";
-	GotoXY(4, 31);
 	std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
-	GotoXY(4, 32);
+	GotoXY(4, 31);
 	std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
-	GotoXY(4, 33);
+	GotoXY(4, 32);
 	std::cout << "[3] 3		[3] Flip		[3] Mine";
+	GotoXY(4, 33);
+	std::cout << "[4] -1";
 
 	//Draws the player health UI
 	if (m_Player1.GetMecha() != nullptr) {
@@ -398,6 +426,9 @@ void CGameEngine::Draw()
 	std::cout << "Player X";
 	GotoXY(4, 23); 
 	std::cout << "Input Commands:";
+	GotoXY(8, 25);
+	std:: cout << "[ ][ ]	[ ][ ]	[ ][ ]";
+	GotoXY(9, 25);
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
@@ -537,37 +568,154 @@ std::vector<CBullet*>& CGameEngine::GetBulletList()
 	return m_vecpBulletList;
 }
 
+
 void CGameEngine::Run()
 {
 	// Size console window
 	HANDLE hHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-	set_console_size(hHandle, 150, 50);
+	set_console_size(hHandle, 114, 40);
 
 	// Set font size
 	int iFontSize = 18;
 	setFontSize(iFontSize);
 
-	// Initialize game
-	CGameEngine gameEngine;
+	GotoXY(4, 6);
+	std::cout << "After scavenging, stealing, and constructing your Warrior Mechas you have entered the Great City ";
+	GotoXY(4, 7);
+	std::cout << "in search for salvation from the dangerous and chaotic world you have grown up in. From here you";
+	GotoXY(4, 8);
+	std::cout << "have discovered one of the many mecha arenas in the city; offering fame, glory, and cash prizes";
+	GotoXY(4, 9);
+	std::cout << "for anyone who enters and survives.";
+	GotoXY(4, 11);
+	std::cout << "For the amusement of the blood crazed crowds, and with an arsenal of weapons and dirty tricks, ";
+	GotoXY(4, 12);
+	std::cout << "you must battle against each other in the Arena of Death! Only one may survive!";
+	GotoXY(4, 14);
+	std::cout << "Weclome pilots, to:...";
+	_getch();
 
-	while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
+	//Draw the Start Screen.
+	system("CLS");
+	GotoXY(4, 4);
+	std::cout << "   _____               .__                _____                .__        ";
+	GotoXY(4, 5);
+	std::cout << "  /     \\   ____  ____ |  |__ _____      /     \\ _____    ____ |__|____   ";
+	GotoXY(4, 6);
+	std::cout << " /  \\ /  \\_/ __ \\/ ___\\|  |  \\\\__  \\    /  \\ /  \\\\__  \\  /    \\|  \\__  \\  ";
+	GotoXY(4, 7);
+	std::cout << "/    Y    \\  ___|  \\___|   Y  \\/ __ \\_ /    Y    \\/ __ \\|   |  \\  |/ __ \\_";
+	GotoXY(4, 8);
+	std::cout << "\\____|__  /\\___  >___  >___|  (____  / \\____|__  (____  /___|  /__(____  /";
+	GotoXY(4, 9);
+	std::cout << "   _____\\/     \\/    \\/     \\/   __\\/          \\/     \\_____ \\/        \\/	.__";
+	//GotoXY(4, 9);
+	//std::cout << "   _____                         __                    _____                .__     ";
+	GotoXY(4, 10);
+	std::cout << "  /     \\   ____   ____   ______/  |_  ___________    /     \\ _____    _____|  |__   ___________  ______";
+	GotoXY(4, 11);
+	std::cout << " /  \\ /  \\ /  _ \\ /    \\ /  ___|   __\\/ __ \\_  __ \\  /  \\ /  \\\\__  \\  /  ___/  |  \\_/ __ \\_  __ \\/  ___/";
+	GotoXY(4, 12);
+	std::cout << "/    Y    (  <_> )   |  \\\\___ \\ |  | \\  ___/|  | \\/ /    Y    \\/ __ \\_\\___ \\|   Y  \\  ___/|  | \\/\\___ \\ ";
+	GotoXY(4, 13);
+	std::cout << "\\____|__  /\\____/|___|  /____  >|__|  \\___  >__|    \\____|__  (____  /____  >___|  /\\___  >__|  /____  >";
+	GotoXY(4, 14);
+	std::cout << "	    \\/            \\/     \\/           \\/                \\/     \\/     \\/     \\/     \\/           \\/ ";
+
+	GotoXY(34, 16);
+	std::cout << "xX THE BADASS BULLET BRAWLER Xx";
+	GotoXY(4, 22);
+	std::cout << "Input a command: [ ]";
+	GotoXY(4, 24);
+	std::cout << "[1] Play";
+	GotoXY(4, 25);
+	std::cout << "[2] Controls";
+	GotoXY(4, 26);
+	std::cout << "[3] Quit";
+	GotoXY(69, 35);
+	std::cout << "Created by: Lance Chaney, Madeleine Day,";
+	GotoXY(69, 36);
+	std::cout << "		Jack Mair, Sebastian Tengdahl";
+	GotoXY(22, 22);
+
+	int _iPlayerInput = inputValidator(1, 3, "Invalid Input, please enter a number between 1-3.");
+
+	//Go to the gameplay
+	if (_iPlayerInput == 1)
 	{
-		gameEngine.Draw();
-		gameEngine.Step();
+		// Initialize game
+		CGameEngine gameEngine;
+
+		while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
+		{
+			system("CLS");
+			gameEngine.Draw();
+			gameEngine.Step();
+		}
+
+		if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
+		{
+			std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
+		}
+		else if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == true) // A player won then died
+		{
+			std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D!";
+		}
+		else
+		{
+			std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
+		}
+	}
+	//Go to the controlscreen
+	else if (_iPlayerInput == 2)
+	{
 		system("CLS");
-	}
-
-	if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
-	{
-		std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
-	}
-	else if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == true) // A player won then died
-	{
-		std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D!";
-	}
-	else
-	{
-		std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
+		GotoXY(4, 4);
+		std::cout << "Overview:";
+		GotoXY(4, 6);
+		std::cout << "Mecha Mania is a turn based fighting game for 2-4 players. Each player controls their Mecha";
+		GotoXY(4, 7);
+		std::cout << "by taking turns to secretly input a set of three commands. They then watch all the commands";
+		GotoXY(4, 8);
+		std::cout<< "unfold one at a time. Players battle one another with their Mecha in tightly spaced arenas";
+		GotoXY(4, 9);
+		std::cout << "until only one survives.";
+		GotoXY(4, 11);
+		std::cout << "Inputting Commands:";
+		GotoXY(4, 13);
+		std::cout << "The game is divided into two phases: input phase, and action phase. During the input phase,";
+		GotoXY(4, 14);
+		std::cout << "players take turns to input their commands. They do this by inputting 2 numbers, 3 times.";
+		GotoXY(4, 15);
+		std::cout << "Each pair of numbers represents 1 action.";
+		GotoXY(4, 17);
+		std::cout << "The first number represents the type of action they want to perfrom.";
+		GotoXY(4, 18);
+		std::cout << "This number can be one of the following: [1] Move [2] Rotate [3] Attack.";
+		GotoXY(4, 20);
+		std::cout << "The second number represents different ways this action can be performed.";
+		GotoXY(4, 22);
+		std::cout << "If Move was chosen as the 1st number, the 2nd number represents how far you wish to move:";
+		GotoXY(4, 23);
+		std::cout << "[1] 1 Space	[2] 2 Spaces	[3] 3 Spaces	[4] -1 Spaces";
+		GotoXY(4, 25);
+		std::cout << "If Rotate was chosen as the 1st number, the 2nd number represents how the degree of rotation:";
+		GotoXY(4, 26);
+		std::cout << "[1] Clockwise 90 degrees	[2] Anti-Clockwise 90 degrees	[3] 180 degrees";
+		GotoXY(4, 28);
+		std::cout << "If Attack was chosen as the 1st number, the 2nd number represents how you wish to attack:";
+		GotoXY(4, 29);
+		std::cout << "[1] Shoot a bullet	[2] Shoot a push attack	[3] Place a mine";
+		GotoXY(4, 31);
+		std::cout << "A bullet travels 1 space each phase and does 1 damage. Push instantly moves the first object";
+		GotoXY(4, 32);
+		std::cout << "infront of the Mecha 2 squares. A mine does 2 damage to any Mecha that stands on it.";
+		GotoXY(4, 34);
+		std::cout << "There are 2 enviromental hazards within the arena, water and pits:";
+		GotoXY(4, 35);
+		std::cout << "Water deals 1 damage to you when you enter it and 1 at the start of every turn you remain in it.";
+		GotoXY(4, 36);
+		std::cout << "A pit will instantly kill you if you walk on it, be careful!";
 	}
 	_getch();
 
