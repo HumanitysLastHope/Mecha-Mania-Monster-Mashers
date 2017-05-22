@@ -163,13 +163,13 @@ void GotoXY(int _iX, int _iY) {
 //Author: Jack Mair
 //Input: A minimal Int value that can be inputted by the player, a maximum Int value that can be inputted by the player, a personalised error message
 //Returns: A valid int input
-int inputValidator(const int &_inputMin, const int &_inputMax, const std::string &_sErrorMsg)
+int inputValidator(const int &_inputMin, const int &_inputMax, const std::string &_sErrorMsg, int _iX, int _iY, int _ErrorMsgX, int _ErrorMsgY)
 {
 	std::string input;
 	std::regex integer("[[:digit:]]+");
 	while (true)
 	{
-		std::cin >> input;
+		input = _getch();
 
 		if ((regex_match(input, integer)) && (_inputMin <= stoi(input)) && (_inputMax >= stoi(input)))
 		{
@@ -177,11 +177,11 @@ int inputValidator(const int &_inputMin, const int &_inputMax, const std::string
 		}
 		else
 		{
-			GotoXY(22, 22);
-			std::cout << " ]                                        ";
-			GotoXY(4, 23);
+			GotoXY(_iX, _iY);
+			std::cout << " ]           ";
+			GotoXY(_ErrorMsgX, _ErrorMsgY);
 			std::cout << _sErrorMsg << std::endl;
-			GotoXY(22, 22);
+			GotoXY(_iX, _iY);
 		}
 	}
 }
@@ -189,14 +189,14 @@ int inputValidator(const int &_inputMin, const int &_inputMax, const std::string
 void DrawGrid(int _iTopX, int _iTopY, int _iBottomX, int _iBottomY)
 {
 	char _cBoxTile;
-	for (int _iX = 0; _iX <= 40; ++_iX)
+	for (int _iX = 0; _iX <= (_iBottomX - _iTopX); ++_iX)
 	{
 			GotoXY(_iTopX + _iX, _iTopY);
 			_cBoxTile = 205;
 			std::cout << _cBoxTile;
-			GotoXY(_iTopX + _iX, 20);
+			GotoXY(_iTopX + _iX, _iBottomY);
 			std::cout << _cBoxTile;
-			if (_iX <= 16) {
+			if (_iX <= (_iBottomY - _iTopY)) {
 				GotoXY(_iTopX, _iTopY + _iX);
 				_cBoxTile = 186;
 				std::cout << _cBoxTile;
@@ -595,129 +595,168 @@ void CGameEngine::Run()
 	std::cout << "Weclome pilots, to:...";
 	_getch();
 
-	//Draw the Start Screen.
-	system("CLS");
-	GotoXY(4, 4);
-	std::cout << "   _____               .__                _____                .__        ";
-	GotoXY(4, 5);
-	std::cout << "  /     \\   ____  ____ |  |__ _____      /     \\ _____    ____ |__|____   ";
-	GotoXY(4, 6);
-	std::cout << " /  \\ /  \\_/ __ \\/ ___\\|  |  \\\\__  \\    /  \\ /  \\\\__  \\  /    \\|  \\__  \\  ";
-	GotoXY(4, 7);
-	std::cout << "/    Y    \\  ___|  \\___|   Y  \\/ __ \\_ /    Y    \\/ __ \\|   |  \\  |/ __ \\_";
-	GotoXY(4, 8);
-	std::cout << "\\____|__  /\\___  >___  >___|  (____  / \\____|__  (____  /___|  /__(____  /";
-	GotoXY(4, 9);
-	std::cout << "   _____\\/     \\/    \\/     \\/   __\\/          \\/     \\_____ \\/        \\/	.__";
-	//GotoXY(4, 9);
-	//std::cout << "   _____                         __                    _____                .__     ";
-	GotoXY(4, 10);
-	std::cout << "  /     \\   ____   ____   ______/  |_  ___________    /     \\ _____    _____|  |__   ___________  ______";
-	GotoXY(4, 11);
-	std::cout << " /  \\ /  \\ /  _ \\ /    \\ /  ___|   __\\/ __ \\_  __ \\  /  \\ /  \\\\__  \\  /  ___/  |  \\_/ __ \\_  __ \\/  ___/";
-	GotoXY(4, 12);
-	std::cout << "/    Y    (  <_> )   |  \\\\___ \\ |  | \\  ___/|  | \\/ /    Y    \\/ __ \\_\\___ \\|   Y  \\  ___/|  | \\/\\___ \\ ";
-	GotoXY(4, 13);
-	std::cout << "\\____|__  /\\____/|___|  /____  >|__|  \\___  >__|    \\____|__  (____  /____  >___|  /\\___  >__|  /____  >";
-	GotoXY(4, 14);
-	std::cout << "	    \\/            \\/     \\/           \\/                \\/     \\/     \\/     \\/     \\/           \\/ ";
-
-	GotoXY(34, 16);
-	std::cout << "xX THE BADASS BULLET BRAWLER Xx";
-	GotoXY(4, 22);
-	std::cout << "Input a command: [ ]";
-	GotoXY(4, 24);
-	std::cout << "[1] Play";
-	GotoXY(4, 25);
-	std::cout << "[2] Controls";
-	GotoXY(4, 26);
-	std::cout << "[3] Quit";
-	GotoXY(69, 35);
-	std::cout << "Created by: Lance Chaney, Madeleine Day,";
-	GotoXY(69, 36);
-	std::cout << "		Jack Mair, Sebastian Tengdahl";
-	GotoXY(22, 22);
-
-	int _iPlayerInput = inputValidator(1, 3, "Invalid Input, please enter a number between 1-3.");
-
-	//Go to the gameplay
-	if (_iPlayerInput == 1)
-	{
-		// Initialize game
-		CGameEngine gameEngine;
-
-		while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
-		{
-			system("CLS");
-			gameEngine.Draw();
-			gameEngine.Step();
-		}
-
-		if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
-		{
-			std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
-		}
-		else if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == true) // A player won then died
-		{
-			std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D!";
-		}
-		else
-		{
-			std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
-		}
-	}
-	//Go to the controlscreen
-	else if (_iPlayerInput == 2)
-	{
+	while (true) {
+		//Draw the Start Screen.
 		system("CLS");
 		GotoXY(4, 4);
-		std::cout << "Overview:";
+		std::cout << "   _____               .__                _____                .__        ";
+		GotoXY(4, 5);
+		std::cout << "  /     \\   ____  ____ |  |__ _____      /     \\ _____    ____ |__|____   ";
 		GotoXY(4, 6);
-		std::cout << "Mecha Mania is a turn based fighting game for 2-4 players. Each player controls their Mecha";
+		std::cout << " /  \\ /  \\_/ __ \\/ ___\\|  |  \\\\__  \\    /  \\ /  \\\\__  \\  /    \\|  \\__  \\  ";
 		GotoXY(4, 7);
-		std::cout << "by taking turns to secretly input a set of three commands. They then watch all the commands";
+		std::cout << "/    Y    \\  ___|  \\___|   Y  \\/ __ \\_ /    Y    \\/ __ \\|   |  \\  |/ __ \\_";
 		GotoXY(4, 8);
-		std::cout<< "unfold one at a time. Players battle one another with their Mecha in tightly spaced arenas";
+		std::cout << "\\____|__  /\\___  >___  >___|  (____  / \\____|__  (____  /___|  /__(____  /";
 		GotoXY(4, 9);
-		std::cout << "until only one survives.";
+		std::cout << "   _____\\/     \\/    \\/     \\/   __\\/          \\/     \\_____ \\/        \\/	.__";
+		GotoXY(4, 10);
+		std::cout << "  /     \\   ____   ____   ______/  |_  ___________    /     \\ _____    _____|  |__   ___________  ______";
 		GotoXY(4, 11);
-		std::cout << "Inputting Commands:";
+		std::cout << " /  \\ /  \\ /  _ \\ /    \\ /  ___|   __\\/ __ \\_  __ \\  /  \\ /  \\\\__  \\  /  ___/  |  \\_/ __ \\_  __ \\/  ___/";
+		GotoXY(4, 12);
+		std::cout << "/    Y    (  <_> )   |  \\\\___ \\ |  | \\  ___/|  | \\/ /    Y    \\/ __ \\_\\___ \\|   Y  \\  ___/|  | \\/\\___ \\ ";
 		GotoXY(4, 13);
-		std::cout << "The game is divided into two phases: input phase, and action phase. During the input phase,";
+		std::cout << "\\____|__  /\\____/|___|  /____  >|__|  \\___  >__|    \\____|__  (____  /____  >___|  /\\___  >__|  /____  >";
 		GotoXY(4, 14);
-		std::cout << "players take turns to input their commands. They do this by inputting 2 numbers, 3 times.";
-		GotoXY(4, 15);
-		std::cout << "Each pair of numbers represents 1 action.";
-		GotoXY(4, 17);
-		std::cout << "The first number represents the type of action they want to perfrom.";
-		GotoXY(4, 18);
-		std::cout << "This number can be one of the following: [1] Move [2] Rotate [3] Attack.";
-		GotoXY(4, 20);
-		std::cout << "The second number represents different ways this action can be performed.";
+		std::cout << "	    \\/            \\/     \\/           \\/                \\/     \\/     \\/     \\/     \\/           \\/ ";
+
+		GotoXY(34, 16);
+		std::cout << "xX THE BADASS BULLET BRAWLER Xx";
 		GotoXY(4, 22);
-		std::cout << "If Move was chosen as the 1st number, the 2nd number represents how far you wish to move:";
-		GotoXY(4, 23);
-		std::cout << "[1] 1 Space	[2] 2 Spaces	[3] 3 Spaces	[4] -1 Spaces";
+		std::cout << "Input a command: [ ]";
+		GotoXY(4, 24);
+		std::cout << "[1] Play";
 		GotoXY(4, 25);
-		std::cout << "If Rotate was chosen as the 1st number, the 2nd number represents how the degree of rotation:";
+		std::cout << "[2] Controls";
 		GotoXY(4, 26);
-		std::cout << "[1] Clockwise 90 degrees	[2] Anti-Clockwise 90 degrees	[3] 180 degrees";
-		GotoXY(4, 28);
-		std::cout << "If Attack was chosen as the 1st number, the 2nd number represents how you wish to attack:";
-		GotoXY(4, 29);
-		std::cout << "[1] Shoot a bullet	[2] Shoot a push attack	[3] Place a mine";
-		GotoXY(4, 31);
-		std::cout << "A bullet travels 1 space each phase and does 1 damage. Push instantly moves the first object";
-		GotoXY(4, 32);
-		std::cout << "infront of the Mecha 2 squares. A mine does 2 damage to any Mecha that stands on it.";
-		GotoXY(4, 34);
-		std::cout << "There are 2 enviromental hazards within the arena, water and pits:";
-		GotoXY(4, 35);
-		std::cout << "Water deals 1 damage to you when you enter it and 1 at the start of every turn you remain in it.";
-		GotoXY(4, 36);
-		std::cout << "A pit will instantly kill you if you walk on it, be careful!";
+		std::cout << "[3] Quit";
+		GotoXY(69, 35);
+		std::cout << "Created by: Lance Chaney, Madeleine Day,";
+		GotoXY(69, 36);
+		std::cout << "		Jack Mair, Sebastian Tengdahl";
+		GotoXY(22, 22);
+
+		int _iPlayerInput = inputValidator(1, 3, "Invalid Input.", 22, 22, 4, 23);
+
+		//Go to the gameplay
+		if (_iPlayerInput == 1)
+		{
+			//Player Count screen
+			DrawGrid(30, 16, 72, 27);
+			GotoXY(34, 18);
+			std::cout << "How many players? [ ]";
+			GotoXY(36, 21);
+			std::cout << "[2] 2 Pilots";
+			GotoXY(36, 22);
+			std::cout << "[3] 3 Pilots";
+			GotoXY(36, 23);
+			std::cout << "[4] 4 Pilots";
+			GotoXY(36, 25);
+			std::cout << "[5] back";
+			GotoXY(53, 18);
+
+			CGameEngine gameEngine;
+			int _PlayerCount = inputValidator(2, 5, "Invalid Input.", 53, 18, 34, 19);
+
+			// Initialize game
+			if (_PlayerCount != 5)
+			{
+				gameEngine.playerAliveCount = _PlayerCount;
+				while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
+				{
+					system("CLS");
+					gameEngine.Draw();
+					gameEngine.Step();
+				}
+
+				system("CLS");
+				if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
+				{
+					std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
+				}
+				else if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == true) // A player won then died
+				{
+					std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D!";
+				}
+				else
+				{
+					std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
+				}
+			}
+		}
+		//Go to the controlscreen
+		else if (_iPlayerInput == 2)
+		{
+			system("CLS");
+			GotoXY(4, 4);
+			std::cout << "Overview:";
+			GotoXY(4, 6);
+			std::cout << "Mecha Mania is a turn based fighting game for 2-4 players. Each player controls their Mecha";
+			GotoXY(4, 7);
+			std::cout << "by taking turns to secretly input a set of three commands. They then watch all the commands";
+			GotoXY(4, 8);
+			std::cout << "unfold one at a time. Players battle one another with their Mecha in tightly spaced arenas";
+			GotoXY(4, 9);
+			std::cout << "until only one survives.";
+			GotoXY(4, 11);
+			std::cout << "Inputting Commands:";
+			GotoXY(4, 13);
+			std::cout << "The game is divided into two phases: input phase, and action phase. During the input phase,";
+			GotoXY(4, 14);
+			std::cout << "players take turns to input their commands. They do this by inputting 2 numbers, 3 times.";
+			GotoXY(4, 15);
+			std::cout << "Each pair of numbers represents 1 action.";
+			GotoXY(4, 17);
+			std::cout << "The first number represents the type of action they want to perfrom.";
+			GotoXY(4, 18);
+			std::cout << "This number can be one of the following: [1] Move [2] Rotate [3] Attack.";
+			GotoXY(4, 20);
+			std::cout << "The second number represents different ways this action can be performed.";
+			GotoXY(4, 22);
+			std::cout << "If Move was chosen as the 1st number, the 2nd number represents how far you wish to move:";
+			GotoXY(4, 23);
+			std::cout << "[1] 1 Space	[2] 2 Spaces	[3] 3 Spaces	[4] -1 Spaces";
+			GotoXY(4, 25);
+			std::cout << "If Rotate was chosen as the 1st number, the 2nd number represents how the degree of rotation:";
+			GotoXY(4, 26);
+			std::cout << "[1] Clockwise 90 degrees	[2] Anti-Clockwise 90 degrees	[3] 180 degrees";
+			GotoXY(4, 28);
+			std::cout << "If Attack was chosen as the 1st number, the 2nd number represents how you wish to attack:";
+			GotoXY(4, 29);
+			std::cout << "[1] Shoot a bullet	[2] Shoot a push attack	[3] Place a mine";
+			GotoXY(4, 31);
+			std::cout << "A bullet travels 1 space each phase and does 1 damage. Push instantly moves the first object";
+			GotoXY(4, 32);
+			std::cout << "infront of the Mecha 2 squares. A mine does 2 damage to any Mecha that stands on it.";
+			GotoXY(4, 34);
+			std::cout << "There are 2 enviromental hazards within the arena, water and pits:";
+			GotoXY(4, 35);
+			std::cout << "Water deals 1 damage to you when you enter it and 1 at the start of every turn you remain in it.";
+			GotoXY(4, 36);
+			std::cout << "A pit will instantly kill you if you walk on it, be careful!";
+			_getch();
+		}
+		//Go to the confirm quit screen
+		else if (_iPlayerInput == 3)
+		{
+			DrawGrid(30, 16, 72, 25);
+			GotoXY(34, 18);
+			std::cout << "Are you sure you wish to quit?";
+			GotoXY(34, 20);
+			std::cout << "Input: [ ]";
+			GotoXY(36, 22);
+			std::cout << "Yes: [1]";
+			GotoXY(36, 23);
+			std::cout << " No: [2]";
+			GotoXY(42, 20);
+			int _QuitConfirm = inputValidator(1, 2, "Invalid Input.", 42, 20, 34, 19);
+			if (_QuitConfirm == 1)
+			{
+				break;
+			}
+		}
 	}
-	_getch();
 
 }
 
