@@ -283,27 +283,27 @@ void CGameEngine::Draw()
 	GotoXY(70, 12);
 
 	GotoXY(71, 6);
-	SetConsoleTextAttribute(hConsole, 128);
+	SetConsoleTextAttribute(g_hConsole, 128);
 	std::cout << " ";
 
 	GotoXY(87, 6);
 	_cIconHolder = 126;
-	SetConsoleTextAttribute(hConsole, 159);
+	SetConsoleTextAttribute(g_hConsole, 159);
 	std::cout << _cIconHolder;
 	
 	GotoXY(71, 10);
 	_cIconHolder = 249;
-	SetConsoleTextAttribute(hConsole, 12);
+	SetConsoleTextAttribute(g_hConsole, 12);
 	std::cout << _cIconHolder;
 
 	GotoXY(87, 10);
 	_cIconHolder = 15;
-	SetConsoleTextAttribute(hConsole, 12);
+	SetConsoleTextAttribute(g_hConsole, 12);
 	std::cout << _cIconHolder;
 	
 	GotoXY(71, 8);
 	_cIconHolder = 220;
-	SetConsoleTextAttribute(hConsole, 15);
+	SetConsoleTextAttribute(g_hConsole, 15);
 	std::cout << _cIconHolder;
 
 	GotoXY(87, 8);
