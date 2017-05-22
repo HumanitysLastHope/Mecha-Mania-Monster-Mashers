@@ -150,9 +150,8 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	}
 }
 
-// Author: Jack Mair
-// Input: Moves the cursor position to input coods.
-// Returns: void.
+
+// Moves the cursor position to input coods.
 void GotoXY(int _iX, int _iY) {
 	COORD point;
 	point.X = _iX;
@@ -160,9 +159,7 @@ void GotoXY(int _iX, int _iY) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
 }
 
-//Author: Jack Mair
-//Input: A minimal Int value that can be inputted by the player, a maximum Int value that can be inputted by the player, a personalised error message
-//Returns: A valid int input
+// A minimal Int value that can be inputted by the player, a maximum Int value that can be inputted by the player, a personalised error message
 int inputValidator(const int &_inputMin, const int &_inputMax, const std::string &_sErrorMsg, int _iX, int _iY, int _ErrorMsgX, int _ErrorMsgY)
 {
 	std::string input;
@@ -186,17 +183,19 @@ int inputValidator(const int &_inputMin, const int &_inputMax, const std::string
 	}
 }
 
+
+// A minimal Int value that can be inputted by the player, a maximum Int value that can be inputted by the player, a personalised error message
 void DrawGrid(int _iTopX, int _iTopY, int _iBottomX, int _iBottomY)
 {
 	char _cBoxTile;
-	for (int _iX = 0; _iX <= (_iBottomX - _iTopX); ++_iX)
+	for (int _iX = 1; _iX < (_iBottomX - _iTopX); ++_iX)
 	{
-			GotoXY(_iTopX + _iX, _iTopY);
+		GotoXY(_iTopX + _iX, _iTopY);
 			_cBoxTile = 205;
 			std::cout << _cBoxTile;
 			GotoXY(_iTopX + _iX, _iBottomY);
 			std::cout << _cBoxTile;
-			if (_iX <= (_iBottomY - _iTopY)) {
+			if (_iX < (_iBottomY - _iTopY)) {
 				GotoXY(_iTopX, _iTopY + _iX);
 				_cBoxTile = 186;
 				std::cout << _cBoxTile;
@@ -240,7 +239,7 @@ void CGameEngine::Draw()
 
 	//Draws the move input list
 	GotoXY(4, 27);
-	std::cout << "Key:";
+	std::cout << "Input Key:";
 	GotoXY(4, 28);
 	std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
 	GotoXY(4, 30);
@@ -251,6 +250,45 @@ void CGameEngine::Draw()
 	std::cout << "[3] 3		[3] Flip		[3] Mine";
 	GotoXY(4, 33);
 	std::cout << "[4] -1";
+
+	//Draws the icon key input list
+	GotoXY(70, 4);
+	std::cout << "Arena Key:";
+	GotoXY(70, 6);
+	std::cout << "    Empty Tile      Water";
+	GotoXY(70, 8);
+	std::cout << "    Pit             Mecha";
+	GotoXY(70, 10);
+	std::cout << "    Bullet          Mine";
+	GotoXY(70, 12);
+
+	GotoXY(71, 6);
+	SetConsoleTextAttribute(hConsole, 128);
+	std::cout << " ";
+
+	GotoXY(87, 6);
+	_cIconHolder = 126;
+	SetConsoleTextAttribute(hConsole, 159);
+	std::cout << _cIconHolder;
+	
+	GotoXY(71, 10);
+	_cIconHolder = 249;
+	SetConsoleTextAttribute(hConsole, 12);
+	std::cout << _cIconHolder;
+
+	GotoXY(87, 10);
+	_cIconHolder = 15;
+	SetConsoleTextAttribute(hConsole, 12);
+	std::cout << _cIconHolder;
+	
+	GotoXY(71, 8);
+	_cIconHolder = 220;
+	SetConsoleTextAttribute(hConsole, 15);
+	std::cout << _cIconHolder;
+
+	GotoXY(87, 8);
+	_cIconHolder = 30;
+	std::cout << _cIconHolder;
 
 	//Draws the player health UI
 	if (m_Player1.GetMecha() != nullptr) {
@@ -663,9 +701,9 @@ void CGameEngine::Run()
 			if (_PlayerCount != 5)
 			{
 				gameEngine.playerAliveCount = _PlayerCount;
+				system("CLS");
 				while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
 				{
-					system("CLS");
 					gameEngine.Draw();
 					gameEngine.Step();
 				}
