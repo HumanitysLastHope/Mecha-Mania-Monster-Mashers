@@ -243,19 +243,36 @@ void CGameEngine::Draw()
 	GotoXY(13, 4);
 	std::cout << "xX ARENA OF DEATH! Xx";
 
-	//Draws the move input list
-	GotoXY(4, 27);
-	std::cout << "Key:";
-	GotoXY(4, 28);
-	std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
-	GotoXY(4, 30);
-	std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
-	GotoXY(4, 31);
-	std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
-	GotoXY(4, 32);
-	std::cout << "[3] 3		[3] Flip		[3] Mine";
-	GotoXY(4, 33);
-	std::cout << "[4] -1";
+	if (m_pCurGameState == m_pstateGetInput)
+	{
+		SetConsoleTextAttribute(g_hConsole, 15);
+		//m_pCurGameState->Step(this);
+		GotoXY(4, 22);
+		std::cout << "Player " << m_CommandOrder[m_pstateGetInput->GetI()] + 1;
+		GotoXY(4, 23);
+		std::cout << "Input Commands:";
+		GotoXY(8, 25);
+		std::cout << "[ ][ ]	[ ][ ]	[ ][ ]";
+		//Draws the move input list
+		GotoXY(4, 27);
+		std::cout << "Key:";
+		GotoXY(4, 28);
+		std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
+		GotoXY(4, 30);
+		std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
+		GotoXY(4, 31);
+		std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
+		GotoXY(4, 32);
+		std::cout << "[3] 3		[3] Flip		[3] Mine";
+		GotoXY(4, 33);
+		std::cout << "[4] -1";
+	}
+	else
+	{
+		// Don't
+	}
+
+	
 
 	//Draws the player health UI
 	if (m_Player1.GetMecha() != nullptr) {
@@ -432,13 +449,6 @@ void CGameEngine::Draw()
 	}
 
 	SetConsoleTextAttribute(g_hConsole, 15);
-	//m_pCurGameState->Step(this);
-	GotoXY(4, 22);
-	std::cout << "Player " << m_CommandOrder[m_pstateGetInput->GetI()] + 1;
-	GotoXY(4, 23); 
-	std::cout << "Input Commands:";
-	GotoXY(8, 25);
-	std:: cout << "[ ][ ]	[ ][ ]	[ ][ ]";
 	GotoXY(9, 25);
 }
 
