@@ -11,6 +11,9 @@
 #include <conio.h>
 #include <regex>
 
+HANDLE g_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
 
 void set_console_size(HANDLE screen_buffer, SHORT width, SHORT height)
 {
@@ -54,6 +57,7 @@ CGameEngine::CGameEngine() :
 
 	inGetState = true;
 	ChangeState(m_pstateGetInput);
+	m_pstateGetInput->ResetZ();
 }
 
 
@@ -222,12 +226,13 @@ void DrawGrid(int _iTopX, int _iTopY, int _iBottomX, int _iBottomY)
 	std::cout << _cBoxTile;
 }
 
+
+
 // Author: Jack Mair
 // Input: Draws the Gameplay arena. Is called every 'gamephase' step after the players and attack objects have exectued their behaviour.
 // Returns: void.
 void CGameEngine::Draw()
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	static int _ibackgroundcolour = 128;
 	char _cIconHolder;
 
@@ -237,19 +242,34 @@ void CGameEngine::Draw()
 	GotoXY(13, 4);
 	std::cout << "xX ARENA OF DEATH! Xx";
 
-	//Draws the move input list
-	GotoXY(4, 27);
-	std::cout << "Input Key:";
-	GotoXY(4, 28);
-	std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
-	GotoXY(4, 30);
-	std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
-	GotoXY(4, 31);
-	std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
-	GotoXY(4, 32);
-	std::cout << "[3] 3		[3] Flip		[3] Mine";
-	GotoXY(4, 33);
-	std::cout << "[4] -1";
+	if (m_pCurGameState == m_pstateGetInput)
+	{
+		SetConsoleTextAttribute(g_hConsole, 15);
+		//m_pCurGameState->Step(this);
+		GotoXY(4, 22);
+		std::cout << "Player " << m_CommandOrder[m_pstateGetInput->GetI()] + 1;
+		GotoXY(4, 23);
+		std::cout << "Input Commands:";
+		GotoXY(8, 25);
+		std::cout << "[ ][ ]	[ ][ ]	[ ][ ]";
+		//Draws the move input list
+		GotoXY(4, 27);
+		std::cout << "Key:";
+		GotoXY(4, 28);
+		std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
+		GotoXY(4, 30);
+		std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
+		GotoXY(4, 31);
+		std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
+		GotoXY(4, 32);
+		std::cout << "[3] 3		[3] Flip		[3] Mine";
+		GotoXY(4, 33);
+		std::cout << "[4] -1";
+	}
+	else
+	{
+		// Don't
+	}
 
 	//Draws the icon key input list
 	GotoXY(70, 4);
@@ -297,12 +317,13 @@ void CGameEngine::Draw()
 		GotoXY(54, 6);
 		std::cout << "HP: " << m_Player1.GetMecha()->GetHealth();
 		if (m_Player1.CheckDeath() != true) {
-			SetConsoleTextAttribute(hConsole, (13));
+			SetConsoleTextAttribute(g_hConsole, (13));
 		}
 		GotoXY(52, 5);
 		_cIconHolder = 30;
 		std::cout << _cIconHolder;
-		SetConsoleTextAttribute(hConsole, 15);
+		DrawFirstPlayer(m_Player1, 51, 5);
+		SetConsoleTextAttribute(g_hConsole, 15);
 	}
 	if (m_Player2.GetMecha() != nullptr) {
 		GotoXY(54, 8);
@@ -310,12 +331,13 @@ void CGameEngine::Draw()
 		GotoXY(54, 9);
 		std::cout << "HP: " << m_Player2.GetMecha()->GetHealth();
 		if (m_Player2.CheckDeath() != true) {
-			SetConsoleTextAttribute(hConsole, (14));
+			SetConsoleTextAttribute(g_hConsole, (14));
 		}
 		GotoXY(52, 8);
 		_cIconHolder = 30;
 		std::cout << _cIconHolder;
-		SetConsoleTextAttribute(hConsole, 15);
+		DrawFirstPlayer(m_Player2, 51, 8);
+		SetConsoleTextAttribute(g_hConsole, 15);
 	}
 	if (m_Player3.GetMecha() != nullptr) {
 		GotoXY(54, 11);
@@ -323,12 +345,14 @@ void CGameEngine::Draw()
 		GotoXY(54, 12);
 		std::cout << "HP: " << m_Player3.GetMecha()->GetHealth();
 		if (m_Player3.CheckDeath() != true) {
-			SetConsoleTextAttribute(hConsole, (10));
+			SetConsoleTextAttribute(g_hConsole, (10));
 		}
 		GotoXY(52, 11);
 		_cIconHolder = 30;
 		std::cout << _cIconHolder;
-		SetConsoleTextAttribute(hConsole, 15);
+		DrawFirstPlayer(m_Player3, 51, 11);
+
+		SetConsoleTextAttribute(g_hConsole, 15);
 	}
 	if (m_Player4.GetMecha() != nullptr) {
 		GotoXY(54, 14);
@@ -336,12 +360,14 @@ void CGameEngine::Draw()
 		GotoXY(54, 15);
 		std::cout << "HP: " << m_Player4.GetMecha()->GetHealth();
 		if (m_Player4.CheckDeath() != true) {
-			SetConsoleTextAttribute(hConsole, (11));
+			SetConsoleTextAttribute(g_hConsole, (11));
 		}
 		GotoXY(52, 14);
 		_cIconHolder = 30;
 		std::cout << _cIconHolder;
-		SetConsoleTextAttribute(hConsole, 15);
+		DrawFirstPlayer(m_Player4, 51, 14);
+
+		SetConsoleTextAttribute(g_hConsole, 15);
 	}
 	
 	//draws the arena
@@ -363,26 +389,26 @@ void CGameEngine::Draw()
 				&& m_Level.GetTile(_iX, _iY).GetBullet() == nullptr)
 			{
 				std::cout << " ";
-				SetConsoleTextAttribute(hConsole, 15);
+				SetConsoleTextAttribute(g_hConsole, 15);
 			}
 			//draw mecha
 			else if (m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 1)
 				{
-					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 13));
+					SetConsoleTextAttribute(g_hConsole, (_ibackgroundcolour + 13));
 				}
 				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 2)
 				{
-					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 14));
+					SetConsoleTextAttribute(g_hConsole, (_ibackgroundcolour + 14));
 				}
 				else if (m_Level.GetTile(_iX, _iY).GetMecha()->getID() == 3)
 				{
-					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 10));
+					SetConsoleTextAttribute(g_hConsole, (_ibackgroundcolour + 10));
 				}
 				else
 				{
-					SetConsoleTextAttribute(hConsole, (_ibackgroundcolour + 11));
+					SetConsoleTextAttribute(g_hConsole, (_ibackgroundcolour + 11));
 				}
 
 				char _cMechaImage;
@@ -403,17 +429,17 @@ void CGameEngine::Draw()
 					_cMechaImage = 17;
 				}
 				std::cout << _cMechaImage;
-				SetConsoleTextAttribute(hConsole, 15);
-				SetConsoleTextAttribute(hConsole, 128);
+				SetConsoleTextAttribute(g_hConsole, 15);
+				SetConsoleTextAttribute(g_hConsole, 128);
 			}
 
 			////draw bullet
 			else if (m_Level.GetTile(_iX, _iY).GetBullet() != nullptr)
 			{
 				char _cBulletImage = 249;
-				SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
+				SetConsoleTextAttribute(g_hConsole, _ibackgroundcolour + 12);
 				std::cout << _cBulletImage;
-				SetConsoleTextAttribute(hConsole, 15);
+				SetConsoleTextAttribute(g_hConsole, 15);
 			}
 			//draw mine
 			else if (m_Level.GetTile(_iX, _iY).GetMine() != nullptr)
@@ -423,16 +449,16 @@ void CGameEngine::Draw()
 					m_Level.GetTile(_iX, _iY).SetMine(nullptr);
 					m_Level.GetTile(_iX, _iY).GetMine()->bombBlown();
 					char _cPitImage = 220;
-					SetConsoleTextAttribute(hConsole, 15);
+					SetConsoleTextAttribute(g_hConsole, 15);
 					std::cout << _cPitImage;
 				}
 				else
 				{
 					char _cMineImage = 15;
-					SetConsoleTextAttribute(hConsole, _ibackgroundcolour + 12);
+					SetConsoleTextAttribute(g_hConsole, _ibackgroundcolour + 12);
 					std::cout << _cMineImage;
 					m_Level.GetTile(_iX, _iY).GetMine()->ArmMine();
-					SetConsoleTextAttribute(hConsole, 15);
+					SetConsoleTextAttribute(g_hConsole, 15);
 				}
 				
 			}
@@ -441,31 +467,24 @@ void CGameEngine::Draw()
 			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == WATER)
 			{
 				char _cWaterImage = 126;
-				SetConsoleTextAttribute(hConsole, 159);
+				SetConsoleTextAttribute(g_hConsole, 159);
 				std::cout << _cWaterImage;
-				SetConsoleTextAttribute(hConsole, 15);
+				SetConsoleTextAttribute(g_hConsole, 15);
 			}
 			////draw pit
 			else if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT)
 			{
 				char _cPitImage = 220;
-				SetConsoleTextAttribute(hConsole, 15);
+				SetConsoleTextAttribute(g_hConsole, 15);
 				std::cout << _cPitImage;
 			}
-			SetConsoleTextAttribute(hConsole, 15);
+			SetConsoleTextAttribute(g_hConsole, 15);
 			std::cout << " ";
-			SetConsoleTextAttribute(hConsole, 128);
+			SetConsoleTextAttribute(g_hConsole, 128);
 		}
 	}
 
-	SetConsoleTextAttribute(hConsole, 15);
-	//m_pCurGameState->Step(this);
-	GotoXY(4, 22);
-	std::cout << "Player X";
-	GotoXY(4, 23); 
-	std::cout << "Input Commands:";
-	GotoXY(8, 25);
-	std:: cout << "[ ][ ]	[ ][ ]	[ ][ ]";
+	SetConsoleTextAttribute(g_hConsole, 15);
 	GotoXY(9, 25);
 }
 
@@ -804,6 +823,21 @@ void CGameEngine::SetNewFirstPlayer()
 
 	m_CommandOrder.erase(m_CommandOrder.begin());
 	m_CommandOrder.push_back(iTemp);
+}
+
+void CGameEngine::DrawFirstPlayer(CPlayer _Player, int _iX, int _iY)
+{
+	GotoXY(_iX, _iY);
+	SetConsoleTextAttribute(g_hConsole, 12);
+	if (m_CommandOrder.front()+1 == _Player.GetMecha()->getID())
+	{
+		
+		std::cout << "*";
+	}
+	else
+	{
+		std::cout << " ";
+	}
 }
 
 bool CGameEngine::BulletCollisionTest()

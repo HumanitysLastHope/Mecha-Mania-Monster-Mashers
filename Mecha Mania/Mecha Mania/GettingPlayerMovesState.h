@@ -22,9 +22,20 @@ public:
 
 	virtual void Step(CGameEngine * _pGameEngine) override;
 
+	void ResetZ()
+	{
+		z = 0;
+	}
+
+	int GetI()
+	{
+		return z;
+	}
+
 private:
 
 	int i = 0;
 	int j = 0;
+	int z = 0;
 };
 

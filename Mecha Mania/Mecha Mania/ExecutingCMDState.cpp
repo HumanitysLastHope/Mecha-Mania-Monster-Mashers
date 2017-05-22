@@ -44,6 +44,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		_pGameEngine->inGetState = true;
 
   		_pGameEngine->ChangeState(_pGameEngine->GetGettingInputState());
+		_pGameEngine->GetGettingInputState()->ResetZ();
    		return;
 	}
 
