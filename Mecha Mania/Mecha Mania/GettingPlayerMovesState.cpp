@@ -27,6 +27,9 @@ CGettingPlayerMovesState::~CGettingPlayerMovesState()
 void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 {
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
+
+	i = _pGameEngine->m_CommandOrder[z];
+
 	if (playerList[i].bDead == true)
 	{
 		if (i < 3)
@@ -42,17 +45,9 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 	}
 	else
 	{
-		//std::cout << playerList[0].GetMecha()->m_posGridPosition.m_iX;
 		CPlayer playerGetMove = playerList[0];
 		int iPlayerInput;
 		bool bValidMove = false;
-
-		//playerList[0].GetMecha()->SetGridPosition({ 1,1 });
-
-		//for (int i = 0; i < _pGameEngine->playerAliveCount; i++)
-		//{
-
-		bValidMove = false;
 
 		while (bValidMove == false)
 		{
@@ -196,13 +191,13 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 		else
 		{
 			j = 0;
-			if (i < 3)
+			if (z < 3)
 			{
-				i++;
+				z++;
 			}
 			else
 			{
-				i = 0;
+				z = 0;
 				_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 				_pGameEngine->GetExecutingState()->ResetZ();
 			}

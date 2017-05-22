@@ -31,6 +31,7 @@ public:
 	CBoard& GetBoard();
 	void WaterCheck(CPlayer* _pPlayer);
 	void SetNewFirstPlayer();
+	void DrawFirstPlayer(CPlayer _Player, int _iX, int _iY);
 
 	CBullet* SpawnBullet(const TPosition&, EDIRECTION);
 	void DestroyBullet(CBullet*);
