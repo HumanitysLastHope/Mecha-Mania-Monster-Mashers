@@ -200,10 +200,9 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 				z = 0;
 				_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 				_pGameEngine->GetExecutingState()->ResetZ();
+				system("CLS");
 			}
 		}
-		std::cout << "Press any key to continue..." << std::endl;
-		_getch();
 	}
 }
 
