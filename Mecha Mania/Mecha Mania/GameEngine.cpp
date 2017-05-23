@@ -139,6 +139,8 @@ void CGameEngine::Step()
 		
 	}
 
+
+
 	PitCheck();
 
 
@@ -773,13 +775,17 @@ void CGameEngine::Run()
 
 
 				system("CLS");
-				while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
+				while (true)
 				{
 					gameEngine.Draw();
 					gameEngine.Step();
+					if (gameEngine.playerAliveCount <= 1 && gameEngine.inGetState == true)
+					{
+						break;
+					}
 				}
-
 				system("CLS");
+				
 				if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
 				{
 					std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
@@ -792,6 +798,7 @@ void CGameEngine::Run()
 				{
 					std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
 				}
+
 			}
 			else
 			{

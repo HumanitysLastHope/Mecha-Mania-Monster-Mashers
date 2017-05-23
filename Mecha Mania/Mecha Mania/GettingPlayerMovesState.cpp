@@ -32,13 +32,15 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 	if (playerList[i].bDead == true)
 	{
-		if (i < playerList.size()-1)
+		if (i < playerList.size()-1 && z< playerList.size() - 1)
 		{
 			i++;
+			z++;
 		}
 		else
 		{
 			i = 0;
+			z = 0;
 			_pGameEngine->inGetState = false;
 			_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 		}
