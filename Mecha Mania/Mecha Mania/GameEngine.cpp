@@ -239,7 +239,7 @@ void CGameEngine::Draw()
 	DrawGrid(4, 4, 44, 20);
 	DrawGrid(4, 4, 44, 20);
 
-	GotoXY(13, 4);
+	GotoXY(14, 3);
 	std::cout << "xX ARENA OF DEATH! Xx";
 
 	if (m_pCurGameState == m_pstateGetInput)
