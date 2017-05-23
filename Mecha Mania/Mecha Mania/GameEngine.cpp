@@ -39,7 +39,7 @@ void setFontSize(int FontSize)
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }
 
-CGameEngine::CGameEngine() :
+CGameEngine::CGameEngine(int _playerCount) :
 	m_Player1({ 0,0 }, NORTH, &m_Level, 1),
 	m_Player2({ 0,0 }, NORTH, &m_Level, 2),
 	m_Player3({ 0,0 }, NORTH, &m_Level, 3),
@@ -48,12 +48,38 @@ CGameEngine::CGameEngine() :
 	m_pstateGetInput(new CGettingPlayerMovesState),
 	m_pstateMovBullet(new CMovingBulletsState)
 {
-	LoadBoard(2);
+	playerAliveCount = _playerCount;
 
-	m_CommandOrder.push_back(0);
-	m_CommandOrder.push_back(1);
-	m_CommandOrder.push_back(2);
-	m_CommandOrder.push_back(3);
+	if (playerAliveCount == 4)
+	{
+		m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4 };
+
+		m_CommandOrder.push_back(0);
+		m_CommandOrder.push_back(1);
+		m_CommandOrder.push_back(2);
+		m_CommandOrder.push_back(3);
+
+
+	}
+	else if (playerAliveCount == 3)
+	{
+		m_PlayerList = { m_Player1, m_Player2, m_Player3 };
+		m_CommandOrder.push_back(0);
+		m_CommandOrder.push_back(1);
+		m_CommandOrder.push_back(2);
+
+		//m_Player3 = nullptr;
+	}
+	else
+	{
+		m_PlayerList = { m_Player1, m_Player2 };
+		m_CommandOrder.push_back(0);
+		m_CommandOrder.push_back(1);
+	}
+
+	LoadBoard(2, _playerCount);
+
+	
 
 	inGetState = true;
 	ChangeState(m_pstateGetInput);
@@ -91,9 +117,9 @@ void CGameEngine::Step()
 {
 
 	playerAliveCount = 0;
-	for (int l = 0; l < 4; l++) // CHECK DEATH
+	for (int l = 0; l < m_PlayerList.size(); l++) // CHECK DEATH
 	{
-
+		
 		m_PlayerList[l].bDead = m_PlayerList[l].CheckDeath();
 
 		if (m_PlayerList[l].bDead == false)
@@ -109,6 +135,8 @@ void CGameEngine::Step()
 				m_pWinner = nullptr;
 			}
 		}
+		
+		
 	}
 
 	PitCheck();
@@ -311,11 +339,12 @@ void CGameEngine::Draw()
 	std::cout << _cIconHolder;
 
 	//Draws the player health UI
-	if (m_Player1.GetMecha() != nullptr) {
+	if (m_Player1.GetMecha() != nullptr) 
+	{
 		GotoXY(54, 5);
 		std::cout << "Player 1";
 		GotoXY(54, 6);
-		std::cout << "HP: " << m_Player1.GetMecha()->GetHealth();
+		std::cout << "HP: " << m_PlayerList[0].GetMecha()->GetHealth();
 		if (m_Player1.CheckDeath() != true) {
 			SetConsoleTextAttribute(g_hConsole, (13));
 		}
@@ -325,11 +354,12 @@ void CGameEngine::Draw()
 		DrawFirstPlayer(m_Player1, 51, 5);
 		SetConsoleTextAttribute(g_hConsole, 15);
 	}
-	if (m_Player2.GetMecha() != nullptr) {
+	if (m_Player2.GetMecha() != nullptr) 
+	{
 		GotoXY(54, 8);
 		std::cout << "Player 2";
 		GotoXY(54, 9);
-		std::cout << "HP: " << m_Player2.GetMecha()->GetHealth();
+		std::cout << "HP: " << m_PlayerList[1].GetMecha()->GetHealth();
 		if (m_Player2.CheckDeath() != true) {
 			SetConsoleTextAttribute(g_hConsole, (14));
 		}
@@ -339,11 +369,12 @@ void CGameEngine::Draw()
 		DrawFirstPlayer(m_Player2, 51, 8);
 		SetConsoleTextAttribute(g_hConsole, 15);
 	}
-	if (m_Player3.GetMecha() != nullptr) {
+	if (m_Player3.GetMecha() != nullptr && m_PlayerList.size() >=3) 
+	{
 		GotoXY(54, 11);
 		std::cout << "Player 3";
 		GotoXY(54, 12);
-		std::cout << "HP: " << m_Player3.GetMecha()->GetHealth();
+		std::cout << "HP: " << m_PlayerList[2].GetMecha()->GetHealth();
 		if (m_Player3.CheckDeath() != true) {
 			SetConsoleTextAttribute(g_hConsole, (10));
 		}
@@ -354,11 +385,12 @@ void CGameEngine::Draw()
 
 		SetConsoleTextAttribute(g_hConsole, 15);
 	}
-	if (m_Player4.GetMecha() != nullptr) {
+	if (m_Player4.GetMecha() != nullptr && m_PlayerList.size() == 4) 
+	{
 		GotoXY(54, 14);
 		std::cout << "Player 4";
 		GotoXY(54, 15);
-		std::cout << "HP: " << m_Player4.GetMecha()->GetHealth();
+		std::cout << "HP: " << m_PlayerList[3].GetMecha()->GetHealth();
 		if (m_Player4.CheckDeath() != true) {
 			SetConsoleTextAttribute(g_hConsole, (11));
 		}
@@ -508,7 +540,7 @@ void CGameEngine::ChangeState(IGameState* _pState)
 	}
 }
 
-CBoard& CGameEngine::LoadBoard(int _LevelNum) {
+CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 
 	std::ifstream LoadFile;
 
@@ -518,11 +550,15 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
-		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
-		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
+		if (_playerCount != 2)
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 1 });
-		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+
+			m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 1 });
+			m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+		}
 
 		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 7 });
 		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
@@ -541,14 +577,27 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum) {
 		m_PlayerList[0].GetMecha()->SetGridPosition({ 2, 2 });
 		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
 
-		m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 7 });
-		m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
+		if (_playerCount != 2)
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 7 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
 
-		m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 2 });
-		m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+			m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 2 });
+			m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+		}
+		else
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 7, 7 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(NORTH);
+		}
+		if (_playerCount == 4)
+		{
+			m_PlayerList[3].GetMecha()->SetGridPosition({ 7, 7 });
+			m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
+		}
 
-		m_PlayerList[3].GetMecha()->SetGridPosition({ 7, 7 });
-		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
+	//	m_PlayerList[3].GetMecha()->SetGridPosition({ 7, 7 });
+	//	m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		//include code here load level 2 from txt file
 
@@ -713,13 +762,16 @@ void CGameEngine::Run()
 			std::cout << "[5] back";
 			GotoXY(53, 18);
 
-			CGameEngine gameEngine;
 			int _PlayerCount = inputValidator(2, 5, "Invalid Input.", 53, 18, 34, 19);
 
 			// Initialize game
 			if (_PlayerCount != 5)
 			{
-				gameEngine.playerAliveCount = _PlayerCount;
+				CGameEngine gameEngine(_PlayerCount);
+
+				
+
+
 				system("CLS");
 				while (gameEngine.playerAliveCount != 1 && gameEngine.playerAliveCount != 0 && gameEngine.inGetState == true)
 				{
@@ -740,6 +792,10 @@ void CGameEngine::Run()
 				{
 					std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
 				}
+			}
+			else
+			{
+				// Go back to home screen
 			}
 		}
 		//Go to the controlscreen

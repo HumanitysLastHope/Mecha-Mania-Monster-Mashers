@@ -25,7 +25,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	int i = 0; // Doesn't matter that it's reset
 
-	if (z < 3)
+	if (z < playerList.size()-1)
 	{
 		z++; // NEXT PLAYER
 

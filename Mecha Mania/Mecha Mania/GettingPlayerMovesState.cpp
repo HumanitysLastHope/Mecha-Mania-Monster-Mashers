@@ -32,7 +32,7 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 	if (playerList[i].bDead == true)
 	{
-		if (i < 3)
+		if (i < playerList.size()-1)
 		{
 			i++;
 		}
@@ -191,7 +191,7 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 		else
 		{
 			j = 0;
-			if (z < 3)
+			if (z < playerList.size()-1)
 			{
 				z++;
 			}

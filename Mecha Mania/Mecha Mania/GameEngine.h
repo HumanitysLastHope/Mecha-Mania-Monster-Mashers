@@ -18,16 +18,16 @@ class CMovingBulletsState;
 class CGameEngine
 {
 public:
-	CGameEngine();
+	CGameEngine(int _playerCount);
 	~CGameEngine();
 
-	int playerAliveCount = 4;
+	int playerAliveCount;// = 4;
 
 	void Step();
 	bool PitCheck();
 	void Draw();
 	void ChangeState(IGameState* _state);
-	CBoard& LoadBoard(int _LevelNum);
+	CBoard& LoadBoard(int _LevelNum, int _playerCount);
 	CBoard& GetBoard();
 	void WaterCheck(CPlayer* _pPlayer);
 	void SetNewFirstPlayer();
@@ -62,7 +62,7 @@ private:
 	CPlayer m_Player3;
 	CPlayer m_Player4;
 	CPlayer* m_pWinner;
-	std::vector<CPlayer> m_PlayerList = { m_Player1, m_Player2, m_Player3, m_Player4};
+	std::vector<CPlayer> m_PlayerList;
 	std::vector<CBullet*> m_vecpBulletList;
 	//std::vector<CMine*> m_vecMineList;
 
