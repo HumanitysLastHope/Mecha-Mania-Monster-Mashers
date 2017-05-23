@@ -284,17 +284,24 @@ void CGameEngine::Draw()
 		std::cout << "[ ][ ]	[ ][ ]	[ ][ ]";
 		//Draws the move input list
 		GotoXY(4, 27);
-		std::cout << "Key:";
-		GotoXY(4, 28);
+		std::cout << "Input Key:";
+		GotoXY(4, 29);
 		std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
-		GotoXY(4, 30);
-		std::cout << "[1] 1		[1] Clockwise		[1] Shoot";
 		GotoXY(4, 31);
-		std::cout << "[2] 2		[2] Anti-Clockwise	[2] Push";
+		std::cout << "[1] forward 1	[1] Clockwise		[1] Shoot";
 		GotoXY(4, 32);
-		std::cout << "[3] 3		[3] Flip		[3] Mine";
+		std::cout << "[2] forward 2	[2] Anti-Clockwise	[2] Push";
 		GotoXY(4, 33);
-		std::cout << "[4] -1";
+		std::cout << "[3] forward 3	[3] Flip		[3] Mine";
+		GotoXY(4, 34);
+		std::cout << "[4] backward 1";
+		for (int i = 0; i <= 5; ++i)
+		{
+			GotoXY(20, 29 + i);
+			std::cout << ":";
+			GotoXY(44, 29 + i);
+			std::cout << ":";
+		}
 	}
 	else
 	{
