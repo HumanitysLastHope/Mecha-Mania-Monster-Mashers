@@ -693,8 +693,10 @@ void CGameEngine::Run()
 	// Set font size
 	int iFontSize = 6;
 	setFontSize(iFontSize);
+	GotoXY(118, 17);
+	std::cout << "                            .###'.                                               ";
 	GotoXY(118, 18);
-	std::cout << "                         .'########+',                                         ";
+	std::cout << "                         .'#      #+',                                         ";
 	GotoXY(118, 19);
 	std::cout << "                      ,#;    .'#+.    ,++':`									 ";
 	GotoXY(118, 20);
