@@ -10,6 +10,9 @@
 #include <windows.h>
 #include <conio.h>
 #include <regex> // GEREX
+#include <cstdlib> 
+#include <ctime> 
+#include <iostream>
 
 HANDLE g_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -77,7 +80,11 @@ CGameEngine::CGameEngine(int _playerCount) :
 		m_CommandOrder.push_back(1);
 	}
 
-	LoadBoard(2, _playerCount);
+	//creates a random number so a random map can be chosen
+	srand((unsigned)time(0));
+	int random_integer = (rand() % 4) + 1;
+
+	LoadBoard(random_integer, _playerCount);
 
 	
 
@@ -556,8 +563,8 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
 
-		m_PlayerList[0].GetMecha()->SetGridPosition({ 1, 2 });
-		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(SOUTH);
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 8, 7 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		if (_playerCount != 2)
 		{
@@ -568,10 +575,16 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 			m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 1 });
 			m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
 		}
-
-		m_PlayerList[3].GetMecha()->SetGridPosition({ 8, 7 });
-		m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
-
+		else
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 2, 8 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(EAST);
+		}
+		if (_playerCount == 4)
+		{
+			m_PlayerList[3].GetMecha()->SetGridPosition({ 1, 2 });
+			m_PlayerList[3].GetMecha()->SetMechaFacingDirect(SOUTH);
+		}
 		//include code here load level 1 from txt file
 
 		LoadFile.open("LevelOne.txt");
@@ -580,7 +593,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 			std::cout << "Error opening file." << std::endl;
 		}
 	}
-	if (_LevelNum == 2) {
+	else if (_LevelNum == 2) {
 		//sets the players starting locations and facing direction
 
 		m_PlayerList[0].GetMecha()->SetGridPosition({ 2, 2 });
@@ -616,18 +629,72 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 			std::cout << "Error opening file." << std::endl;
 		}
 	}
-	if (_LevelNum == 3) {
+	else if (_LevelNum == 3) {
 		//sets the players starting locations and facing direction
 
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 4, 6 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(NORTH);
+
+		if (_playerCount != 2)
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 5, 3 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(SOUTH);
+
+			m_PlayerList[2].GetMecha()->SetGridPosition({ 6, 5 });
+			m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+		}
+		else
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 5, 4 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(SOUTH);
+		}
+		if (_playerCount == 4)
+		{
+			m_PlayerList[3].GetMecha()->SetGridPosition({ 3, 4 });
+			m_PlayerList[3].GetMecha()->SetMechaFacingDirect(EAST);
+		}
 
 		//include code here load level 3 from txt file
+
+		LoadFile.open("LevelThree.txt");
+		if (LoadFile.is_open() == false)
+		{
+			std::cout << "Error opening file." << std::endl;
+		}
 
 	}
 	else {
 		//sets the players starting locations and facing direction
 
+		m_PlayerList[0].GetMecha()->SetGridPosition({ 4, 7 });
+		m_PlayerList[0].GetMecha()->SetMechaFacingDirect(NORTH);
+
+		if (_playerCount != 2)
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 5, 2 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(SOUTH);
+
+			m_PlayerList[2].GetMecha()->SetGridPosition({ 7, 5 });
+			m_PlayerList[2].GetMecha()->SetMechaFacingDirect(WEST);
+		}
+		else
+		{
+			m_PlayerList[1].GetMecha()->SetGridPosition({ 5, 2 });
+			m_PlayerList[1].GetMecha()->SetMechaFacingDirect(SOUTH);
+		}
+		if (_playerCount == 4)
+		{
+			m_PlayerList[3].GetMecha()->SetGridPosition({ 2, 4 });
+			m_PlayerList[3].GetMecha()->SetMechaFacingDirect(EAST);
+		}
 
 		//include code here load level 4 from txt file
+
+		LoadFile.open("LevelFour.txt");
+		if (LoadFile.is_open() == false)
+		{
+			std::cout << "Error opening file." << std::endl;
+		}
 
 	}
 
@@ -841,7 +908,6 @@ void CGameEngine::Run()
 	GotoXY(55, 95);
 	std::cout << "                                                                                                              ?                                                                                                         ";
 
-
 	_getch();
    
 	
@@ -865,6 +931,7 @@ void CGameEngine::Run()
 	std::cout << "you must battle against each other in the Arena of Death! Only one may survive!";
 	GotoXY(4, 14);
 	std::cout << "Weclome pilots, to:...";
+
 	_getch();
 
 	while (true) {
@@ -903,16 +970,18 @@ void CGameEngine::Run()
 		std::cout << "[2] Controls";
 		GotoXY(4, 26);
 		std::cout << "[3] Quit";
-		GotoXY(69, 35);
+		GotoXY(69, 34);
 		std::cout << "Created by: Lance Chaney, Madeleine Day,";
-		GotoXY(69, 36);
+		GotoXY(69, 35);
 		std::cout << "		Jack Mair, Sebastian Tengdahl";
+		GotoXY(69, 37);
+		std::cout << "    Mecha Mania Monster Mashers (c) 2017";
 		GotoXY(22, 22);
 
-		int _iPlayerInput = inputValidator(1, 3, "Invalid Input.", 22, 22, 4, 23);
+		int _iMenuInput = inputValidator(1, 3, "Invalid Input.", 22, 22, 4, 23);
 
 		//Go to the gameplay
-		if (_iPlayerInput == 1)
+		if (_iMenuInput == 1)
 		{
 			//Player Count screen
 			DrawGrid(30, 16, 72, 27);
@@ -928,12 +997,12 @@ void CGameEngine::Run()
 			std::cout << "[5] back";
 			GotoXY(53, 18);
 
-			int _PlayerCount = inputValidator(2, 5, "Invalid Input.", 53, 18, 34, 19);
+			int _iPlayerCount = inputValidator(2, 5, "Invalid Input.", 53, 18, 34, 19);
 
 			// Initialize game
-			if (_PlayerCount != 5)
+			if (_iPlayerCount != 5)
 			{
-				CGameEngine gameEngine(_PlayerCount);
+				CGameEngine gameEngine(_iPlayerCount);
 
 				
 
@@ -950,18 +1019,120 @@ void CGameEngine::Run()
 				}
 				system("CLS");
 				
-				if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == false) // A player won
+				if (gameEngine.m_pWinner != nullptr) // A player won
 				{
-					std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
-				}
-				else if (gameEngine.m_pWinner != nullptr && gameEngine.m_pWinner->bDead == true) // A player won then died
-				{
-					std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D!";
+					int i_WinnerColour;
+					int i_LoserColour1;
+					int i_LoserColour2;
+					int i_LoserColour3;
+					if (gameEngine.m_pWinner->GetMecha()->getID() == 1)
+					{
+						i_WinnerColour = 13;
+						i_LoserColour1 = 14;
+						i_LoserColour2 = 10;
+						i_LoserColour3 = 11;
+					}
+					else if (gameEngine.m_pWinner->GetMecha()->getID() == 2)
+					{
+						i_LoserColour1 = 13;
+						i_WinnerColour = 14;
+						i_LoserColour2 = 10;
+						i_LoserColour3 = 11;
+					}
+					else if (gameEngine.m_pWinner->GetMecha()->getID() == 3)
+					{
+						i_LoserColour1 = 13;
+						i_LoserColour2 = 14;
+						i_WinnerColour = 10;
+						i_LoserColour3 = 11;
+					}
+					else if (gameEngine.m_pWinner->GetMecha()->getID() == 4)
+					{
+						i_LoserColour1 = 13;
+						i_LoserColour2 = 14;
+						i_LoserColour3 = 10;
+						i_WinnerColour = 11;
+					}
+					
+					system("CLS");
+					char _cBulletImage;
+					
+					_cBulletImage = 249;
+					SetConsoleTextAttribute(g_hConsole, 140);
+					GotoXY(48, 12);
+					std::cout << _cBulletImage;
+					GotoXY(52, 12);
+					std::cout << _cBulletImage;
+					GotoXY(56, 12);
+					std::cout << _cBulletImage;
+					GotoXY(46, 13);
+					std::cout << _cBulletImage;
+					GotoXY(50, 13);
+					std::cout << _cBulletImage;
+					GotoXY(54, 13);
+					std::cout << _cBulletImage;
+					GotoXY(58, 13);
+					std::cout << _cBulletImage;
+					GotoXY(48, 14);
+					_cBulletImage = 31;
+					SetConsoleTextAttribute(g_hConsole, i_LoserColour1);
+					std::cout << _cBulletImage;
+				
+					if (_iPlayerCount > 2) {
+						GotoXY(52, 14);
+						SetConsoleTextAttribute(g_hConsole, i_LoserColour2);
+						std::cout << _cBulletImage;
+					}
+					if (_iPlayerCount > 3) {
+						GotoXY(56, 14);
+						SetConsoleTextAttribute(g_hConsole, i_LoserColour3);
+						std::cout << _cBulletImage;
+					}
+
+					if (gameEngine.m_pWinner->bDead == false) //Winning Player Survived
+					{
+						GotoXY(52, 10);
+						_cBulletImage = 30;
+						SetConsoleTextAttribute(g_hConsole, i_WinnerColour);
+						std::cout << _cBulletImage;
+						SetConsoleTextAttribute(g_hConsole, 15);
+						GotoXY(38, 16);
+						std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " is the W I N N E R!";
+						GotoXY(30, 18);
+						std::cout << "You have won your place in the eternal paradise";
+						GotoXY(37, 19);
+						std::cout << "of the Valhalla Apartment Complex.";
+					}
+
+					if (gameEngine.m_pWinner->bDead == true) // Winning player died before the end of the round
+					{
+						GotoXY(52, 10);
+						_cBulletImage = 31;
+						SetConsoleTextAttribute(g_hConsole, i_WinnerColour);
+						std::cout << _cBulletImage;
+						SetConsoleTextAttribute(g_hConsole, 15);
+						GotoXY(34, 16);
+						std::cout << "Player " << gameEngine.m_pWinner->GetMecha()->getID() << " was going to win, but then D I E D! SAD!";
+					}
 				}
 				else
 				{
+					GotoXY(34, 15);
+					std::cout << "Everyone died.";
+					GotoXY(34, 16);
 					std::cout << "GAME OVER LOSERS" << std::endl; // NO ONE DETECTED AS THE WINNER
 				}
+
+				GotoXY(6, 29);
+				std::cout << "Press any key to refuse your reward and fight in the xX Arena of Death Xx once more...";
+				GotoXY(69, 34);
+				std::cout << "Created by: Lance Chaney, Madeleine Day,";
+				GotoXY(69, 35);
+				std::cout << "		Jack Mair, Sebastian Tengdahl";
+				GotoXY(69, 37);
+				std::cout << "    Mecha Mania Monster Mashers (c) 2017";
+
+				_getch();
 
 			}
 			else
@@ -970,7 +1141,7 @@ void CGameEngine::Run()
 			}
 		}
 		//Go to the controlscreen
-		else if (_iPlayerInput == 2)
+		else if (_iMenuInput == 2)
 		{
 			system("CLS");
 			GotoXY(4, 4);
@@ -1022,7 +1193,7 @@ void CGameEngine::Run()
 			_getch();
 		}
 		//Go to the confirm quit screen
-		else if (_iPlayerInput == 3)
+		else if (_iMenuInput == 3)
 		{
 			DrawGrid(30, 16, 72, 25);
 			GotoXY(34, 18);
