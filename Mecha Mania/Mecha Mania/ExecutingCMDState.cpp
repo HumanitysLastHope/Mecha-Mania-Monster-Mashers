@@ -47,6 +47,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
   		_pGameEngine->ChangeState(_pGameEngine->GetGettingInputState());
 		_pGameEngine->GetGettingInputState()->ResetZ();
+		_pGameEngine->ResetBattleActionText();
    		return;
 	}
 
@@ -72,13 +73,13 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	{
 	case 11: // Move 1
 	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 12: // Move 2
 	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
 
@@ -88,13 +89,13 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		{
 			return;
 		}
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 13: // Move 3
 	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
 
@@ -105,7 +106,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 			return;
 		}
 
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(),_pGameEngine);
 
 		system("CLS");
 		_pGameEngine->Draw();
@@ -116,14 +117,14 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 			return;
 		}
 
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection());
+		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 14: // Move backwards
 	{
 		iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
-		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection));
+		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection), _pGameEngine);
 
 		break;
 	}
@@ -157,9 +158,9 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 		if (objToPush != nullptr)
 		{
-			if (objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect()) != false)
+			if (objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect(), _pGameEngine) != false)
 			{
-				objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect());
+				objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect(), _pGameEngine);
 			}
 		}
 		

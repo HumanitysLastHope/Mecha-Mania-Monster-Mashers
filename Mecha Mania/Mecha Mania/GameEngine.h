@@ -59,7 +59,10 @@ public:
 
 	void ActionText(char _cAction, int _iPlayer, bool _bDied);
 
+	std::vector<std::string>& GetBattleActionText();
+	void ResetBattleActionText();
 
+	void PrintBattleActionText();
 
 private:
 	CBoard m_Level;
@@ -84,5 +87,7 @@ private:
 	char m_rgMoveList[6] = { ' ', ' ', ' ', ' ', ' ', ' ' };
 	
 	IGameState* m_pCurGameState;
+
+	std::vector<std::string> m_vecBattleActionText;
 };
 

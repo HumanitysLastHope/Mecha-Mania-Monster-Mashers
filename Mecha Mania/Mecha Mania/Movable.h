@@ -2,7 +2,9 @@
 
 #include "Enums.h"
 #include "Position.h"
+//#include "GameEngine.h"
 class CBoard;
+class CGameEngine;
 
 class CMovable
 {
@@ -10,7 +12,7 @@ public:
 	CMovable(CBoard*, const TPosition&);
 	virtual ~CMovable();
 
-	virtual bool Move(EDIRECTION) = 0;
+	virtual bool Move(EDIRECTION, CGameEngine*) = 0;
 	TPosition GetPosition() const;
 
 protected:

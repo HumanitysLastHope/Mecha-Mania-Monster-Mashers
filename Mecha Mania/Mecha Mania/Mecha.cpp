@@ -6,6 +6,7 @@
 #include "GameEngine.h"
 #include "Util.h"
 #include <Windows.h>
+#include <string>
 
 
 CMecha::CMecha(TPosition _posGridPosition, EDIRECTION _eFacingDir, CBoard* _pBoard, int _iID)
@@ -64,7 +65,7 @@ void CMecha::GotoXY(int _iX, int _iY)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
 }
 
-bool CMecha::Move(EDIRECTION _eDirection)
+bool CMecha::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 {
 	//bool bShunted = false;
 
@@ -77,7 +78,7 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		// If there's a player in front move that player
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha() != nullptr)
 		{
-			if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection) == false)
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection,_pGameEngine) == false)
 			{
 				return false;
 			}
@@ -101,7 +102,7 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha() != nullptr)
 		{
-			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha()->Move(_eDirection) == false)
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha()->Move(_eDirection, _pGameEngine) == false)
 			{
 				return false;
 			}
@@ -124,7 +125,7 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha() != nullptr)
 		{
 
-			if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection) == false)
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha()->Move(_eDirection, _pGameEngine) == false)
 			{
 				return false;
 			}
@@ -147,7 +148,7 @@ bool CMecha::Move(EDIRECTION _eDirection)
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha() != nullptr)
 		{
 
-			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->Move(_eDirection) == false)
+			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->Move(_eDirection, _pGameEngine) == false)
 			{
 				
 				return false;
@@ -174,12 +175,12 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->m_iHealth <= 0)
 		{
-			ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true);
+			ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true, _pGameEngine);
 
 		}
 		else
 		{
-			ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false);
+			ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false, _pGameEngine);
 
 		}
 	}
@@ -193,12 +194,12 @@ bool CMecha::Move(EDIRECTION _eDirection)
 
 			if (m_iHealth <= 0)
 			{
-				ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true);
+				ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true, _pGameEngine);
 
 			}
 			else
 			{
-				ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false);
+				ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false, _pGameEngine);
 
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->bombBlown(); // delete the bomb
@@ -411,59 +412,64 @@ int CMecha::GetHealth() const
 	return m_iHealth;
 }
 
-void CMecha::ActionText(char _cAction, int _iPlayer, bool _bDied)
+void CMecha::ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine)
 {
+	std::string strOutputText;
+
 	switch (_cAction)
 	{
 	case 'P':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " fell down a pit and died!";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
 		break;
 	}
 	case 'W':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " took 1 damage from water";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
 		if (_bDied == true)
 		{
-			std::cout << " and died!";
+			strOutputText += " and died!";
 		}
 		else
 		{
-			std::cout << "!";
+			strOutputText += "!";
 		}
 		break;
 	}
 	case 'M':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " took 2 damage from a mine";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
 		if (_bDied == true)
 		{
-			std::cout << " and died!";
+			strOutputText += " and died!";
 		}
 		else
 		{
-			std::cout << "!";
+			strOutputText += "!";
 		}
 		break;
 	}
 	case 'B':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " took 1 damage from a bullet";
+		//GotoXY(9, 26);
+		strOutputText = "Player " +  std::to_string(_iPlayer) + " took 1 damage from a bullet";
 		if (_bDied == true)
 		{
-			std::cout << " and died!";
+			strOutputText += " and died!";
 		}
 		else
 		{
-			std::cout << "!";
+			strOutputText += "!";
 		}
 		break;
 	}
+	default:
+		break;
 
 	}
 
+	_pGameEngine->GetBattleActionText().push_back(strOutputText);
 }

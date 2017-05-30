@@ -1,7 +1,10 @@
+
+#pragma once
 #include "Movable.h"
 #include "Enums.h"
 #include "Position.h"
-#pragma once
+class CGameEngine;
+
 
 class CMine : public CMovable
 {
@@ -13,7 +16,7 @@ public:
 	//void setPosition(TPosition _gridPosition);
 	void ArmMine();
 	bool isArmed();
-	bool Move(EDIRECTION _eDirection);
+	bool Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine);
 	void bombBlown();
 
 	//CMine* getMine();

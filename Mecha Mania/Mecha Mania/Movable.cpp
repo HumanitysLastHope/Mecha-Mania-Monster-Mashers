@@ -9,7 +9,7 @@ CMovable::CMovable(CBoard* _pBoard, const TPosition& _posGridPosition) :
 CMovable::~CMovable() 
 {}
 
-bool CMovable::Move(EDIRECTION)
+bool CMovable::Move(EDIRECTION, CGameEngine*)
 {
 	return false;
 }

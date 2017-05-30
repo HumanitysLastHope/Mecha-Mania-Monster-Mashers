@@ -160,6 +160,11 @@ void CGameEngine::Step()
 		ActuallyDestroyBullets();
 	}
 
+	if (m_pCurGameState == m_pstateExecuting)
+	{
+		PrintBattleActionText();
+	}
+
 	
 }
 
@@ -1432,56 +1437,84 @@ void CGameEngine::ResetMoveList()
 
 void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
 {
+	std::string strOutputText;
+
 	switch (_cAction)
 	{
 	case 'P':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " fell down a pit and died!";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
 		break;
 	}
 	case 'W':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " took 1 damage from water";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
 		if (_bDied == true)
 		{
-			std::cout << " and died!";
+			strOutputText += " and died!";
 		}
 		else
 		{
-			std::cout << "!";
+			strOutputText += "!";
 		}
 		break;
 	}
 	case 'M':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " took 2 damage from a mine";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
 		if (_bDied == true)
 		{
-			std::cout << " and died!";
+			strOutputText += " and died!";
 		}
 		else
 		{
-			std::cout << "!";
+			strOutputText += "!";
 		}
 		break;
 	}
 	case 'B':
 	{
-		GotoXY(9, 26);
-		std::cout << "Player " << _iPlayer << " took 1 damage from a bullet";
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from a bullet";
 		if (_bDied == true)
 		{
-			std::cout << " and died!";
+			strOutputText += " and died!";
 		}
 		else
 		{
-			std::cout << "!";
+			strOutputText += "!";
 		}
 		break;
 	}
+	default:
+		break;
 
+	}
+
+	m_vecBattleActionText.push_back(strOutputText);
+}
+
+std::vector<std::string>& CGameEngine::GetBattleActionText()
+{
+	return m_vecBattleActionText;
+}
+
+void CGameEngine::ResetBattleActionText()
+{
+	for (int i = 0; i < m_vecBattleActionText.size(); i++)
+	{
+		m_vecBattleActionText.pop_back();
+	}
+}
+
+void CGameEngine::PrintBattleActionText()
+{
+	for (int i = 0; i < m_vecBattleActionText.size(); i++)
+	{
+		GotoXY(9, 26+i);
+		std::cout << m_vecBattleActionText.at(i);
 	}
 }

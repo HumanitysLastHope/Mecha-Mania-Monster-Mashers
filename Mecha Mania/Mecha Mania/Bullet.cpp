@@ -17,7 +17,7 @@ CBullet::~CBullet()
 {
 }
 
-bool CBullet::Move(EDIRECTION _eDirection)
+bool CBullet::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 {
 	// Get next position that bullet will try to move to
 	TPosition newPos = Util::GetNextPosition(m_posGridPosition, _eDirection);

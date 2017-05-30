@@ -13,7 +13,7 @@ class CBullet : public CMovable
 public:
 	CBullet(CBoard*, CGameEngine&, const TPosition&, EDIRECTION);
 	virtual ~CBullet() override;
-	bool Move(EDIRECTION _eDirection);
+	bool Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine);
 
 	EDIRECTION GetDirection();
 	bool IsDestroyed() const;

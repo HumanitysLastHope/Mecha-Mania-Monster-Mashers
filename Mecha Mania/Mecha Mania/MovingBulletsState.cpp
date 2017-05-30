@@ -40,7 +40,7 @@ void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 			// all others collisions are handled in the collision check at the end of 
 			// this step)
 			
-			(*it)->Move((*it)->GetDirection());
+			(*it)->Move((*it)->GetDirection(), _pGameEngine);
 		}
 	}
 

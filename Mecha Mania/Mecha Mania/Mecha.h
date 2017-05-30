@@ -21,14 +21,14 @@ public:
 	void ChangeHealth(int _iChangeVal);
 
 	void Shoot(CGameEngine& _rGameEngine);
-	bool Move(EDIRECTION _eDirection);
+	bool Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine);
 	void Rotate(EROTATION _eRotation);
 	CMovable* WhatToPush();
 	void PlaceMine();
 	EDIRECTION GetDirection();
 	int GetHealth() const;
 
-	void ActionText(char _cAction, int _iPlayer, bool _bDied);
+	void ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine);
 
 	void GotoXY(int _iX, int _iY);
 
