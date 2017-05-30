@@ -36,6 +36,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 		{
 			i++;
 			z++;
+			
+
 		}
 		else
 		{
@@ -54,6 +56,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 		while (bValidMove == false)
 		{
 			iPlayerInput = _getch() - '0';
+			
+
 
 			switch (iPlayerInput)
 			{
@@ -61,34 +65,35 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 			{
 				iPlayerInput = 0;
 
+				_pGameEngine->SetMoveList(j * 2, '*');
+				_pGameEngine->Draw();
+
 				while (bValidMove == false)
 				{
 					iPlayerInput = _getch() - '0';
 					bValidMove = true;
 
+
 					if (iPlayerInput == 1)
 					{
-						std::cout << "Player " << i << " has selected MOVEONE as their " << j << " move." << std::endl;
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVEONE);
 					}
 					else if (iPlayerInput == 2)
 					{
-						std::cout << "Player " << i << " has selected MOVETWO as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVETWO);
 
 					}
 					else if (iPlayerInput == 3)
 					{
-						std::cout << "Player " << i << " has selected MOVETHREE as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVETHREE);
 
 					}
 					else if (iPlayerInput == 4)
 					{
-						std::cout << "Player " << i << " has selected MOVEBACK as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVEBACK);
 
 					}
@@ -103,6 +108,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 			case 2: // Rotate sub menu
 			{
 				iPlayerInput = 0;
+				_pGameEngine->SetMoveList(j * 2, '*');
+				_pGameEngine->Draw();
 
 				while (bValidMove == false)
 				{
@@ -111,21 +118,18 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 
 					if (iPlayerInput == 1)
 					{
-						std::cout << "Player " << i << " has selected ROTATECLOCKWISE as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(ROTATECLOCKWISE);
 					}
 					else if (iPlayerInput == 2)
 					{
-						std::cout << "Player " << i << " has selected ROTATEANTICLOCKWISE as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(ROTATEANTICLOCKWISE);
 
 					}
 					else if (iPlayerInput == 3)
 					{
-						std::cout << "Player " << i << " has selected FLIP as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(FLIP);
 
 					}
@@ -140,29 +144,30 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 			case 3: // Attack sub menu
 			{
 				iPlayerInput = 0;
+				_pGameEngine->SetMoveList(j * 2, '*');
+				_pGameEngine->Draw();
 
 				while (bValidMove == false)
 				{
 					iPlayerInput = _getch() - '0';
 					bValidMove = true;
 
+					
+
 					if (iPlayerInput == 1)
 					{
-						std::cout << "Player " << i << " has selected SHOOT as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(SHOOT);
 					}
 					else if (iPlayerInput == 2)
 					{
-						std::cout << "Player " << i << " has selected PUSH as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(PUSH);
 
 					}
 					else if (iPlayerInput == 3)
 					{
-						std::cout << "Player " << i << " has selected PLACEMINE as their " << j << " move." << std::endl;
-
+						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(PLACEMINE);
 
 					}
@@ -184,28 +189,50 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 			}
 
 			}
+
+
 		}
 
 		if (j < 2)
 		{
 			j++;
+			//_pGameEngine->SetMoveList(j, '*');
 		}
 		else
 		{
 			j = 0;
+
 			if (z < playerList.size()-1)
 			{
 				z++;
+				_pGameEngine->SetMoveList(4, '*');
+				_pGameEngine->Draw();
+				//_getch();
+				_pGameEngine->SetMoveList(5, ' ');
+ 				_pGameEngine->ResetMoveList();
+				
+				
 			}
 			else
 			{
 				z = 0;
+
+				_pGameEngine->Draw();
+				//_getch();
+				_pGameEngine->ResetMoveList();
+				_pGameEngine->SetMoveList(5, ' ');
+
+
 				_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 				_pGameEngine->GetExecutingState()->ResetZ();
+
 				system("CLS");
+
 			}
 		}
+		
 	}
+
 }
 
 void CGettingPlayerMovesState::Init()

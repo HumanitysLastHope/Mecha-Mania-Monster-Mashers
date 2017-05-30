@@ -21,6 +21,8 @@ ExecutingCMDState::~ExecutingCMDState()
 
 void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 {
+
+
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 
 	int i = 0; // Doesn't matter that it's reset
@@ -50,7 +52,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	_pGameEngine->WaterCheck(&(playerList[i]));
 	playerList[i].bDead = playerList[i].CheckDeath();
-	std::cout << i << " dead = " << playerList[i].bDead;
+	//std::cout << i << " dead = " << playerList[i].bDead;
 	_getch();
 
 	int playerCommand;
@@ -170,8 +172,8 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	}
 	}
 	
-	std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
-	_getch();
+	//std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
+	//_getch();
 
 	//Move bullets.....
 	_pGameEngine->ChangeState(_pGameEngine->GetMovBulletState());

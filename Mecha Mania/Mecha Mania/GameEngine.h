@@ -53,6 +53,12 @@ public:
 	ExecutingCMDState* GetExecutingState();
 	CGettingPlayerMovesState* GetGettingInputState();
 	CMovingBulletsState* GetMovBulletState();
+	
+	void SetMoveList(int _iNum, char _cOut);
+	void ResetMoveList();
+
+	void ActionText(char _cAction, int _iPlayer, bool _bDied);
+
 
 
 private:
@@ -62,6 +68,9 @@ private:
 	CPlayer m_Player3;
 	CPlayer m_Player4;
 	CPlayer* m_pWinner;
+
+	int m_iCursorPos = 9;
+
 	std::vector<CPlayer> m_PlayerList;
 	std::vector<CBullet*> m_vecpBulletList;
 	//std::vector<CMine*> m_vecMineList;
@@ -71,6 +80,8 @@ private:
 	CGettingPlayerMovesState* m_pstateGetInput;
 	CMovingBulletsState* m_pstateMovBullet;
 
+	//int m_iMoveDraw;
+	char m_rgMoveList[6] = { ' ', ' ', ' ', ' ', ' ', ' ' };
 	
 	IGameState* m_pCurGameState;
 };

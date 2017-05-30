@@ -27,8 +27,10 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 	int GetHealth() const;
-	
 
+	void ActionText(char _cAction, int _iPlayer, bool _bDied);
+
+	void GotoXY(int _iX, int _iY);
 
 
 private:

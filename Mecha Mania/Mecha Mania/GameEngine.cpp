@@ -152,6 +152,8 @@ void CGameEngine::Step()
 	{
 		ActuallyDestroyBullets();
 	}
+
+	
 }
 
 bool CGameEngine::PitCheck()
@@ -167,8 +169,8 @@ bool CGameEngine::PitCheck()
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
+				ActionText('P', m_Level.GetTile(_iX, _iY).GetMecha()->getID(), true);
 				m_Level.GetTile(_iX, _iY).SetMecha(nullptr);
-
 				_bReturn = true;
 			}
 		}
@@ -181,6 +183,17 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 	if (m_Level.GetTile(_pPlayer->GetMecha()->GetGridPosition().m_iX, _pPlayer->GetMecha()->GetGridPosition().m_iY).GetEnvironment() == WATER)
 	{
  		_pPlayer->GetMecha()->ChangeHealth(-1);
+
+		if (_pPlayer->GetMecha()->GetHealth() <= 0)
+		{
+			ActionText('W', _pPlayer->GetMecha()->getID(), true);
+
+		}
+		else
+		{
+			ActionText('W', _pPlayer->GetMecha()->getID(), false);
+		}
+
 	}
 }
 
@@ -281,7 +294,7 @@ void CGameEngine::Draw()
 		GotoXY(4, 23);
 		std::cout << "Input Commands:";
 		GotoXY(8, 25);
-		std::cout << "[ ][ ]	[ ][ ]	[ ][ ]";
+		std::cout << "[" << m_rgMoveList[0] <<"][" << m_rgMoveList[1]<< "]	["<<m_rgMoveList[2]<< "][" << m_rgMoveList[3]<< "]	[" << m_rgMoveList[4] << "][" << m_rgMoveList[5]<< "]";
 		//Draws the move input list
 		GotoXY(4, 27);
 		std::cout << "Input Key:";
@@ -305,7 +318,8 @@ void CGameEngine::Draw()
 	}
 	else
 	{
-		// Don't
+		GotoXY(8, 25);
+		std::cout << "[" << m_rgMoveList[0] << "][" << m_rgMoveList[1] << "]	[" << m_rgMoveList[2] << "][" << m_rgMoveList[3] << "]	[" << m_rgMoveList[4] << "][" << m_rgMoveList[5] << "]";
 	}
 
 	//Draws the icon key input list
@@ -526,7 +540,8 @@ void CGameEngine::Draw()
 	}
 
 	SetConsoleTextAttribute(g_hConsole, 15);
-	GotoXY(9, 25);
+	GotoXY(m_iCursorPos, 25);
+	
 }
 
 void CGameEngine::ChangeState(IGameState* _pState)
@@ -943,6 +958,7 @@ void CGameEngine::Run()
 				{
 					gameEngine.Draw();
 					gameEngine.Step();
+
 					if (gameEngine.playerAliveCount <= 1 && gameEngine.inGetState == true)
 					{
 						break;
@@ -1087,7 +1103,19 @@ bool CGameEngine::BulletCollisionTest()
 		{
 			bCollision = true;
 			DestroyBullet(pBullet);
+
 			rTile.GetMecha()->ChangeHealth(-pBullet->GetDamage());
+
+			if (rTile.GetMecha()->GetHealth() <= 0)
+			{
+				ActionText('B', rTile.GetMecha()->getID(), true);
+
+			}
+			else
+			{
+				ActionText('B', rTile.GetMecha()->getID(), false);
+
+			}
 		}
 	}
 
@@ -1175,4 +1203,114 @@ CGettingPlayerMovesState* CGameEngine::GetGettingInputState()
 CMovingBulletsState* CGameEngine::GetMovBulletState()
 {
 	return m_pstateMovBullet;
+}
+
+void CGameEngine::SetMoveList(int _iNum, char _cOut)
+{
+	m_rgMoveList[_iNum] = _cOut;
+	switch (_iNum)
+	{
+	case 0:
+	{
+		m_iCursorPos = 12;
+		break;
+	}
+	case 1:
+	{
+		m_iCursorPos = 17;
+		break;
+	}
+	case 2:
+	{
+		m_iCursorPos = 20;
+
+		//GotoXY(16, 25);
+		break;
+	}
+	case 3:
+	{
+		m_iCursorPos = 25;
+
+		//GotoXY(19, 25);
+		break;
+	}
+	case 4:
+	{
+		m_iCursorPos = 28;
+
+		//GotoXY(25, 25);
+		break;
+	}
+	case 5:
+	{
+		m_iCursorPos = 9;
+
+		//GotoXY(28, 25);
+		break;
+	}
+	}
+}
+
+void CGameEngine::ResetMoveList()
+{
+	for (int i = 0; i < 6; i++)
+	{
+		m_rgMoveList[i] = ' ';
+	}
+}
+
+void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
+{
+	switch (_cAction)
+	{
+	case 'P':
+	{
+		GotoXY(9, 26);
+		std::cout << "Player " << _iPlayer << " fell down a pit and died!";
+		break;
+	}
+	case 'W':
+	{
+		GotoXY(9, 26);
+		std::cout << "Player " << _iPlayer << " took 1 damage from water";
+		if (_bDied == true)
+		{
+			std::cout << " and died!";
+		}
+		else
+		{
+			std::cout << "!";
+		}
+		break;
+	}
+	case 'M':
+	{
+		GotoXY(9, 26);
+		std::cout << "Player " << _iPlayer << " took 2 damage from a mine";
+		if (_bDied == true)
+		{
+			std::cout << " and died!";
+		}
+		else
+		{
+			std::cout << "!";
+		}
+		break;
+	}
+	case 'B':
+	{
+		GotoXY(9, 26);
+		std::cout << "Player " << _iPlayer << " took 1 damage from a bullet";
+		if (_bDied == true)
+		{
+			std::cout << " and died!";
+		}
+		else
+		{
+			std::cout << "!";
+		}
+		break;
+	}
+
+	}
 }
