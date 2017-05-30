@@ -31,6 +31,7 @@ void set_console_size(HANDLE screen_buffer, SHORT width, SHORT height)
 
 	SMALL_RECT const window = { 0, 0, size.X - 1, size.Y - 1 };
 	success = SetConsoleWindowInfo(screen_buffer, TRUE, &window);
+
 }
 
 void setFontSize(int FontSize)
@@ -143,11 +144,11 @@ void CGameEngine::Step()
 				m_pWinner = nullptr;
 			}
 		}
-		
-		
 	}
-
-
+	if (playerAliveCount == 0)
+	{
+		inGetState = true;
+	}
 
 	PitCheck();
 
@@ -182,7 +183,7 @@ bool CGameEngine::PitCheck()
 			if (m_Level.GetTile(_iX, _iY).GetEnvironment() == PIT && m_Level.GetTile(_iX, _iY).GetMecha() != nullptr)
 			{
 				m_Level.GetTile(_iX, _iY).GetMecha()->ChangeHealth(-5);
-				ActionText('P', m_Level.GetTile(_iX, _iY).GetMecha()->getID(), true);
+				ActionText('P', m_Level.GetTile(_iX, _iY).GetMecha(), true);
 				m_Level.GetTile(_iX, _iY).SetMecha(nullptr);
 				_bReturn = true;
 			}
@@ -199,12 +200,12 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 
 		if (_pPlayer->GetMecha()->GetHealth() <= 0)
 		{
-			ActionText('W', _pPlayer->GetMecha()->getID(), true);
+			ActionText('W', _pPlayer->GetMecha(), true);
 
 		}
 		else
 		{
-			ActionText('W', _pPlayer->GetMecha()->getID(), false);
+			ActionText('W', _pPlayer->GetMecha(), false);
 		}
 
 	}
@@ -1287,12 +1288,12 @@ bool CGameEngine::BulletCollisionTest()
 
 			if (rTile.GetMecha()->GetHealth() <= 0)
 			{
-				ActionText('B', rTile.GetMecha()->getID(), true);
+				ActionText('B', rTile.GetMecha(), true);
 
 			}
 			else
 			{
-				ActionText('B', rTile.GetMecha()->getID(), false);
+				ActionText('B', rTile.GetMecha(), false);
 
 			}
 		}
@@ -1438,72 +1439,83 @@ void CGameEngine::ResetMoveList()
 	}
 }
 
-void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
+void CGameEngine::ActionText(char _cAction, CMecha* _pMecha, bool _bDied)
 {
 	std::string strOutputText;
 
-	switch (_cAction)
-	{
-	case 'P': // PIT
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
-		break;
-	}
-	case 'W': // WATER
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
-		if (_bDied == true)
-		{
-			strOutputText += " and died!";
-		}
-		else
-		{
-			strOutputText += "!";
-		}
-		break;
-	}
-	case 'M': // MINE
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
-		if (_bDied == true)
-		{
-			strOutputText += " and died!";
-		}
-		else
-		{
-			strOutputText += "!";
-		}
-		break;
-	}
-	case 'B': // BULLET
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from a bullet";
-		if (_bDied == true)
-		{
-			strOutputText += " and died!";
-		}
-		else
-		{
-			strOutputText += "!";
-		}
-		break;
-	}
-	case 'S': // SHOVE (push)
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " was pushed!";
-		break;
-	}
-	default:
-		break;
+	int _iPlayer = _pMecha->getID();
 
-	}
 
-	m_vecBattleActionText.push_back(strOutputText);
+	if (_pMecha->CheckDeath() == false)
+	{
+		switch (_cAction)
+		{
+		case 'P': // PIT
+		{
+			//GotoXY(9, 26);
+			strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
+			break;
+		}
+		case 'W': // WATER
+		{
+			//GotoXY(9, 26);
+			strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
+			if (_bDied == true)
+			{
+				strOutputText += " and died!";
+			}
+			else
+			{
+				strOutputText += "!";
+			}
+			break;
+		}
+		case 'M': // MINE
+		{
+			//GotoXY(9, 26);
+			strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
+			if (_bDied == true)
+			{
+				strOutputText += " and died!";
+			}
+			else
+			{
+				strOutputText += "!";
+			}
+			break;
+		}
+		case 'B': // BULLET
+		{
+			//GotoXY(9, 26);
+			strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from a bullet";
+			if (_bDied == true)
+			{
+				strOutputText += " and died!";
+			}
+			else
+			{
+				strOutputText += "!";
+			}
+			break;
+		}
+		case 'S': // SHOVE (push)
+		{
+			//GotoXY(9, 26);
+			strOutputText = "Player " + std::to_string(_iPlayer) + " was pushed!";
+			break;
+		}
+		default:
+			break;
+
+		}
+
+		m_vecBattleActionText.push_back(strOutputText);
+	}
+	else
+	{
+		// Their death text was already displayed.
+	}
+	
 }
 
 std::vector<std::string>& CGameEngine::GetBattleActionText()
@@ -1522,9 +1534,24 @@ void CGameEngine::ResetBattleActionText()
 
 void CGameEngine::PrintBattleActionText()
 {
+	SetConsoleTextAttribute(g_hConsole, 8);
+
 	for (int i = 0; i < m_vecBattleActionText.size(); i++)
 	{
-		GotoXY(9, 26+i);
+		
+		if (i > 10)
+		{
+			GotoXY(40, 16 + i);
+		}
+		else
+		{
+			GotoXY(4, 27 + i);
+
+		}
 		std::cout << m_vecBattleActionText.at(i);
+
 	}
+
+	SetConsoleTextAttribute(g_hConsole, 15);
+
 }

@@ -43,6 +43,7 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 		{
 			i = 0;
 			z = 0;
+			system("CLS");
 			_pGameEngine->inGetState = false;
 			_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
 		}
@@ -68,6 +69,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 				_pGameEngine->SetMoveList(j * 2, '*');
 				_pGameEngine->Draw();
 
+				playerList[i].GetOutMove().push_back('1');
+
 				while (bValidMove == false)
 				{
 					iPlayerInput = _getch() - '0';
@@ -78,23 +81,31 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVEONE);
+						playerList[i].GetOutMove().push_back('1');
+
 					}
 					else if (iPlayerInput == 2)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVETWO);
+						playerList[i].GetOutMove().push_back('2');
+
 
 					}
 					else if (iPlayerInput == 3)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVETHREE);
+						playerList[i].GetOutMove().push_back('3');
+
 
 					}
 					else if (iPlayerInput == 4)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(MOVEBACK);
+						playerList[i].GetOutMove().push_back('4');
+
 
 					}
 					else
@@ -110,6 +121,8 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 				iPlayerInput = 0;
 				_pGameEngine->SetMoveList(j * 2, '*');
 				_pGameEngine->Draw();
+				playerList[i].GetOutMove().push_back('2');
+
 
 				while (bValidMove == false)
 				{
@@ -120,17 +133,23 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(ROTATECLOCKWISE);
+						playerList[i].GetOutMove().push_back('1');
+
 					}
 					else if (iPlayerInput == 2)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(ROTATEANTICLOCKWISE);
+						playerList[i].GetOutMove().push_back('2');
+
 
 					}
 					else if (iPlayerInput == 3)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(FLIP);
+						playerList[i].GetOutMove().push_back('3');
+
 
 					}
 					else
@@ -147,6 +166,9 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 				_pGameEngine->SetMoveList(j * 2, '*');
 				_pGameEngine->Draw();
 
+				playerList[i].GetOutMove().push_back('3');
+
+
 				while (bValidMove == false)
 				{
 					iPlayerInput = _getch() - '0';
@@ -158,17 +180,23 @@ void CGettingPlayerMovesState::ProcessUserInput(CGameEngine* _pGameEngine)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(SHOOT);
+						playerList[i].GetOutMove().push_back('1');
+
 					}
 					else if (iPlayerInput == 2)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(PUSH);
+						playerList[i].GetOutMove().push_back('2');
+
 
 					}
 					else if (iPlayerInput == 3)
 					{
 						_pGameEngine->SetMoveList(j * 2 + 1, '*');
 						playerList[i].GetMoveList().push(PLACEMINE);
+						playerList[i].GetOutMove().push_back('3');
+
 
 					}
 					else

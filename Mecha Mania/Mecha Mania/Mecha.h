@@ -27,6 +27,8 @@ public:
 	void PlaceMine();
 	EDIRECTION GetDirection();
 	int GetHealth() const;
+	bool CheckDeath();
+	void SetDeath(bool);
 
 	//void ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine);
 
@@ -34,6 +36,7 @@ private:
 	int m_iID;
 	EDIRECTION m_eFacingDir;
 	int m_iHealth;
+	bool m_bDead;
 	//CMine m_PlacedMine;
 };
 

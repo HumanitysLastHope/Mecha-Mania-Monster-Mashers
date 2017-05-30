@@ -57,7 +57,7 @@ public:
 	void SetMoveList(int _iNum, char _cOut);
 	void ResetMoveList();
 
-	void ActionText(char _cAction, int _iPlayer, bool _bDied);
+	void ActionText(char _cAction, CMecha* _pMecha, bool _bDied);
 
 	std::vector<std::string>& GetBattleActionText();
 	void ResetBattleActionText();

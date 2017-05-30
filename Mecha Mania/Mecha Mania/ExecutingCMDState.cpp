@@ -22,7 +22,6 @@ ExecutingCMDState::~ExecutingCMDState()
 void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 {
 
-
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 
 	int i = 0; // Doesn't matter that it's reset
@@ -42,19 +41,19 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	if (playerList[i].GetMoveList().empty() == true && playerList[i].bDead == false) // If alive and no commands left to execute
 	{
-		_pGameEngine->SetNewFirstPlayer();
+  		_pGameEngine->SetNewFirstPlayer();
 		_pGameEngine->inGetState = true;
 
   		_pGameEngine->ChangeState(_pGameEngine->GetGettingInputState());
 		_pGameEngine->GetGettingInputState()->ResetZ();
 		_pGameEngine->ResetBattleActionText();
+		_pGameEngine->ResetMoveList();
 		_getch();
 		system("CLS");
    		return;
 	}
 
-	GotoXY(4, 22);
-	std::cout << "Player " << i + 1;
+	
 
 	_pGameEngine->WaterCheck(&(playerList[i]));
 	playerList[i].bDead = playerList[i].CheckDeath();
@@ -73,6 +72,34 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	{
 		return;
 	}
+
+	if (playerList[i].GetMoveList().size() == 2)
+	{
+		_pGameEngine->SetMoveList(0, playerList[i].GetOutMove().at(0));
+		_pGameEngine->SetMoveList(1, playerList[i].GetOutMove().at(1));
+
+	}
+	else if (playerList[i].GetMoveList().size() == 1)
+	{
+		_pGameEngine->SetMoveList(0, playerList[i].GetOutMove().at(0));
+		_pGameEngine->SetMoveList(1, playerList[i].GetOutMove().at(1));
+		_pGameEngine->SetMoveList(2, playerList[i].GetOutMove().at(2));
+		_pGameEngine->SetMoveList(3, playerList[i].GetOutMove().at(3));
+
+	}
+	else if (playerList[i].GetMoveList().size() == 0)
+	{
+		_pGameEngine->SetMoveList(0, playerList[i].GetOutMove().at(0));
+		_pGameEngine->SetMoveList(1, playerList[i].GetOutMove().at(1));
+		_pGameEngine->SetMoveList(2, playerList[i].GetOutMove().at(2));
+		_pGameEngine->SetMoveList(3, playerList[i].GetOutMove().at(3));
+		_pGameEngine->SetMoveList(4, playerList[i].GetOutMove().at(4));
+		_pGameEngine->SetMoveList(5, playerList[i].GetOutMove().at(5));
+
+	}
+
+	GotoXY(4, 22);
+	std::cout << "Player " << i + 1;
 
 	switch (playerCommand)
 	{
@@ -189,7 +216,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	//Move bullets.....
 	_pGameEngine->ChangeState(_pGameEngine->GetMovBulletState());
-
+	_pGameEngine->inGetState = false;
 }
 
 

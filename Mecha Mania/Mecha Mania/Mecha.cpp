@@ -167,12 +167,12 @@ bool CMecha::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->m_iHealth <= 0)
 		{
-			_pGameEngine->ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true);
+			_pGameEngine->ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha(), true);
 
 		}
 		else
 		{
-			_pGameEngine->ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false);
+			_pGameEngine->ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha(), false);
 
 		}
 	}
@@ -186,12 +186,12 @@ bool CMecha::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 
 			if (m_iHealth <= 0)
 			{
-				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha(), true);
 
 			}
 			else
 			{
-				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha(), false);
 
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->bombBlown(); // delete the bomb
@@ -288,7 +288,7 @@ CMovable* CMecha::WhatToPush(CGameEngine* _pGameEngine)
 			
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
-				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -313,7 +313,7 @@ CMovable* CMecha::WhatToPush(CGameEngine* _pGameEngine)
 
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
-				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -338,7 +338,7 @@ CMovable* CMecha::WhatToPush(CGameEngine* _pGameEngine)
 
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
-				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -363,7 +363,7 @@ CMovable* CMecha::WhatToPush(CGameEngine* _pGameEngine)
 
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
-				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -406,6 +406,16 @@ EDIRECTION CMecha::GetDirection()
 int CMecha::GetHealth() const
 {
 	return m_iHealth;
+}
+
+bool CMecha::CheckDeath()
+{
+	return m_bDead;
+}
+
+void CMecha::SetDeath(bool _isDead)
+{
+	m_bDead = _isDead;
 }
 
 //void CMecha::ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine)

@@ -27,10 +27,16 @@ std::queue<ECOMMANDS>& CPlayer::GetMoveList()
 	return m_MoveList;
 }
 
+std::vector<char>& CPlayer::GetOutMove()
+{
+	return m_veciOutMove;
+}
+
 bool CPlayer::CheckDeath()
 {
 	if (this->GetMecha()->GetHealth() < 1)
 	{
+		m_Mecha.SetDeath(true);
 		return true; // Death
 	}
 	else
@@ -38,3 +44,4 @@ bool CPlayer::CheckDeath()
 		return false;
 	}
 }
+

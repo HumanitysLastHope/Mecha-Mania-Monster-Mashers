@@ -45,4 +45,5 @@ void CMovingBulletsState::Step(CGameEngine * _pGameEngine)
 	}
 
 	_pGameEngine->ChangeState(_pGameEngine->GetExecutingState());
+	_pGameEngine->inGetState = false;
 }
