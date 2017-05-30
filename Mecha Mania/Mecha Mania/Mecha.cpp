@@ -57,14 +57,6 @@ void CMecha::Shoot(CGameEngine& _rGameEngine)
 	_rGameEngine.SpawnBullet(Util::GetNextPosition(m_posGridPosition, m_eFacingDir), m_eFacingDir);
 }
 
-void CMecha::GotoXY(int _iX, int _iY) 
-{
-	COORD point;
-	point.X = _iX;
-	point.Y = _iY;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
-}
-
 bool CMecha::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 {
 	//bool bShunted = false;
@@ -175,12 +167,12 @@ bool CMecha::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 
 		if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->m_iHealth <= 0)
 		{
-			ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true, _pGameEngine);
+			_pGameEngine->ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true);
 
 		}
 		else
 		{
-			ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false, _pGameEngine);
+			_pGameEngine->ActionText('W', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false);
 
 		}
 	}
@@ -194,12 +186,12 @@ bool CMecha::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 
 			if (m_iHealth <= 0)
 			{
-				ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true, _pGameEngine);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), true);
 
 			}
 			else
 			{
-				ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false, _pGameEngine);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMecha()->getID(), false);
 
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).GetMine()->bombBlown(); // delete the bomb
@@ -283,7 +275,7 @@ void CMecha::Rotate(EROTATION _eRotation)
 	}
 }
 
-CMovable* CMecha::WhatToPush()
+CMovable* CMecha::WhatToPush(CGameEngine* _pGameEngine)
 {
 	TPosition posPushPosition = m_posGridPosition;
 	switch (m_eFacingDir)
@@ -296,6 +288,7 @@ CMovable* CMecha::WhatToPush()
 			
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -320,6 +313,7 @@ CMovable* CMecha::WhatToPush()
 
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -344,6 +338,7 @@ CMovable* CMecha::WhatToPush()
 
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -368,6 +363,7 @@ CMovable* CMecha::WhatToPush()
 
 			if (m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha() != nullptr)
 			{
+				_pGameEngine->ActionText('S', m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha()->getID(), false);
 				return m_pBoard->GetTile(posPushPosition.m_iX, posPushPosition.m_iY).GetMecha();
 			}
 
@@ -412,64 +408,64 @@ int CMecha::GetHealth() const
 	return m_iHealth;
 }
 
-void CMecha::ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine)
-{
-	std::string strOutputText;
-
-	switch (_cAction)
-	{
-	case 'P':
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
-		break;
-	}
-	case 'W':
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
-		if (_bDied == true)
-		{
-			strOutputText += " and died!";
-		}
-		else
-		{
-			strOutputText += "!";
-		}
-		break;
-	}
-	case 'M':
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
-		if (_bDied == true)
-		{
-			strOutputText += " and died!";
-		}
-		else
-		{
-			strOutputText += "!";
-		}
-		break;
-	}
-	case 'B':
-	{
-		//GotoXY(9, 26);
-		strOutputText = "Player " +  std::to_string(_iPlayer) + " took 1 damage from a bullet";
-		if (_bDied == true)
-		{
-			strOutputText += " and died!";
-		}
-		else
-		{
-			strOutputText += "!";
-		}
-		break;
-	}
-	default:
-		break;
-
-	}
-
-	_pGameEngine->GetBattleActionText().push_back(strOutputText);
-}
+//void CMecha::ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine)
+//{
+//	std::string strOutputText;
+//
+//	switch (_cAction)
+//	{
+//	case 'P':
+//	{
+//		//GotoXY(9, 26);
+//		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
+//		break;
+//	}
+//	case 'W':
+//	{
+//		//GotoXY(9, 26);
+//		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
+//		if (_bDied == true)
+//		{
+//			strOutputText += " and died!";
+//		}
+//		else
+//		{
+//			strOutputText += "!";
+//		}
+//		break;
+//	}
+//	case 'M':
+//	{
+//		//GotoXY(9, 26);
+//		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
+//		if (_bDied == true)
+//		{
+//			strOutputText += " and died!";
+//		}
+//		else
+//		{
+//			strOutputText += "!";
+//		}
+//		break;
+//	}
+//	case 'B':
+//	{
+//		//GotoXY(9, 26);
+//		strOutputText = "Player " +  std::to_string(_iPlayer) + " took 1 damage from a bullet";
+//		if (_bDied == true)
+//		{
+//			strOutputText += " and died!";
+//		}
+//		else
+//		{
+//			strOutputText += "!";
+//		}
+//		break;
+//	}
+//	default:
+//		break;
+//
+//	}
+//
+//	_pGameEngine->GetBattleActionText().push_back(strOutputText);
+//}

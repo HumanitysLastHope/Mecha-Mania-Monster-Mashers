@@ -23,15 +23,12 @@ public:
 	void Shoot(CGameEngine& _rGameEngine);
 	bool Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine);
 	void Rotate(EROTATION _eRotation);
-	CMovable* WhatToPush();
+	CMovable* WhatToPush(CGameEngine* _pGameEngine);
 	void PlaceMine();
 	EDIRECTION GetDirection();
 	int GetHealth() const;
 
-	void ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine);
-
-	void GotoXY(int _iX, int _iY);
-
+	//void ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine);
 
 private:
 	int m_iID;

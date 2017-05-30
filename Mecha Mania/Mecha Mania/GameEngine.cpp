@@ -13,6 +13,7 @@
 #include <cstdlib> 
 #include <ctime> 
 #include <iostream>
+#include "Util.h"
 
 HANDLE g_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -211,12 +212,12 @@ void CGameEngine::WaterCheck(CPlayer* _pPlayer)
 
 
 // Moves the cursor position to input coods.
-void GotoXY(int _iX, int _iY) {
-	COORD point;
-	point.X = _iX;
-	point.Y = _iY;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
-}
+//void GotoXY(int _iX, int _iY) {
+//	COORD point;
+//	point.X = _iX;
+//	point.Y = _iY;
+//	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
+//}
 
 // A minimal Int value that can be inputted by the player, a maximum Int value that can be inputted by the player, a personalised error message
 int inputValidator(const int &_inputMin, const int &_inputMax, const std::string &_sErrorMsg, int _iX, int _iY, int _ErrorMsgX, int _ErrorMsgY)
@@ -330,6 +331,8 @@ void CGameEngine::Draw()
 	}
 	else
 	{
+		GotoXY(4, 23);
+		std::cout << "Output Commands:";
 		GotoXY(8, 25);
 		std::cout << "[" << m_rgMoveList[0] << "][" << m_rgMoveList[1] << "]	[" << m_rgMoveList[2] << "][" << m_rgMoveList[3] << "]	[" << m_rgMoveList[4] << "][" << m_rgMoveList[5] << "]";
 	}
@@ -1441,13 +1444,13 @@ void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
 
 	switch (_cAction)
 	{
-	case 'P':
+	case 'P': // PIT
 	{
 		//GotoXY(9, 26);
 		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
 		break;
 	}
-	case 'W':
+	case 'W': // WATER
 	{
 		//GotoXY(9, 26);
 		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
@@ -1461,7 +1464,7 @@ void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
 		}
 		break;
 	}
-	case 'M':
+	case 'M': // MINE
 	{
 		//GotoXY(9, 26);
 		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
@@ -1475,7 +1478,7 @@ void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
 		}
 		break;
 	}
-	case 'B':
+	case 'B': // BULLET
 	{
 		//GotoXY(9, 26);
 		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from a bullet";
@@ -1487,6 +1490,12 @@ void CGameEngine::ActionText(char _cAction, int _iPlayer, bool _bDied)
 		{
 			strOutputText += "!";
 		}
+		break;
+	}
+	case 'S': // SHOVE (push)
+	{
+		//GotoXY(9, 26);
+		strOutputText = "Player " + std::to_string(_iPlayer) + " was pushed!";
 		break;
 	}
 	default:
@@ -1504,10 +1513,11 @@ std::vector<std::string>& CGameEngine::GetBattleActionText()
 
 void CGameEngine::ResetBattleActionText()
 {
-	for (int i = 0; i < m_vecBattleActionText.size(); i++)
+	while(m_vecBattleActionText.empty() != true)
 	{
 		m_vecBattleActionText.pop_back();
 	}
+
 }
 
 void CGameEngine::PrintBattleActionText()

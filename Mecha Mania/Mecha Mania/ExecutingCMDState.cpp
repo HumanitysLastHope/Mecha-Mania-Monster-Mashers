@@ -5,6 +5,7 @@
 
 #include "GettingPlayerMovesState.h"
 #include "MovingBulletsState.h"
+#include "Util.h"
 
 ExecutingCMDState::ExecutingCMDState()
 {
@@ -16,7 +17,6 @@ ExecutingCMDState::ExecutingCMDState()
 ExecutingCMDState::~ExecutingCMDState()
 {
 }
-
 
 
 void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
@@ -48,8 +48,13 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
   		_pGameEngine->ChangeState(_pGameEngine->GetGettingInputState());
 		_pGameEngine->GetGettingInputState()->ResetZ();
 		_pGameEngine->ResetBattleActionText();
+		_getch();
+		system("CLS");
    		return;
 	}
+
+	GotoXY(4, 22);
+	std::cout << "Player " << i + 1;
 
 	_pGameEngine->WaterCheck(&(playerList[i]));
 	playerList[i].bDead = playerList[i].CheckDeath();
@@ -154,13 +159,19 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	case 32: // Push
 	{
 		CMovable* objToPush;
-		objToPush = playerList[i].GetMecha()->WhatToPush();
+		objToPush = playerList[i].GetMecha()->WhatToPush(_pGameEngine);
+	
 
 		if (objToPush != nullptr)
 		{
 			if (objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect(), _pGameEngine) != false)
 			{
 				objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect(), _pGameEngine);
+
+			}
+			else
+			{
+				_pGameEngine->GetBattleActionText().pop_back();
 			}
 		}
 		
