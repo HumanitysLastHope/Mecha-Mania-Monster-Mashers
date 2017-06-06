@@ -392,10 +392,6 @@ void CMecha::PlaceMine()
 	{
 		m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(new CMine(m_pBoard,m_posGridPosition));
 	}
-	else
-	{
-		//you dumb shit
-	}
 }
 
 EDIRECTION CMecha::GetDirection()
@@ -417,65 +413,3 @@ void CMecha::SetDeath(bool _isDead)
 {
 	m_bDead = _isDead;
 }
-
-//void CMecha::ActionText(char _cAction, int _iPlayer, bool _bDied, CGameEngine* _pGameEngine)
-//{
-//	std::string strOutputText;
-//
-//	switch (_cAction)
-//	{
-//	case 'P':
-//	{
-//		//GotoXY(9, 26);
-//		strOutputText = "Player " + std::to_string(_iPlayer) + " fell down a pit and died!";
-//		break;
-//	}
-//	case 'W':
-//	{
-//		//GotoXY(9, 26);
-//		strOutputText = "Player " + std::to_string(_iPlayer) + " took 1 damage from water";
-//		if (_bDied == true)
-//		{
-//			strOutputText += " and died!";
-//		}
-//		else
-//		{
-//			strOutputText += "!";
-//		}
-//		break;
-//	}
-//	case 'M':
-//	{
-//		//GotoXY(9, 26);
-//		strOutputText = "Player " + std::to_string(_iPlayer) + " took 2 damage from a mine";
-//		if (_bDied == true)
-//		{
-//			strOutputText += " and died!";
-//		}
-//		else
-//		{
-//			strOutputText += "!";
-//		}
-//		break;
-//	}
-//	case 'B':
-//	{
-//		//GotoXY(9, 26);
-//		strOutputText = "Player " +  std::to_string(_iPlayer) + " took 1 damage from a bullet";
-//		if (_bDied == true)
-//		{
-//			strOutputText += " and died!";
-//		}
-//		else
-//		{
-//			strOutputText += "!";
-//		}
-//		break;
-//	}
-//	default:
-//		break;
-//
-//	}
-//
-//	_pGameEngine->GetBattleActionText().push_back(strOutputText);
-//}

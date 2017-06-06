@@ -53,6 +53,8 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		//getline(cin, response);
 		
 		//_getch();
+		Sleep(1000);
+
 		system("CLS");
    		return;
 	}
@@ -104,7 +106,6 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	GotoXY(4, 22);
 	std::cout << "Player " << iRealPlayerCount + 1;
-
 	switch (playerCommand)
 	{
 	case 11: // Move 1
@@ -115,6 +116,8 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	}
 	case 12: // Move 2
 	{
+		Sleep(1000);
+
 		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
@@ -129,13 +132,15 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		{
 			return;
 		}
-		Sleep(1000);
+
 		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 13: // Move 3
 	{
+		Sleep(1000);
+
 		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
@@ -165,7 +170,7 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 		{
 			return;
 		}
-		Sleep(1000);
+
 		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;

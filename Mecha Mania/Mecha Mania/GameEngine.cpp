@@ -910,13 +910,13 @@ void CGameEngine::Run()
 	std::cout << "     `#  .++` #    '#    `#                                                    ";
 	GotoXY(118, 76);
 	std::cout << "     `+:+#;   #   ,+#    +,                                                    ";
-	GotoXY(118, 78);
+	GotoXY(118, 77);
 	std::cout << "      ;;.    `+  `#`#  :#:                                                     ";
-	GotoXY(118, 79);
+	GotoXY(118, 78);
 	std::cout << "             ': `#, +;++`                                                      ";
-	GotoXY(118, 80);
+	GotoXY(118, 79);
 	std::cout << "             +:'#.   ,.                                                        ";
-	GotoXY(118, 81);
+	GotoXY(118, 80);
 	std::cout << "             `:.                                                               ";
 
 	GotoXY(55, 87);
