@@ -315,7 +315,7 @@ void CGameEngine::Draw()
 		std::cout << "[" << m_rgMoveList[0] <<"][" << m_rgMoveList[1]<< "]	["<<m_rgMoveList[2]<< "][" << m_rgMoveList[3]<< "]	[" << m_rgMoveList[4] << "][" << m_rgMoveList[5]<< "]";
 		//Draws the move input list
 		GotoXY(4, 27);
-		std::cout << "Input Key:";
+		std::cout << "Input Two Numbers for each command:";
 		GotoXY(4, 29);
 		std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
 		GotoXY(4, 31);
@@ -1211,16 +1211,11 @@ void CGameEngine::Run()
 			std::cout << "If Attack was chosen as the 1st number, the 2nd number represents how you wish to attack:";
 			GotoXY(4, 29);
 			std::cout << "[1] Shoot a bullet	[2] Shoot a push attack	[3] Place a mine";
-			GotoXY(4, 31);
-			std::cout << "A bullet travels 1 space each phase and does 1 damage. Push instantly moves the first object";
 			GotoXY(4, 32);
-			std::cout << "infront of the Mecha 2 squares. A mine does 2 damage to any Mecha that stands on it.";
+			std::cout << "Once every player has chosen their 3 actions, they then watch them unfold during the action phase.";
 			GotoXY(4, 34);
-			std::cout << "There are 2 enviromental hazards within the arena, water and pits:";
-			GotoXY(4, 35);
-			std::cout << "Water deals 1 damage to you when you enter it and 1 at the start of every turn you remain in it.";
-			GotoXY(4, 36);
-			std::cout << "A pit will instantly kill you if you walk on it, be careful!";
+			std::cout << "The first player switches each time, make sure you input the commands only for your Mecha!";
+
 			_getch();
 		}
 		//Go to the confirm quit screen
