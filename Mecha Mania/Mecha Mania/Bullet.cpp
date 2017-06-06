@@ -68,6 +68,11 @@ EDIRECTION CBullet::GetDirection()
 	return m_eMovingDir;
 }
 
+void CBullet::SetDirection(EDIRECTION _eDirection)
+{
+	m_eMovingDir = _eDirection;
+}
+
 bool CBullet::IsDestroyed() const
 {
 	return m_bIsDestroyed;

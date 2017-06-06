@@ -16,6 +16,7 @@ public:
 	bool Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine);
 
 	EDIRECTION GetDirection();
+	void SetDirection(EDIRECTION);
 	bool IsDestroyed() const;
 	void SetDestroyed();
 	int GetDamage() const;

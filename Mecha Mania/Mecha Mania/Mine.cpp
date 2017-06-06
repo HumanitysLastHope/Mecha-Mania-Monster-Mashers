@@ -42,13 +42,14 @@ bool CMine::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 		{
 			
 			m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->ChangeHealth(-2);
+
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha()->GetHealth() <= 0)
 			{
 				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha(), true);
 			}
 			else
 			{
-				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha(), true);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX - 1, m_posGridPosition.m_iY).GetMecha(), false);
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
 			bombBlown();
@@ -79,13 +80,14 @@ bool CMine::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 		{
 
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY -1).GetMecha()->ChangeHealth(-2);
+
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha()->GetHealth() <= 0)
 			{
 				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha(), true);
 			}
 			else
 			{
-				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha(), true);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY - 1).GetMecha(), false);
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
 			bombBlown();
@@ -115,13 +117,14 @@ bool CMine::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 		{
 
 			m_pBoard->GetTile(m_posGridPosition.m_iX + 1, m_posGridPosition.m_iY).GetMecha()->ChangeHealth(-2);
+
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX+1, m_posGridPosition.m_iY).GetMecha()->GetHealth() <= 0)
 			{
 				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX+1, m_posGridPosition.m_iY).GetMecha(), true);
 			}
 			else
 			{
-				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX+1, m_posGridPosition.m_iY).GetMecha(), true);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX+1, m_posGridPosition.m_iY).GetMecha(), false);
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
 			bombBlown();
@@ -151,13 +154,14 @@ bool CMine::Move(EDIRECTION _eDirection, CGameEngine* _pGameEngine)
 		{
 			
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->ChangeHealth(-2);
+
 			if (m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha()->GetHealth() <= 0)
 			{
 				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha(), true);
 			}
 			else
 			{
-				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha(), true);
+				_pGameEngine->ActionText('M', m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY + 1).GetMecha(), false);
 			}
 			m_pBoard->GetTile(m_posGridPosition.m_iX, m_posGridPosition.m_iY).SetMine(nullptr); // set tile to null
 			bombBlown();

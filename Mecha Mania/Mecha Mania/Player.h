@@ -16,13 +16,14 @@ public:
 	std::vector<char>& GetOutMove();
 	bool bDead = false;
 	bool CheckDeath();
+	void ResetOutMoves();
 
 
 private:
 	int m_iD;
 	bool m_bisAlive;
 	CMecha m_Mecha;
-	std::vector<char> m_veciOutMove;
+	std::vector<char> m_veccOutMove;
 	std::queue<ECOMMANDS> m_MoveList;
 };
 

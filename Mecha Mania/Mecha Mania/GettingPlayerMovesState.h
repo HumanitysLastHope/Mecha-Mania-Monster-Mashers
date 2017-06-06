@@ -24,18 +24,18 @@ public:
 
 	void ResetZ()
 	{
-		z = 0;
+		iLocalCount = 0;
 	}
 
 	int GetI()
 	{
-		return z;
+		return iLocalCount;
 	}
 
 private:
 
-	int i = 0;
-	int j = 0;
-	int z = 0;
+	int iRealPlayerCount = 0;
+	int iMoveCount = 0;
+	int iLocalCount = 0;
 };
 

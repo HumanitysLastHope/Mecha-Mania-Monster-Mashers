@@ -24,161 +24,178 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 
 	std::vector<CPlayer>& playerList = _pGameEngine->GetPlayerList();
 
-	int i = 0; // Doesn't matter that it's reset
+	int iRealPlayerCount = 0; // Doesn't matter that it's reset
 
-	if (z < playerList.size()-1)
+	if (iLocCount < playerList.size()-1)
 	{
-		z++; // NEXT PLAYER
-
+		iLocCount++; // NEXT PLAYER
 	}
 	else
 	{
-		z = 0;
+		iLocCount = 0;
 	}
 
-	i = _pGameEngine->m_CommandOrder[z]; // Determine player using command order
+	iRealPlayerCount = _pGameEngine->m_CommandOrder[iLocCount]; // Determine player using command order
 
 
-	if (playerList[i].GetMoveList().empty() == true && playerList[i].bDead == false) // If alive and no commands left to execute
+	if (playerList[iRealPlayerCount].GetMoveList().empty() == true && playerList[iRealPlayerCount].bDead == false) // If alive and no commands left to execute
 	{
   		_pGameEngine->SetNewFirstPlayer();
 		_pGameEngine->inGetState = true;
 
-  		_pGameEngine->ChangeState(_pGameEngine->GetGettingInputState());
 		_pGameEngine->GetGettingInputState()->ResetZ();
 		_pGameEngine->ResetBattleActionText();
 		_pGameEngine->ResetMoveList();
-		_getch();
+  		_pGameEngine->ChangeState(_pGameEngine->GetGettingInputState());
+
+
+		FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+		//getline(cin, response);
+		
+		//_getch();
 		system("CLS");
    		return;
 	}
 
 	
 
-	_pGameEngine->WaterCheck(&(playerList[i]));
-	playerList[i].bDead = playerList[i].CheckDeath();
+	_pGameEngine->WaterCheck(&(playerList[iRealPlayerCount]));
+	playerList[iRealPlayerCount].bDead = playerList[iRealPlayerCount].CheckDeath();
 	//std::cout << i << " dead = " << playerList[i].bDead;
-	_getch();
+	//_getch();
 
 	int playerCommand;
 	int iOppositeDirection;
 
-	if (playerList[i].bDead == false) // Get alive players command
+	if (playerList[iRealPlayerCount].bDead == false) // Get alive players command
 	{
-		playerCommand = playerList[i].GetMoveList().front();
-		playerList[i].GetMoveList().pop();
+		playerCommand = playerList[iRealPlayerCount].GetMoveList().front();
+		playerList[iRealPlayerCount].GetMoveList().pop();
 	}
 	else // Skip dead player's turn
 	{
 		return;
 	}
 
-	if (playerList[i].GetMoveList().size() == 2)
+	if (playerList[iRealPlayerCount].GetMoveList().size() == 2)
 	{
-		_pGameEngine->SetMoveList(0, playerList[i].GetOutMove().at(0));
-		_pGameEngine->SetMoveList(1, playerList[i].GetOutMove().at(1));
+		_pGameEngine->SetMoveList(0, playerList[iRealPlayerCount].GetOutMove().at(0));
+		_pGameEngine->SetMoveList(1, playerList[iRealPlayerCount].GetOutMove().at(1));
 
 	}
-	else if (playerList[i].GetMoveList().size() == 1)
+	else if (playerList[iRealPlayerCount].GetMoveList().size() == 1)
 	{
-		_pGameEngine->SetMoveList(0, playerList[i].GetOutMove().at(0));
-		_pGameEngine->SetMoveList(1, playerList[i].GetOutMove().at(1));
-		_pGameEngine->SetMoveList(2, playerList[i].GetOutMove().at(2));
-		_pGameEngine->SetMoveList(3, playerList[i].GetOutMove().at(3));
+		_pGameEngine->SetMoveList(0, playerList[iRealPlayerCount].GetOutMove().at(0));
+		_pGameEngine->SetMoveList(1, playerList[iRealPlayerCount].GetOutMove().at(1));
+		_pGameEngine->SetMoveList(2, playerList[iRealPlayerCount].GetOutMove().at(2));
+		_pGameEngine->SetMoveList(3, playerList[iRealPlayerCount].GetOutMove().at(3));
 
 	}
-	else if (playerList[i].GetMoveList().size() == 0)
+	else if (playerList[iRealPlayerCount].GetMoveList().size() == 0)
 	{
-		_pGameEngine->SetMoveList(0, playerList[i].GetOutMove().at(0));
-		_pGameEngine->SetMoveList(1, playerList[i].GetOutMove().at(1));
-		_pGameEngine->SetMoveList(2, playerList[i].GetOutMove().at(2));
-		_pGameEngine->SetMoveList(3, playerList[i].GetOutMove().at(3));
-		_pGameEngine->SetMoveList(4, playerList[i].GetOutMove().at(4));
-		_pGameEngine->SetMoveList(5, playerList[i].GetOutMove().at(5));
+		_pGameEngine->SetMoveList(0, playerList[iRealPlayerCount].GetOutMove().at(0));
+		_pGameEngine->SetMoveList(1, playerList[iRealPlayerCount].GetOutMove().at(1));
+		_pGameEngine->SetMoveList(2, playerList[iRealPlayerCount].GetOutMove().at(2));
+		_pGameEngine->SetMoveList(3, playerList[iRealPlayerCount].GetOutMove().at(3));
+		_pGameEngine->SetMoveList(4, playerList[iRealPlayerCount].GetOutMove().at(4));
+		_pGameEngine->SetMoveList(5, playerList[iRealPlayerCount].GetOutMove().at(5));
 
 	}
 
 	GotoXY(4, 22);
-	std::cout << "Player " << i + 1;
+	std::cout << "Player " << iRealPlayerCount + 1;
 
 	switch (playerCommand)
 	{
 	case 11: // Move 1
 	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
+		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 12: // Move 2
 	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
+		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
 
-		playerList[i].bDead = playerList[i].CheckDeath();
+		GotoXY(4, 22);
+		std::cout << "Player " << iRealPlayerCount + 1;
+		_pGameEngine->PrintBattleActionText();
 
-		if (playerList[i].bDead == true)
+		playerList[iRealPlayerCount].bDead = playerList[iRealPlayerCount].CheckDeath();
+
+		if (playerList[iRealPlayerCount].bDead == true)
 		{
 			return;
 		}
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
+		Sleep(1000);
+		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 13: // Move 3
 	{
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
+		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
 
-		playerList[i].bDead = playerList[i].CheckDeath();
+		GotoXY(4, 22);
+		std::cout << "Player " << iRealPlayerCount + 1;
+		_pGameEngine->PrintBattleActionText();
 
-		if (playerList[i].bDead == true)
+		playerList[iRealPlayerCount].bDead = playerList[iRealPlayerCount].CheckDeath();
+
+		if (playerList[iRealPlayerCount].bDead == true)
 		{
 			return;
 		}
-
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(),_pGameEngine);
+		Sleep(1000);
+		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(),_pGameEngine);
 
 		system("CLS");
 		_pGameEngine->Draw();
 
-		playerList[i].bDead = playerList[i].CheckDeath();
-		if (playerList[i].bDead == true)
+		GotoXY(4, 22);
+		std::cout << "Player " << iRealPlayerCount + 1;
+		_pGameEngine->PrintBattleActionText();
+
+		playerList[iRealPlayerCount].bDead = playerList[iRealPlayerCount].CheckDeath();
+		if (playerList[iRealPlayerCount].bDead == true)
 		{
 			return;
 		}
-
-		playerList[i].GetMecha()->Move(playerList[i].GetMecha()->GetDirection(), _pGameEngine);
+		Sleep(1000);
+		playerList[iRealPlayerCount].GetMecha()->Move(playerList[iRealPlayerCount].GetMecha()->GetDirection(), _pGameEngine);
 
 		break;
 	}
 	case 14: // Move backwards
 	{
-		iOppositeDirection = (playerList[i].GetMecha()->GetDirection() + 2) % 4;
-		playerList[i].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection), _pGameEngine);
+		iOppositeDirection = (playerList[iRealPlayerCount].GetMecha()->GetDirection() + 2) % 4;
+		playerList[iRealPlayerCount].GetMecha()->Move(static_cast<EDIRECTION>(iOppositeDirection), _pGameEngine);
 
 		break;
 	}
 	case 21: // Clockwise
 	{
 
-		playerList[i].GetMecha()->Rotate(CLOCKWISE);
+		playerList[iRealPlayerCount].GetMecha()->Rotate(CLOCKWISE);
 		break;
 	}
 	case 22: // Anti-Clockwise
 	{
-		playerList[i].GetMecha()->Rotate(ANTICLOCKWISE);
+		playerList[iRealPlayerCount].GetMecha()->Rotate(ANTICLOCKWISE);
 		break;
 	}
 	case 23: // Flip
 	{
-		playerList[i].GetMecha()->Rotate(ONEEIGHTY);
+		playerList[iRealPlayerCount].GetMecha()->Rotate(ONEEIGHTY);
 		break;
 	}
 	case 31: // Shoot
 	{
-		playerList[i].GetMecha()->Shoot(*_pGameEngine);
+		playerList[iRealPlayerCount].GetMecha()->Shoot(*_pGameEngine);
 		system("CLS");
 		_pGameEngine->Draw();
 		break;
@@ -186,14 +203,19 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	case 32: // Push
 	{
 		CMovable* objToPush;
-		objToPush = playerList[i].GetMecha()->WhatToPush(_pGameEngine);
-	
+		objToPush = playerList[iRealPlayerCount].GetMecha()->WhatToPush(_pGameEngine);
 
 		if (objToPush != nullptr)
 		{
-			if (objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect(), _pGameEngine) != false)
+			if (objToPush->Move(playerList[iRealPlayerCount].GetMecha()->GetMechaFacingDirect(), _pGameEngine) != false)
 			{
-				objToPush->Move(playerList[i].GetMecha()->GetMechaFacingDirect(), _pGameEngine);
+				CBullet* pBullet =  dynamic_cast<CBullet*>(objToPush);
+				if (pBullet)
+				{
+					pBullet->SetDirection(playerList[iRealPlayerCount].GetMecha()->GetDirection());
+				}
+				objToPush->Move(playerList[iRealPlayerCount].GetMecha()->GetMechaFacingDirect(), _pGameEngine);
+
 
 			}
 			else
@@ -206,11 +228,16 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	}
 	case 33: // Place mine
 	{
-		playerList[i].GetMecha()->PlaceMine();
+		playerList[iRealPlayerCount].GetMecha()->PlaceMine();
 		break;
 	}
 	}
+
+	GotoXY(4, 22);
+	std::cout << "Player " << iRealPlayerCount + 1;
+	_pGameEngine->PrintBattleActionText();
 	
+	Sleep(1000);
 	//std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
 	//_getch();
 
@@ -241,7 +268,7 @@ void ExecutingCMDState::Step(CGameEngine * _pGameEngine)
 	
 }
 
-void ExecutingCMDState::ResetZ()
+void ExecutingCMDState::ResetLocalCount()
 {
-	z = -1;
+	iLocCount = -1;
 }

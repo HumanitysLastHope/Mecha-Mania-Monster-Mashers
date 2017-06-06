@@ -29,7 +29,7 @@ std::queue<ECOMMANDS>& CPlayer::GetMoveList()
 
 std::vector<char>& CPlayer::GetOutMove()
 {
-	return m_veciOutMove;
+	return m_veccOutMove;
 }
 
 bool CPlayer::CheckDeath()
@@ -42,6 +42,14 @@ bool CPlayer::CheckDeath()
 	else
 	{
 		return false;
+	}
+}
+
+void CPlayer::ResetOutMoves()
+{
+	while( m_veccOutMove.empty() == false)
+	{
+		m_veccOutMove.pop_back();
 	}
 }
 

@@ -83,8 +83,12 @@ CGameEngine::CGameEngine(int _playerCount) :
 	}
 
 	//creates a random number so a random map can be chosen
+
+
+	
 	srand((unsigned)time(0));
 	int random_integer = (rand() % 4) + 1;
+	
 
 	LoadBoard(random_integer, _playerCount);
 
@@ -584,6 +588,9 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 
 	std::ifstream LoadFile;
 
+	///////////////////////////////////////////////////////////////////////////CHANGE BACK/////////////////////////////////////////////////////////////////////////////
+
+
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
 
@@ -641,9 +648,6 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 			m_PlayerList[3].GetMecha()->SetGridPosition({ 7, 7 });
 			m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 		}
-
-	//	m_PlayerList[3].GetMecha()->SetGridPosition({ 7, 7 });
-	//	m_PlayerList[3].GetMecha()->SetMechaFacingDirect(NORTH);
 
 		//include code here load level 2 from txt file
 
@@ -778,12 +782,14 @@ std::vector<CBullet*>& CGameEngine::GetBulletList()
 void CGameEngine::Run()
 {
 	// Size console window
+	int iFontSize = 6;
+	setFontSize(iFontSize);
 	HANDLE hHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	set_console_size(hHandle, 316, 117);
 
 	// Set font size
-	int iFontSize = 6;
-	setFontSize(iFontSize);
+	//int iFontSize = 6;
+	//setFontSize(iFontSize);
 	GotoXY(118, 17);
 	std::cout << "                            .###'.                                               ";
 	GotoXY(118, 18);
@@ -954,7 +960,7 @@ void CGameEngine::Run()
 	GotoXY(4, 12);
 	std::cout << "you must battle against each other in the Arena of Death! Only one may survive!";
 	GotoXY(4, 14);
-	std::cout << "Weclome pilots, to:...";
+	std::cout << "Welcome pilots, to:...";
 
 	_getch();
 
@@ -1244,8 +1250,15 @@ void CGameEngine::SetNewFirstPlayer()
 {
 	int iTemp = m_CommandOrder.front();
 
-	m_CommandOrder.erase(m_CommandOrder.begin());
-	m_CommandOrder.push_back(iTemp);
+	do
+	{
+		m_CommandOrder.erase(m_CommandOrder.begin());
+		m_CommandOrder.push_back(iTemp);
+		iTemp = m_CommandOrder.front();
+
+	} while (m_PlayerList[iTemp].bDead == true);
+
+	
 }
 
 void CGameEngine::DrawFirstPlayer(CPlayer _Player, int _iX, int _iY)
@@ -1436,6 +1449,14 @@ void CGameEngine::ResetMoveList()
 	for (int i = 0; i < 6; i++)
 	{
 		m_rgMoveList[i] = ' ';
+	}
+
+	if (m_pCurGameState == m_pstateExecuting)
+	{
+		for (int i = 0; i < m_PlayerList.size(); i++)
+		{
+ 			m_PlayerList[i].ResetOutMoves();
+		}
 	}
 }
 

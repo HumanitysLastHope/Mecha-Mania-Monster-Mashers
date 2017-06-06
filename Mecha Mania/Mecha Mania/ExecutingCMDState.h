@@ -21,10 +21,9 @@ public:
 
 	virtual void Step(CGameEngine * _pGameEngine) override;
 
-	void ResetZ();
+	void ResetLocalCount();
 
 private:
-	int z;
-	int j;
+	int iLocCount;
 };
 
