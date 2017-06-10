@@ -307,12 +307,33 @@ void CGameEngine::Draw()
 	{
 		SetConsoleTextAttribute(g_hConsole, 15);
 		//m_pCurGameState->Step(this);
-		GotoXY(4, 22);
+		GotoXY(6, 22);
 		std::cout << "Player " << m_CommandOrder[m_pstateGetInput->GetI()] + 1;
-		GotoXY(4, 23);
-		std::cout << "Input Commands:";
+		
+		if (m_CommandOrder[m_pstateGetInput->GetI()] == 0)
+		{
+			SetConsoleTextAttribute(g_hConsole, (13));
+		}
+		if (m_CommandOrder[m_pstateGetInput->GetI()] == 1)
+		{
+			SetConsoleTextAttribute(g_hConsole, (14));
+		}
+		if (m_CommandOrder[m_pstateGetInput->GetI()] == 2)
+		{
+			SetConsoleTextAttribute(g_hConsole, (10));
+		}
+		if (m_CommandOrder[m_pstateGetInput->GetI()] == 3)
+		{
+			SetConsoleTextAttribute(g_hConsole, (11));
+		}
+		_cIconHolder = 30;
+		GotoXY(4, 22);
+		std::cout << _cIconHolder;
 		GotoXY(8, 25);
 		std::cout << "[" << m_rgMoveList[0] <<"][" << m_rgMoveList[1]<< "]	["<<m_rgMoveList[2]<< "][" << m_rgMoveList[3]<< "]	[" << m_rgMoveList[4] << "][" << m_rgMoveList[5]<< "]";
+		SetConsoleTextAttribute(g_hConsole, (15));
+		GotoXY(4, 23);
+		std::cout << "Input Commands:";
 		//Draws the move input list
 		GotoXY(4, 27);
 		std::cout << "Input Two Numbers for each command:";
