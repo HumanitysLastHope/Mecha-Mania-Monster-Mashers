@@ -336,7 +336,7 @@ void CGameEngine::Draw()
 		std::cout << "Input Commands:";
 		//Draws the move input list
 		GotoXY(4, 27);
-		std::cout << "Input Two Numbers for each command:";
+		std::cout << "Input two numbers for each command:";
 		GotoXY(4, 29);
 		std::cout << "[1] Move:		[2] Rotate:		[3] Attack:";
 		GotoXY(4, 31);
@@ -1053,6 +1053,13 @@ void CGameEngine::Run()
 			// Initialize game
 			if (_iPlayerCount != 5)
 			{
+				system("CLS");
+				GotoXY(34, 18);
+				std::cout << "Remember the first player switches each turn...";
+				GotoXY(34, 20);
+				std::cout << "Press any key and prepare yourselves pilots!...";
+				_getch();
+
 				CGameEngine gameEngine(_iPlayerCount);
 
 				
