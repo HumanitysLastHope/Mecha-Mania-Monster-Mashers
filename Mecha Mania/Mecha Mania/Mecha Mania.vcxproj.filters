@@ -102,4 +102,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Levels\LevelThree.txt">
+      <Filter>Resource Files</Filter>
+    </Content>
+    <Content Include="Levels\LevelTwo.txt">
+      <Filter>Resource Files</Filter>
+    </Content>
+    <Content Include="Levels\LevelFour.txt">
+      <Filter>Resource Files</Filter>
+    </Content>
+    <Content Include="Levels\LevelOne.txt">
+      <Filter>Resource Files</Filter>
+    </Content>
+  </ItemGroup>
 </Project>

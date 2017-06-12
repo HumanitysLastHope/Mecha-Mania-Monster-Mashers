@@ -605,12 +605,18 @@ void CGameEngine::ChangeState(IGameState* _pState)
 	}
 }
 
+std::string ExePath() {
+	char buffer[MAX_PATH];
+	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	return std::string(buffer).substr(0, pos);
+}
+
 CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 
+	std::string strCurrentDir = ExePath();
+
 	std::ifstream LoadFile;
-
-	///////////////////////////////////////////////////////////////////////////CHANGE BACK/////////////////////////////////////////////////////////////////////////////
-
 
 	if (_LevelNum == 1) {
 		//sets the players starting locations and facing direction
@@ -639,7 +645,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 		}
 		//include code here load level 1 from txt file
 
-		LoadFile.open("LevelOne.txt");
+		LoadFile.open(strCurrentDir + "\\Levels\\LevelOne.txt");
 		if (LoadFile.is_open() == false)
 		{
 			std::cout << "Error opening file." << std::endl;
@@ -672,7 +678,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 
 		//include code here load level 2 from txt file
 
-		LoadFile.open("LevelTwo.txt");
+		LoadFile.open(strCurrentDir + "\\Levels\\LevelTwo.txt");
 		if (LoadFile.is_open() == false)
 		{
 			std::cout << "Error opening file." << std::endl;
@@ -705,7 +711,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 
 		//include code here load level 3 from txt file
 
-		LoadFile.open("LevelThree.txt");
+		LoadFile.open(strCurrentDir + "\\Levels\\LevelThree.txt");
 		if (LoadFile.is_open() == false)
 		{
 			std::cout << "Error opening file." << std::endl;
@@ -739,7 +745,7 @@ CBoard& CGameEngine::LoadBoard(int _LevelNum, int _playerCount) {
 
 		//include code here load level 4 from txt file
 
-		LoadFile.open("LevelFour.txt");
+		LoadFile.open(strCurrentDir + "\\Levels\\LevelFour.txt");
 		if (LoadFile.is_open() == false)
 		{
 			std::cout << "Error opening file." << std::endl;
