@@ -238,11 +238,17 @@ void ExecutingCMDState::ExecuteUserInput(CGameEngine* _pGameEngine)
 	}
 	}
 
+
+	Sleep(1000);
+	system("CLS");
+	_pGameEngine->Draw();
+
+	
+
 	GotoXY(4, 22);
 	std::cout << "Player " << iRealPlayerCount + 1;
 	_pGameEngine->PrintBattleActionText();
 	
-	Sleep(1000);
 	//std::cout << i << "'s health is: " << playerList[i].GetMecha()->GetHealth();
 	//_getch();
 
